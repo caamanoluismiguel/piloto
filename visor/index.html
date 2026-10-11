@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Piloto interior 106</title>
+<style>
+  :root { --fondo:#15130f; --panel:#221f1a; --linea:#3a352c; --texto:#efe8da; --tenue:#a99f8c; --sol:#e0a33a; }
+  html, body { margin:0; height:100%; background:var(--fondo); color:var(--texto); font:14px/1.4 system-ui, sans-serif; overflow:hidden; }
+  canvas { display:block; touch-action:none; }
+  #barra { position:fixed; left:16px; right:16px; bottom:16px; padding:12px; background:var(--panel); border:1px solid var(--linea); border-radius:18px; display:grid; grid-template-columns:auto auto auto 1fr; gap:8px; align-items:center; }
+  button { min-width:44px; min-height:44px; border-radius:12px; border:1px solid var(--linea); background:var(--fondo); color:var(--texto); font-size:16px; cursor:pointer; }
+  button:focus-visible, input:focus-visible { outline:2px solid var(--sol); outline-offset:2px; }
+  #play { background:var(--sol); color:#15130f; border-color:var(--sol); }
+  input[type=range] { width:100%; min-height:44px; accent-color:var(--sol); }
+  #info { position:fixed; left:16px; top:16px; right:16px; font-size:12px; color:var(--tenue); pointer-events:none; }
+  #info b { color:var(--texto); font-weight:600; }
+</style>
+</head>
+<body>
+<div id="info"><b>Piloto · entrada y vestíbulo del 106</b> · captura del 9 oct 2026 · <span id="estado">cargando…</span></div>
+<div id="barra" role="group" aria-label="Recorrido">
+  <button id="atras" aria-label="Posición anterior">◀</button>
+  <button id="play" aria-label="Avanzar por el recorrido">▶</button>
+  <button id="adelante" aria-label="Posición siguiente">▶︎▶︎</button>
+  <input id="t" type="range" min="0" max="1" step="0.001" value="0" aria-label="Posición en el recorrido">
+</div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+  "@sparkjsdev/spark": "https://cdn.jsdelivr.net/npm/@sparkjsdev/spark@2.2.0/dist/spark.module.js"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { SparkRenderer, SplatMesh } from '@sparkjsdev/spark';
+
+const q = new URLSearchParams(location.search);
+const movil = matchMedia('(pointer: coarse)').matches;
+const archivo = 'piloto_movil.sog';
+const estado = document.getElementById('estado');
+const t0 = performance.now();
+
+const { fovY, poses } = await (await fetch('poses.json')).json();
+const P = poses.map(p => new THREE.Vector3(...p.p));
+const Q = poses.map(p => { const r = p.r; const m = new THREE.Matrix4().set(r[0],r[1],r[2],0, r[3],r[4],r[5],0, r[6],r[7],r[8],0, 0,0,0,1); return new THREE.Quaternion().setFromRotationMatrix(m); });
+// «Arriba» del edificio = promedio del arriba de las cámaras: el giro horizontal va sobre ese eje y no inclina el horizonte.
+const arriba = Q.reduce((a, q) => a.add(new THREE.Vector3(0,1,0).applyQuaternion(q)), new THREE.Vector3()).normalize();
+
+const renderer = new THREE.WebGLRenderer({ antialias:false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x15130f);
+const camera = new THREE.PerspectiveCamera(fovY, innerWidth/innerHeight, 0.01, 200);
+scene.add(new SparkRenderer({ renderer }));
+
+let bytes = 0;
+const splat = new SplatMesh({ url: archivo, onProgress: e => { bytes = e.loaded; estado.textContent = `cargando ${(e.loaded/1048576).toFixed(1)} MB…`; } });
+scene.add(splat);
+splat.initialized.then(() => {
+  const s = ((performance.now()-t0)/1000).toFixed(1);
+  estado.textContent = `${String(splat.numSplats ?? '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')} splats · ${(bytes/1048576).toFixed(1).replace('.', ',')} MB · listo en ${s.replace('.', ',')} s`;
+  window.__piloto = { listo:true, segundos:+s, mb:bytes/1048576 };
+}).catch(e => { estado.textContent = 'no se pudo cargar: ' + e.message; window.__piloto = { error:String(e) }; });
+
+// Posición sobre la ruta capturada (0..n-1) y mirada libre relativa a la cámara de la captura.
+const n = P.length;
+let u = +(q.get('u') || 0) * (n-1), destino = u, yaw = 0, pitch = 0, jugando = false;
+const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rango = document.getElementById('t');
+const play = document.getElementById('play');
+rango.oninput = () => { destino = u = +rango.value * (n-1); };
+document.getElementById('atras').onclick = () => { destino = Math.max(0, Math.round(destino) - 15); if (reducido) u = destino; };
+document.getElementById('adelante').onclick = () => { destino = Math.min(n-1, Math.round(destino) + 15); if (reducido) u = destino; };
+play.onclick = () => { jugando = !jugando; play.textContent = jugando ? '❚❚' : '▶'; play.setAttribute('aria-label', jugando ? 'Pausar' : 'Avanzar por el recorrido'); };
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') destino = Math.min(n-1, destino + 3);
+  if (e.key === 'ArrowDown') destino = Math.max(0, destino - 3);
+  if (e.key === 'ArrowLeft') yaw += 0.1;
+  if (e.key === 'ArrowRight') yaw -= 0.1;
+});
+let arrastre = null;
+renderer.domElement.addEventListener('pointerdown', e => { arrastre = { x:e.clientX, y:e.clientY, yaw, pitch }; renderer.domElement.setPointerCapture(e.pointerId); });
+renderer.domElement.addEventListener('pointermove', e => { if (!arrastre) return; const k = 0.004; yaw = arrastre.yaw + (e.clientX-arrastre.x)*k; pitch = THREE.MathUtils.clamp(arrastre.pitch + (e.clientY-arrastre.y)*k, -1.2, 1.2); });
+renderer.domElement.addEventListener('pointerup', () => { arrastre = null; });
+addEventListener('resize', () => { camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+
+const qGiro = new THREE.Quaternion(), qCabeceo = new THREE.Quaternion(), ejeX = new THREE.Vector3(1,0,0);
+let ultimo = performance.now();
+renderer.setAnimationLoop(now => {
+  const dt = Math.min(0.1, (now-ultimo)/1000); ultimo = now;
+  if (jugando) { destino = Math.min(n-1, destino + dt*6); if (destino >= n-1) play.onclick(); }
+  u += (destino-u) * Math.min(1, dt*6);
+  const i = Math.min(n-2, Math.floor(u)), f = u - i;
+  camera.position.lerpVectors(P[i], P[i+1], f);
+  camera.quaternion.slerpQuaternions(Q[i], Q[i+1], f);
+  qGiro.setFromAxisAngle(arriba, yaw); qCabeceo.setFromAxisAngle(ejeX, pitch);
+  camera.quaternion.premultiply(qGiro).multiply(qCabeceo);
+  if (document.activeElement !== rango) rango.value = (u/(n-1)).toFixed(3);
+  renderer.render(scene, camera);
+});
+</script>
+</body>
+</html>

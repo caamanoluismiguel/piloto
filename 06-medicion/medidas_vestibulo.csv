@@ -1,0 +1,12 @@
+# Medidas del vestíbulo del Edificio 106 para escalar la nube del piloto (06-medicion).
+# Separador punto y coma. Escribe los metros con coma o con punto, como quieras (3,215 o 3.215).
+# lectura_1_m y lectura_2_m: las dos lecturas del láser. valor_m: el promedio de las dos (lo usa escalar.py).
+# instrumento: marca y modelo del distanciómetro. quien: tu nombre. fecha: AAAA-MM-DD. foto: número de la foto del láser puesto.
+# No cambies las columnas id, planos, entre ni uso: dicen a qué caras de la nube corresponde cada medida.
+# Corre: python -I ../03-laminas/escalar.py medidas_vestibulo.csv
+id;que_se_mide;planos;entre;uso;lectura_1_m;lectura_2_m;valor_m;instrumento;quien;fecha;foto
+M1;Piso a cielo raso en la sala de espera: entre la banca de sillas negras bajo el tablero negro y el muro de cuadros;plano 5 (piso) y plano 7 (cielo raso), valor local en un radio de 0,5 u;punto:2.0000 -6.6000 -0.0008|punto:2.0000 -6.6000 2.5699;escala;;;;;;;
+M2;Ancho del vestíbulo frente al tablero de anuncios: desde el costado de la columna del ventilador y el extintor hasta el mural «Colombia», pasando frente al tablero de corcho;plano 0 y cara c14 (costado este del bloque del muro de cuadros);punto:3.5910 -5.6500 1.4500|punto:10.0289 -5.6500 1.4500;escala;;;;;;;
+M3;Ancho del pasillo de alfombra verde: de pared a pared, entre el mural «Montevideo» y el muro blanco que separa la escalera;plano 4 y cara c56 (cara sur del tabique de la escalera);punto:11.2500 -4.7022 1.3500|punto:11.2500 -3.4421 1.3500;control;;;;;;;
+M4;Piso a cielo raso al pie de la escalera: al pie de la escalera, junto a la columna del extintor;plano 5 (piso) y plano 7 (cielo raso), valor local en un radio de 0,5 u;punto:10.5000 -4.0000 -0.0059|punto:10.5000 -4.0000 2.5665;control;;;;;;;
+M5;Piso a cielo raso dentro del pasillo largo: dentro del pasillo largo, a la altura de la primera puerta de la derecha;plano 5 (piso) y plano 7 (cielo raso), valor local en un radio de 0,5 u;punto:8.5000 -7.4000 -0.0026|punto:8.5000 -7.4000 2.5778;control;;;;;;;
