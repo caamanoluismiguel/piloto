@@ -1,0 +1,8 @@
+id,que_se_mide,planos,uso,valor_u,incertidumbre_u,incertidumbre_relativa,menor_confianza,nota,valor_en_sitio,unidad_en_sitio,instrumento,quien,fecha
+M01,ancho entre muros largos (cara pintada a cara pintada),4 y 3,escala,0.5741,0.0098,0.0171,si,por revisar (hay planos de la misma familia entre los dos muros),,,,,
+M02,piso a cielo raso,5 y 0,escala,0.8081,0.0105,0.013,si,,,,,,
+M03,entre muros paralelos familia B (planos 8 y 11),8 y 11,control,0.5839,0.0098,0.0168,si,,,,,,
+M04,entre muros paralelos familia B (planos 2 y 21),2 y 21,control,0.4318,0.0106,0.0246,si,,,,,,
+M05,entre muros paralelos familia A (planos 1 y 4),1 y 4,control,0.4583,0.0063,0.0137,no,,,,,,
+M06,entre muros paralelos familia B (planos 10 y 11),10 y 11,control,7.4082,0.0094,0.0013,no,por revisar (hay planos de la misma familia entre los dos muros),,,,,
+M07,entre muros paralelos familia B (planos 28 y 22),28 y 22,control,2.4734,0.0096,0.0039,no,por revisar (hay planos de la misma familia entre los dos muros),,,,,

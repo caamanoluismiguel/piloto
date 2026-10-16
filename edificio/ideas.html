@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ideas para el 106</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --fondo: #15130f; --panel: #211e19; --linea: #3a352c; --texto: #efe8da; --tenue: #aaa08d; --sol: #e0a33a; --cal: #f3ead8;
+    --hecho: #7fb069; --ya: #e0a33a; --escala: #6fa8dc; --tomas: #c89bd9; --desc: #e2735a;
+    --letra: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 64px; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 15px/1.55 var(--letra); }
+  main { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: grid; gap: 12px; }
+  .eyebrow { font: 500 12px/1.4 var(--mono); color: var(--sol); letter-spacing: .08em; text-transform: uppercase; }
+  .eyebrow a { color: var(--sol); }
+  h1 { font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; font-weight: 600; }
+  h2 { font-size: 22px; margin: 28px 0 0; text-wrap: balance; font-weight: 600; display: flex; gap: 10px; align-items: baseline; }
+  h2 .n { font: 500 13px var(--mono); color: var(--sol); }
+  p { color: var(--tenue); max-width: 68ch; margin: 0; }
+  p b { color: var(--texto); font-weight: 500; }
+  .aviso { border: 1px solid var(--linea); border-radius: 12px; padding: 12px 16px; background: var(--panel); color: var(--tenue); font-size: 14px; max-width: 68ch; }
+  .menu { position: sticky; top: 0; z-index: 5; background: var(--fondo); border-bottom: 1px solid var(--linea); margin-inline: -16px; padding: 8px 16px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .menu a { flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--linea); color: var(--texto); text-decoration: none; font-size: 13px; }
+  .menu a:focus-visible, .boton:focus-visible { outline: 2px solid var(--sol); outline-offset: 2px; }
+  .boton { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--linea); color: var(--texto); text-decoration: none; font-weight: 600; }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rej { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+  article { background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+  article h3 { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; }
+  article p { font-size: 14px; }
+  dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 4px 10px; font-size: 13px; }
+  dt { color: var(--tenue); font: 500 11px/1.8 var(--mono); text-transform: uppercase; letter-spacing: .05em; }
+  dd { margin: 0; color: var(--texto); min-width: 0; overflow-wrap: anywhere; }
+  .estado { display: inline-block; font: 500 12px/1.4 var(--mono); padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+  .hecho { color: var(--hecho); } .prob { color: var(--tenue); } .ya { color: var(--ya); } .escala { color: var(--escala); } .tomas { color: var(--tomas); } .desc { color: var(--desc); }
+  .pv { font: 500 11px var(--mono); color: var(--sol); border: 1px dashed var(--sol); border-radius: 6px; padding: 0 5px; white-space: nowrap; }
+  code { font: 13px var(--mono); color: var(--cal); }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow"><a href="index.html">Edificio 106 · galería del edificio completo</a> · ideas</div>
+  <h1>Qué se puede hacer con esto</h1>
+  <p>Todas las ideas del panel de doctores del 15 de octubre de 2026 sobre la nube de puntos y lo que ya está hecho, más las del informe del investigador sobre el estado del arte (2024 a 2026) que el panel no tenía, ordenadas por tipo. Los estados están al día con lo que se probó la noche del 15 al 16 de octubre. Cada una dice qué es, qué datos usa, en qué estado está, cuánto trabajo pide según el panel y quién la propuso. Las descartadas van al final con su motivo.</p>
+  <div class="aviso"><b>Uso interno.</b> Esta página acompaña a la galería y no se publica ni se reenvía.</div>
+  <div class="aviso">El panel es <b>simulado</b>: cuatro doctores en arquitectura y un crítico, hechos por Claude a partir de los informes del proyecto. Las referencias marcadas <span class="pv">por verificar</span> no se han comprobado en la fuente. Todas las cifras de la nube están en unidades de reconstrucción (u), propias de cada piso; nada está en metros. Las fuentes del investigador son las de su informe, que las enlazó a la publicación original; aquí no se volvieron a abrir.</div>
+  <div class="leyenda" aria-label="Estados">
+    <span class="estado hecho">ya hecho</span><span class="estado prob">probado, no mejoró</span><span class="estado ya">se puede hacer ya</span><span class="estado escala">necesita escala</span><span class="estado tomas">necesita tomas nuevas o unir pisos</span><span class="estado desc">descartado</span>
+  </div>
+  <nav class="menu" aria-label="Tipos de idea">
+    <a href="#pedagogicas">Pedagógicas</a><a href="#tecnicas">Técnicas</a><a href="#ambientales">Ambientales y visor</a><a href="#historia">Historia y teoría</a><a href="#archivo">Archivo y patrimonio</a><a href="#descartadas">Descartadas</a><a href="index.html">Volver a la galería</a>
+  </nav>
+
+  <h2 id="pedagogicas"><span class="n">1</span>Pedagógicas: taller, cursos y ejercicios</h2>
+  <p>La idea de fondo de la doctora en pedagogía: lo más valioso de este material para Isthmus no es el modelo, son sus errores. Un estudiante que ve dónde se equivoca la máquina aprende a desconfiar de su propio dibujo.</p>
+  <div class="rej">
+    <article><h3>«Dónde se equivoca la máquina»</h3>
+      <p>Banco de casos de los tres pisos y del piloto: vidrio, pared blanca, piso brillante, el tercer piso partido en 10 modelos y la persona que quedó en el splat del piloto. Cada caso con su causa probable, dicha como probable. Desde el 16 de octubre hay un caso más, con la causa medida: en los giros rápidos sin desplazamiento la cámara no ve nada desde dos puntos distintos, no hay paralaje y COLMAP pierde la ruta; los cortes débiles marcados con anillos naranjas en las láminas lo muestran sobre la planta.</p>
+      <dl><dt>Datos</dt><dd>hojas de peores cuadros (<code>peores_A.jpg</code>, <code>hueco_B.jpg</code>, <code>rotura_C.jpg</code>), PSNR, cobertura, modelos de COLMAP, <code>cortes_debiles.json</code></dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> falta revisar caras y letreros; la sección 2 de la galería ya muestra un cuadro que falla por piso</dd>
+      <dt>Esfuerzo</dt><dd>4 h (medio día de armado)</dd><dt>Propuso</dt><dd>Dra. en pedagogía del proyecto y taller; el crítico la puso entre las tres primeras</dd></dl></article>
+    <article><h3>Calco crítico de la lámina</h3>
+      <p>El estudiante redibuja la planta de un piso sobre la capa de dato y separa con dos colores lo que vio la nube y lo que él supone. Aprende a separar observación de interpretación.</p>
+      <dl><dt>Datos</dt><dd>láminas E6, <code>marco.json</code></dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> el tercer piso rotulado como deformado</dd>
+      <dt>Esfuerzo</dt><dd>2 h de preparación por piso; junto con la lámina rotulada, 6 h los tres pisos</dd><dt>Propuso</dt><dd>Dra. en pedagogía</dd></dl></article>
+    <article><h3>Nube contra cinta, con los estudiantes como medidores</h3>
+      <p>El ejercicio del panel del 11 de octubre: miden varias distancias dentro de un mismo espacio, escalan con una y entregan el error de las otras. Si lo hacen en el 106, sus medidas dan la escala que falta. Aprenden que medir también tiene error.</p>
+      <dl><dt>Datos</dt><dd>plantillas de medida, <code>escalar.py</code>; ya están la planta y las fichas para flexómetro de la sección 6</dd>
+      <dt>Estado</dt><dd><span class="estado escala">necesita escala</span> es justamente la que da la escala: falta la sesión en sitio</dd>
+      <dt>Esfuerzo</dt><dd>1 día de guía, una sesión en sitio y 3 h de escritorio</dd><dt>Propuso</dt><dd>Dra. en pedagogía</dd></dl></article>
+    <article><h3>Nombrar los nodos</h3>
+      <p>Los 20 puntos de cada recorrido se llaman «Punto N». Un grupo recorre el edificio con el recorrido abierto en el celular y pone nombre a cada uno. Es la bitácora que falta, hecha por quienes usan el edificio.</p>
+      <dl><dt>Datos</dt><dd>recorridos de A, B y C</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> con una sesión en sitio</dd>
+      <dt>Esfuerzo</dt><dd>2 h de clase</dd><dt>Propuso</dt><dd>Dra. en pedagogía</dd></dl></article>
+    <article><h3>Croquis de memoria contra recorrido</h3>
+      <p>Antes de abrir el recorrido, el estudiante dibuja de memoria la planta de un piso que usa todos los días y después la compara con la lámina. Muestra la distancia entre el espacio vivido y el medido.</p>
+      <dl><dt>Datos</dt><dd>láminas, recorridos</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> el panel sugiere escoger entre esta y la visión serial en el primer semestre</dd>
+      <dt>Esfuerzo</dt><dd>una sesión</dd><dt>Propuso</dt><dd>Dra. en pedagogía</dd></dl></article>
+    <article><h3>Levantar un aula con su propio celular</h3>
+      <p>Siguiendo la receta del piloto, un grupo graba un aula y la procesa.</p>
+      <dl><dt>Datos</dt><dd>receta del piloto</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> la toma de los estudiantes</dd>
+      <dt>Esfuerzo</dt><dd>unas 2 h de Mac por aula, de noche</dd><dt>Propuso</dt><dd>Dra. en pedagogía</dd></dl></article>
+    <article><h3>Revisar el paramétrico contra las fotos</h3>
+      <p>El estudiante superpone el modelo de Blender a cinco cuadros y marca dónde no coincide.</p>
+      <dl><dt>Datos</dt><dd>modelo paramétrico y sus superposiciones</dd>
+      <dt>Estado</dt><dd><span class="estado hecho">ya hecho</span> las superposiciones de la planta baja y del segundo piso están en la sección 5; como ejercicio de clase <span class="estado ya">se puede hacer ya</span></dd>
+      <dt>Esfuerzo</dt><dd>no lo estimó el panel</dd><dt>Propuso</dt><dd>Dra. en pedagogía</dd></dl></article>
+  </div>
+
+  <h2 id="tecnicas"><span class="n">2</span>Técnicas: levantamiento, nube, modelo, unión de pisos y escala</h2>
+  <div class="rej">
+    <article><h3>Escala con la plantilla de medidas</h3>
+      <p>Medidas dentro de un mismo espacio, unas de escala y otras de control, pasadas por <code>escalar.py</code> con los residuos publicados. Enseña qué significa una tolerancia. Desde la versión con nube limpia cada medida de la plantilla E7 trae su incertidumbre en u (0,1 a 2,5 % del valor) y una marca de menor confianza cuando uno de sus planos cae cerca de un corte débil.</p>
+      <dl><dt>Datos</dt><dd>plantilla por piso, <code>escalar.py</code></dd>
+      <dt>Estado</dt><dd><span class="estado hecho">ya hecho</span> la planta y las fichas para flexómetro (sección 6); <span class="estado escala">necesita escala</span> faltan las medidas en sitio</dd>
+      <dt>Esfuerzo</dt><dd>3 h de escritorio más la visita</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento</dd></dl></article>
+    <article><h3>Prueba de unión con los tramos de escalera ya grabados</h3>
+      <p>El panel encontró en <code>camaras.json</code> que los videos del segundo y del tercer piso bajan por la escalera. Antes de pedir un video nuevo, comprobar si esos tramos alcanzan para unir pisos. Si une, la unión hereda la deformación de C. El investigador propone cómo: un modelo puente pequeño con la escalera de A y la bajada de B (a_0449 a a_0554), y otro con el comienzo de C (a_0001 a a_0139) y el salón de B; cada puente se alinea con los dos pisos por sus propias imágenes. La contrahuella común sirve de control, aunque esta noche la escalera de A salió dudosa. C solo se une por su parte fiable.</p>
+      <dl><dt>Datos</dt><dd><code>camaras.json</code> de B y C, cuadros; las funciones de alineación de modelos de pycolmap ya instaladas</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> con el Mac libre, de noche; volver a correr COLMAP para el puente pide permiso de LM, y no se intentó esta noche</dd>
+      <dt>Esfuerzo</dt><dd>3 h de análisis más 1 a 2 h de Mac por puente (el investigador calcula un día de trabajo)</dd><dt>Propuso</dt><dd>el crítico, a partir de lo que encontró el panel; el método de los puentes, el investigador</dd></dl></article>
+    <article><h3>Corte del edificio completo con los tres pisos apilados</h3>
+      <p>Un solo corte con los tres pisos en su lugar, útil para el visor y para la rama de etapas y corte.</p>
+      <dl><dt>Datos</dt><dd>marcos de los tres pisos</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita unir pisos</span> la prueba de unión o un video de la escalera, y una medida común</dd>
+      <dt>Esfuerzo</dt><dd>1 a 2 días</dd><dt>Propuso</dt><dd>el crítico</dd></dl></article>
+    <article><h3>Tercer piso: correrlo de nuevo</h3>
+      <p>C salió en 10 modelos. El piloto mostró que COLMAP no da siempre lo mismo en dos corridas iguales, así que antes de regrabar convenía correrlo otra vez. Se hizo la noche del 15 de octubre, de varias maneras (ver «Re-mapear con pares podados» más abajo), y ninguna dio un C mejor que el actual. Lo que queda es regrabarlo despacio, girando lento y con pausas.</p>
+      <dl><dt>Datos</dt><dd>clips de C</dd>
+      <dt>Estado</dt><dd><span class="estado prob">probado, no mejoró</span> <span class="estado tomas">necesita tomas nuevas</span> ya se pidió regrabar</dd>
+      <dt>Esfuerzo</dt><dd>3 a 4 h de Mac; visita si hace falta</dd><dt>Propuso</dt><dd>todo el panel</dd></dl></article>
+    <article><h3>Paramétrico en Blender con contrato de origen</h3>
+      <p>Modelo de volúmenes hecho con parámetros de la nube, donde cada pieza dice si es medida o supuesta.</p>
+      <dl><dt>Datos</dt><dd><code>planos.json</code>, el E8 del piloto</dd>
+      <dt>Estado</dt><dd><span class="estado hecho">ya hecho</span> para la planta baja y el segundo piso con la nube limpia, con una zona de cielo raso por altura (sección 5); en la segunda pasada las puertas de vidrio de A y la ventana con lámina de B pasaron a supuestos por revisión visual, a confirmar en sitio. El del tercero no se corrió con la nube limpia (cuatro alturas de techo sin ninguna dominante). <span class="estado escala">necesita escala</span> para pasar a metros, y la lista de vidrio</dd>
+      <dt>Esfuerzo</dt><dd>1 día más por piso</dd><dt>Propuso</dt><dd>en la tabla del crítico</dd></dl></article>
+    <article><h3>Prueba de cortes débiles después de COLMAP</h3>
+      <p>Para cada par de cuadros seguidos se cuenta cuántos de los 25 pares vecinos (5 antes por 5 después) se emparejan. En un tramo normal son 25 de 25; en casi todos los saltos medidos bajaba a entre 0 y 13. Un corte con 3 o menos es débil: A tiene 24, B 40 y C 100.</p>
+      <dl><dt>Datos</dt><dd><code>base.db</code> de cada piso, solo lectura</dd>
+      <dt>Estado</dt><dd><span class="estado hecho">ya hecho</span> desde el 15 de octubre: las cámaras cerca de un corte débil salen con anillo naranja en E5 y E6, y las medidas de E7 cuyos planos caen ahí llevan la marca de menor confianza</dd>
+      <dt>Esfuerzo</dt><dd>2 h</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>datos propios del proyecto</dd></dl></article>
+    <article><h3>Re-mapear con pares podados</h3>
+      <p>Volver a correr el mapeador sobre la base ya emparejada quitando los pares lejanos en el tiempo, que son los que traen saltos y copias. Se probó en los tres pisos con cadena local, con cuadros extra a 15 por segundo en los cortes débiles, con lazos aceptados solo si son coherentes con la ruta, con registro sin estructura, con el mapeo global y, en C, quitando solo los pares de los saltos. Los pedazos ya no saltan, pero sin pares lejanos la cadena se corta en cada giro y el piso sale en muchos pedazos: A en 17 modelos con el mayor de 156 cámaras (hoy 3 y 884), B en 20 con 111 (hoy 4 y 1.255), C en 35 con 149 (hoy 10 y 1.456). La poda dirigida de C dio 16 modelos con el mayor de 688 y el pasillo de arriba duplicado. La causa es que en los giros rápidos sin desplazamiento no hay paralaje que triangular, y eso no se arregla en el escritorio.</p>
+      <dl><dt>Datos</dt><dd><code>base.db</code>, comparaciones de cada piso</dd>
+      <dt>Estado</dt><dd><span class="estado prob">probado, no mejoró</span> ningún piso se rehízo; por eso se pidió regrabar con giros lentos</dd>
+      <dt>Esfuerzo</dt><dd>medio día a un día por variante; hecho</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>sin fuente publicada; las dos que citaba el informe tratan de otra cosa y se retiraron</dd></dl></article>
+    <article><h3>Emparejador aprendido solo en los cortes débiles</h3>
+      <p>ALIKED con LightGlue o LoMa, que ya trae el COLMAP instalado, usados solo entre cuadros seguidos donde la cadena se adelgaza. Un emparejador mejor también encuentra más pares buenos entre dos escaleras iguales, así que no sirve contra los dobles. Después de lo de esta noche se espera poco: donde falta paralaje, más pares no bastan.</p>
+      <dl><dt>Datos</dt><dd><code>base.db</code>, cuadros de los cortes débiles</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> sin probar; pide permiso de LM para volver a correr COLMAP</dd>
+      <dt>Esfuerzo</dt><dd>1 día</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>LoMa (arXiv 2604.04931), según el informe</dd></dl></article>
+    <article><h3>Segunda opinión con un modelo de reconstrucción directa</h3>
+      <p>Pasar VGGT o MapAnything por los 30 a 50 cuadros alrededor de un corte débil y ver si su pose relativa coincide con la de COLMAP. En este Mac caben bloques de ese tamaño (estimación del investigador) y no un piso entero. No hay ninguna evaluación de estos modelos en pasillos o escaleras repetidos.</p>
+      <dl><dt>Datos</dt><dd>cuadros de un corte débil</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> pide descargar modelos, con permiso de LM; cuidado con las licencias no comerciales de algunos pesos</dd>
+      <dt>Esfuerzo</dt><dd>no lo estimó</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>VGGT (arXiv 2503.11651) y MapAnything (arXiv 2509.13414), según el informe</dd></dl></article>
+    <article><h3>Muros que pueden ser vidrio o vano, con rayos</h3>
+      <p>Si detrás de un tramo de muro hay puntos vistos por cámaras que están delante, ese tramo es un vano o un vidrio y se marca como posible, nunca como medido. La limpieza ya guarda qué cámaras ven cada punto. Ningún método distingue solo con la geometría una lámina opaca como la de la ventana de B: la bitácora de vidrio de Raúl decide.</p>
+      <dl><dt>Datos</dt><dd>visibilidad de la limpieza (<code>vis_*</code>), indicio de vidrio del paramétrico</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span>; mientras tanto, la segunda pasada del paramétrico ya mandó a supuestos, por revisión a ojo, el vidrio visto en A y B</dd>
+      <dt>Esfuerzo</dt><dd>no lo estimó</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd></dl></article>
+    <article><h3>Tercera etiqueta: «estimado por red»</h3>
+      <p>Rellenar las paredes blancas con profundidad de una red (Depth Anything 3 o Depth Pro, que corren en el Mac), ajustada a los puntos de COLMAP de cada cuadro. Eso no es medido ni supuesto, así que el contrato del paramétrico tendría que tener esa tercera etiqueta antes de usarlo. Aun el mejor modelo deja una parte de los píxeles de interiores con más de 25 % de error: sirve para la forma, no para medir.</p>
+      <dl><dt>Datos</dt><dd>cuadros, nube limpia</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> pide descargar modelos, con permiso de LM</dd>
+      <dt>Esfuerzo</dt><dd>2 días; corre de noche</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>Depth Pro (arXiv 2410.02073), tabla 1, según el informe</dd></dl></article>
+    <article><h3>Splat con la nube limpia de arranque y sin flotantes</h3>
+      <p>Arrancar Brush con <code>init.ply</code> sacado de la nube limpia y, después de entrenar, quitar flotantes con <code>splat-transform</code> o borrando las gaussianas lejos de la nube limpia. Los valores por defecto de la herramienta están en unidades del mundo, y cada piso tiene su u: hay que ajustarlos por piso (0,01 a 0,02 u para empezar).</p>
+      <dl><dt>Datos</dt><dd>nube limpia, splats finales</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> la prueba de flotantes de esta noche se canceló porque competía por la GPU; los splats finales salieron con la receta base</dd>
+      <dt>Esfuerzo</dt><dd>medio día</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>notas de Brush 0.3 y README de splat-transform, según el informe</dd></dl></article>
+    <article><h3>GPU alquilada para métodos de superficie</h3>
+      <p>DN-Splatter o PlanarGS, pensados para interiores, solo corren con CUDA. En una GPU alquilada serían unos pocos dólares por piso (estimación del investigador) más un día de montaje la primera vez. Implica subir cuadros a un tercero, ya sin personas.</p>
+      <dl><dt>Datos</dt><dd>cuadros con las personas tapadas</dd>
+      <dt>Estado</dt><dd>opcional; pide permiso de LM</dd>
+      <dt>Esfuerzo</dt><dd>1 día de montaje</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>PlanarGS (arXiv 2510.23930), cifras de sus propios autores, según el informe</dd></dl></article>
+    <article><h3>Protocolo de captura para la próxima visita</h3>
+      <p>Lo que el investigador suma a la receta de grabación: girar tan despacio que un mismo objeto quede a la vista al menos un segundo, dar dos pasos en las esquinas en vez de girar en el sitio, bloquear exposición y enfoque si la app lo permite, grabar de corrido entre espacios parecidos mostrando algo único cada pocos pasos y la escalera completa en un solo clip.</p>
+      <dl><dt>Datos</dt><dd>ninguno</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> la regrabación ya pedida a Raúl</dd>
+      <dt>Esfuerzo</dt><dd>una visita</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>tutorial de COLMAP, según el informe</dd></dl></article>
+    <article><h3>Marcadores impresos en los descansos</h3>
+      <p>Dos o tres hojas con marcadores ArUco, con el lado impreso medido con cinta, pegadas en los descansos de la escalera. Dan escala y, vistos desde dos pisos, también un punto de unión. Hay un solo estudio publicado con menos de 1 % de error de escala, y el paso para leer los marcadores no está escrito.</p>
+      <dl><dt>Datos</dt><dd>tomas nuevas</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> con permiso para pegar las hojas</dd>
+      <dt>Esfuerzo</dt><dd>una visita más el paso de lectura</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>ASCE, Automated Scaling via ArUco, según el informe; un solo caso</dd></dl></article>
+    <article><h3>Prueba corta con la cámara 360</h3>
+      <p>Dos minutos con la Insta360 X5 en la escalera y un pasillo de C, comparados con la prueba de cortes débiles. Cada cuadro 360 ve a la vez los dos muros, el piso y el techo, que es lo que falla en los giros. No hay estudios que comparen 360 con celular en interiores, y quien graba sale en todas las vistas.</p>
+      <dl><dt>Datos</dt><dd>tomas nuevas</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span></dd>
+      <dt>Esfuerzo</dt><dd>una visita corta</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>especificaciones de Insta360 y ejemplo panorama_sfm de COLMAP, según el informe</dd></dl></article>
+    <article><h3>Odometría del teléfono como guía de COLMAP</h3>
+      <p>Grabar un tramo con una app que guarde la posición que calcula el teléfono (Spectacular Rec, en Android) y dársela a COLMAP como posición previa. No se sabe qué tan buena es esa odometría en un Samsung.</p>
+      <dl><dt>Datos</dt><dd>tomas nuevas</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> opcional</dd>
+      <dt>Esfuerzo</dt><dd>no lo estimó</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>FAQ de COLMAP y README de 3dgs-deblur, según el informe</dd></dl></article>
+  </div>
+
+  <h2 id="ambientales"><span class="n">3</span>Ambientales y de visor: sol, aberturas, integración al visor del 106</h2>
+  <p>La idea de fondo del doctor en tecnología: el visor ya sabe dónde está el sol, cuánto llueve y de dónde viene el viento; no sabe qué hay detrás de cada fachada. La nube puede dar eso, pero solo si se orienta.</p>
+  <div class="rej">
+    <article><h3>Orientar cada piso al norte</h3>
+      <p>Comparar las dos familias de muros de cada piso con la huella del 106 en el GLB del visor. Da el giro con una duda de 90° o 180°, que se resuelve con un cuadro donde se vea la entrada o una fachada reconocible. Sin escala, solo orientación.</p>
+      <dl><dt>Datos</dt><dd>familias de muros, GLB del visor, cuadros</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> falta identificar a mano un cuadro de fachada por piso</dd>
+      <dt>Esfuerzo</dt><dd>medio día (4 a 6 h en la tabla del crítico)</dd><dt>Propuso</dt><dd>Dr. en tecnología y ambiente</dd></dl></article>
+    <article><h3>Mapa de aberturas por fachada</h3>
+      <p>Dónde hay ventanas y puertas en cada piso y a qué orientación miran, sacado de los cuadros y de los huecos de la lámina.</p>
+      <dl><dt>Datos</dt><dd>cuadros, láminas, orientación</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> la bitácora de dónde hay vidrio y qué ventanas se abren; la nube no distingue un vidrio de un hueco</dd>
+      <dt>Esfuerzo</dt><dd>un día</dd><dt>Propuso</dt><dd>Dr. en tecnología y ambiente</dd></dl></article>
+    <article><h3>Sol directo por fachada, ligado al visor</h3>
+      <p>Una tabla de qué ventanas reciben sol directo en cada mes y hora, con el vector solar que el visor ya calcula. No dibuja la mancha en el piso; dice qué ventana la recibe. Usa la lente Sol, no la duplica.</p>
+      <dl><dt>Datos</dt><dd>orientación, mapa de aberturas, sol del visor</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> bitácora de vidrio y ventanas operables, después de orientar</dd>
+      <dt>Esfuerzo</dt><dd>unas 4 h después de las dos anteriores (1,5 días en total en la tabla del crítico)</dd><dt>Propuso</dt><dd>Dr. en tecnología y ambiente</dd></dl></article>
+    <article><h3>Ventilación cruzada cualitativa</h3>
+      <p>En la lámina, las posibles rutas de aire entre fachadas opuestas, con el viento dominante del visor (ERA5 ajustado a Albrook). Es un diagrama, no una simulación.</p>
+      <dl><dt>Datos</dt><dd>lámina, viento del visor</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita tomas nuevas</span> saber qué ventanas son operables</dd>
+      <dt>Esfuerzo</dt><dd>medio día</dd><dt>Propuso</dt><dd>Dr. en tecnología y ambiente</dd></dl></article>
+    <article><h3>Volumen y acústica de un aula</h3>
+      <p>Con escala, el volumen del aula y un tiempo de reverberación estimado por Sabine con materiales observados en los cuadros. Mejor todavía: medirlo con un aplauso grabado en el celular, que es un dato real y gratis.</p>
+      <dl><dt>Datos</dt><dd>nube de A o B</dd>
+      <dt>Estado</dt><dd><span class="estado escala">necesita escala</span> y la grabación; lo calculado con materiales supuestos va rotulado</dd>
+      <dt>Esfuerzo</dt><dd>un día con la visita</dd><dt>Propuso</dt><dd>Dr. en tecnología y ambiente</dd></dl></article>
+    <article><h3>Luz natural medida en los nodos</h3>
+      <p>En tres o cuatro nodos, una lectura con luxómetro o con la app del celular a horas fijas, comparada con el cielo de esa hora en el visor.</p>
+      <dl><dt>Datos</dt><dd>nodos de los recorridos</dd>
+      <dt>Estado</dt><dd><span class="estado tomas">necesita una visita</span> las lecturas en sitio</dd>
+      <dt>Esfuerzo</dt><dd>una visita y 3 h de escritorio</dd><dt>Propuso</dt><dd>Dr. en tecnología y ambiente</dd></dl></article>
+    <article><h3>Acceso «Explorar interiores» en el visor</h3>
+      <p>Llevar los recorridos al visor del 106. El panel recuerda que ya está decidido no abrirlo hasta probar en un teléfono real; lo solar por fachada sí viviría dentro del visor.</p>
+      <dl><dt>Datos</dt><dd>recorridos de la galería</dd>
+      <dt>Estado</dt><dd>espera la prueba en un teléfono real y la respuesta de LM a la pregunta 5 del panel</dd>
+      <dt>Esfuerzo</dt><dd>no lo estimó el panel</dd><dt>Propuso</dt><dd>todo el panel, en la ronda 2</dd></dl></article>
+    <article><h3>Recorrido que carga por partes</h3>
+      <p>Convertir cada splat al formato de niveles de detalle de Spark 2 y cargarlo por partes, para que el teléfono muestre algo enseguida y limite las gaussianas según el aparato. Debería bajar los casi 10 s de carga en el teléfono emulado (estimación). La herramienta que arma ese formato no está instalada, y el visor usa Spark 2.2.0.</p>
+      <dl><dt>Datos</dt><dd>splats finales</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> pide instalar la herramienta; medirlo en el Android de LM</dd>
+      <dt>Esfuerzo</dt><dd>medio día</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>documentación de Spark sobre niveles de detalle, según el informe</dd></dl></article>
+    <article><h3>Máscara de persona en vez de difuminado</h3>
+      <p>Una cara difuminada sigue entrando al splat como mancha. Con la segmentación de personas de Vision, que ya está en el Mac, se puede excluir a la persona del entrenamiento. Los splats finales de esta noche ya llevan las caras difuminadas; esto sería la vuelta siguiente.</p>
+      <dl><dt>Datos</dt><dd>cuadros con personas</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> falta confirmar que Brush 0.3 lea la carpeta de máscaras <span class="pv">por verificar</span></dd>
+      <dt>Esfuerzo</dt><dd>medio día</dd><dt>Propuso</dt><dd>el investigador (informe del estado del arte, 15 oct)</dd><dt>Fuente</dt><dd>FAQ de COLMAP y documentación de Vision de Apple, según el informe</dd></dl></article>
+  </div>
+
+  <h2 id="historia"><span class="n">4</span>Historia y teoría</h2>
+  <p>La idea de fondo del doctor en historia: el visor del 106 no afirma año de construcción, uso original ni autor del edificio, y nada de esa historia sale de la nube. Lo que la nube sí da es el recorrido de una persona por el edificio.</p>
+  <div class="rej">
+    <article><h3>Secuencia y pausas</h3>
+      <p>Una planta por piso con la ruta, las pausas y un cuadro de cada pausa. Mide la conducta de quien grabó, no la calidad del espacio, y así se rotula.</p>
+      <dl><dt>Datos</dt><dd><code>recorrido.json</code>, cuadros</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span></dd>
+      <dt>Esfuerzo</dt><dd>3 h (5 h junto con la visión serial)</dd><dt>Propuso</dt><dd>Dr. en teoría e historia</dd></dl></article>
+    <article><h3>Visión serial</h3>
+      <p>Una tira de cuadros a intervalos regulares por la ruta de cada piso, al modo de la visión serial de Gordon Cullen (<i>Townscape</i>, 1961 <span class="pv">por verificar la edición</span>). El estudiante anota umbrales, compresiones y aperturas.</p>
+      <dl><dt>Datos</dt><dd>cuadros, ruta</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span></dd>
+      <dt>Esfuerzo</dt><dd>3 h</dd><dt>Propuso</dt><dd>Dr. en teoría e historia</dd></dl></article>
+    <article><h3>Comparación entre pisos</h3>
+      <p>Las tres plantas lado a lado, cada una normalizada por su propia altura libre, para ver si la organización se repite. C va marcado como deformado.</p>
+      <dl><dt>Datos</dt><dd>plantas niveladas y láminas</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span></dd>
+      <dt>Esfuerzo</dt><dd>3 h</dd><dt>Propuso</dt><dd>Dr. en teoría e historia</dd></dl></article>
+    <article><h3>Luz y contraluz por fachada</h3>
+      <p>Hoja de cuadros a contraluz, ordenada por la fachada a la que miran. Lectura cualitativa para taller.</p>
+      <dl><dt>Datos</dt><dd>cuadros</dd>
+      <dt>Estado</dt><dd>se puede hacer después de orientar cada piso al norte</dd>
+      <dt>Esfuerzo</dt><dd>3 h</dd><dt>Propuso</dt><dd>Dr. en teoría e historia</dd></dl></article>
+  </div>
+
+  <h2 id="archivo"><span class="n">5</span>Archivo y patrimonio</h2>
+  <p>La idea de fondo de la doctora en patrimonio: un levantamiento vale lo que vale su documentación. Antes de modelar nada, cada piso necesita un expediente que diga cómo se hizo y qué no se sabe.</p>
+  <div class="rej">
+    <article><h3>Expediente de levantamiento por piso</h3>
+      <p>Una ficha con fecha, quién grabó, clips, cuadros registrados, PSNR, modelos de COLMAP, cobertura, qué es dato y qué es supuesto, y lo que falló. La Carta de Londres (2009) y los Principios de Sevilla (2011) piden transparencia sobre cómo se hizo una visualización <span class="pv">por verificar en la fuente primaria</span>.</p>
+      <dl><dt>Datos</dt><dd><code>informe.json</code>, <code>marco.json</code>, <code>resultados.json</code>, <code>DEBATES.md</code></dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> marcando como supuesto el cielo raso de 3 m que usa <code>DEBATES.md</code></dd>
+      <dt>Esfuerzo</dt><dd>unas 4 h los tres pisos</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento; primera en el orden del crítico</dd></dl></article>
+    <article><h3>Lámina A3 rotulada como dibujo de levantamiento</h3>
+      <p>Las láminas existen. Les falta un rótulo completo (edificio, piso, fecha, fuente, «escala desconocida», «norte desconocido»), la leyenda de dato y ajuste, y la discontinua para lo que falta (HABS 2008, 4.5.5 <span class="pv">por verificar en la fuente primaria</span>).</p>
+      <dl><dt>Datos</dt><dd>láminas E6, <code>marco.json</code></dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span></dd>
+      <dt>Esfuerzo</dt><dd>3 h</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento</dd></dl></article>
+    <article><h3>Registro de estado desde los cuadros</h3>
+      <p>Recorrer los cuadros y anotar manchas, fisuras, humedad, reparaciones visibles e intervenciones, cada una con su número de cuadro y su posición en planta. Se rotula «observado en foto, sin diagnóstico». Sirve también como ejercicio de taller.</p>
+      <dl><dt>Datos</dt><dd>cuadros, <code>camaras.json</code></dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> falta el criterio de clasificación</dd>
+      <dt>Esfuerzo</dt><dd>de 1 a 2 días, o 2 h de guía si lo hacen los estudiantes</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento</dd></dl></article>
+    <article><h3>Inventario de elementos con identificador</h3>
+      <p>Puertas, ventanas, columnas, tramos de escalera y tabiques, con un código que une la lámina, el cuadro y el nodo del recorrido. Sin medidas, solo cuenta y posición relativa. Es la base de un HBIM ligero.</p>
+      <dl><dt>Datos</dt><dd>lámina, cuadros, nodos</dd>
+      <dt>Estado</dt><dd><span class="estado escala">necesita escala</span> para espesores; el conteo se puede empezar sin ella</dd>
+      <dt>Esfuerzo</dt><dd>un día por piso</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento</dd></dl></article>
+    <article><h3>HBIM ligero desde el paramétrico</h3>
+      <p>El modelo de Blender con un atributo de origen por pieza (nube, cinta o supuesto) y una clase por elemento.</p>
+      <dl><dt>Datos</dt><dd>paramétrico, inventario</dd>
+      <dt>Estado</dt><dd><span class="estado escala">necesita escala</span> y el inventario; hacerlo de los tres pisos antes de tener escala está descartado</dd>
+      <dt>Esfuerzo</dt><dd>de 3 a 5 días por piso</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento</dd></dl></article>
+    <article><h3>Paquete de archivo para el DOI del 106</h3>
+      <p>Nube reducida y sin personas, láminas, expediente y scripts, para cuando se resuelva el DOI.</p>
+      <dl><dt>Datos</dt><dd>lo de esta galería y los scripts</dd>
+      <dt>Estado</dt><dd>espera la decisión de LM sobre qué se publica</dd>
+      <dt>Esfuerzo</dt><dd>no lo estimó el panel</dd><dt>Propuso</dt><dd>Dra. en patrimonio y levantamiento</dd></dl></article>
+    <article><h3>Buscar planos de archivo del 106</h3>
+      <p>Planos originales o de reconversión en Ciudad del Saber, la ACP o archivos del Ejército de EE. UU. No se sabe si existen ni si son accesibles. Si aparecen, dan un control métrico gratis; lo que no aparezca no se afirma.</p>
+      <dl><dt>Datos</dt><dd>ninguno nuevo</dd>
+      <dt>Estado</dt><dd><span class="estado ya">se puede hacer ya</span> falta saber dónde preguntar (pregunta 4 del panel a LM)</dd>
+      <dt>Esfuerzo</dt><dd>de 2 a 4 h de búsqueda</dd><dt>Propuso</dt><dd>Dr. en teoría e historia</dd></dl></article>
+  </div>
+
+  <h2 id="descartadas"><span class="n">6</span>Descartadas y por qué</h2>
+  <div class="rej">
+    <article><h3>Carta psicrométrica o UTCI dentro del edificio</h3><p>No hay temperatura ni humedad medidas adentro; sería repetir la lente de confort del visor con un número inventado.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>Dr. en tecnología, que ya dudaba de ella; la descartó la doctora en pedagogía en la ronda 2</dd></dl></article>
+    <article><h3>Mancha solar dibujada en el piso</h3><p>Pide alturas de antepecho y dintel en metros, orientación y vidrio; hoy no hay ninguna de las tres, y la lente Sol ya cubre lo que sí se sabe.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>salió de la idea de sol por fachada; la descartó el crítico</dd></dl></article>
+    <article><h3>Luz natural sacada de los cuadros del video</h3><p>La exposición del celular es automática; el brillo de un cuadro no mide luz.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>lo advirtió el doctor en tecnología</dd></dl></article>
+    <article><h3>Capas de transformación sin archivo</h3><p>Distinguir en los cuadros lo original de lo añadido sería afirmar historia del edificio desde la foto. Solo valdría como hipótesis gráfica validada con archivo.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>Dr. en teoría e historia; la criticó el doctor en tecnología</dd></dl></article>
+    <article><h3>HBIM de los tres pisos antes de tener escala</h3><p>Se rehace entero cuando llegue la primera medida.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>lo criticó el doctor en tecnología en la ronda 2</dd></dl></article>
+    <article><h3>Medir sobre la malla o el splat, o mostrar la malla como modelo del interior</h3><p>Ya descartado el 11 de octubre y sigue en pie. Por eso en esta galería la malla solo se muestra contra las fotos.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>decisión anterior, ratificada por el crítico</dd></dl></article>
+    <article><h3>Simulación de ventilación (CFD)</h3><p>El visor ya dice que no la hace, y aquí no hay geometría en metros.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>el crítico</dd></dl></article>
+    <article><h3>Publicar las nubes completas</h3><p>Pesan cientos de MB y llevan personas y letreros.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>el crítico</dd></dl></article>
+    <article><h3>Rellenos generativos de las vistas lejanas</h3><p>Métodos como Difix3D+ limpian la neblina con un modelo de difusión. Lo que agregan es inventado, y aquí no se muestra como dato lo que nadie vio.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>lo descartó el investigador</dd></dl></article>
+    <article><h3>Clasificadores de dobles (Doppelgangers)</h3><p>Separan pares de un mismo sitio de pares de sitios parecidos, pero se entrenaron con monumentos y no hay evaluación en pasillos o escaleras iguales; el sucesor pide CUDA y tiene licencia no comercial.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>lo descartó por ahora el investigador</dd></dl></article>
+    <article><h3>Escalar con profundidad métrica de una red</h3><p>Deja una parte de los píxeles con más de 25 % de error en interiores. Sirve a lo sumo para ver un error grosero de escala entre pisos.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>lo descartó el investigador</dd></dl></article>
+    <article><h3>Adoptar ya el glTF de splats</h3><p>El formato de Khronos sigue siendo candidato; se espera a que se ratifique.</p><dl><dt>Estado</dt><dd><span class="estado desc">descartado</span></dd><dt>Propuso</dt><dd>lo descartó el investigador</dd></dl></article>
+  </div>
+  <div><a class="boton" href="index.html">Volver a la galería</a></div>
+</main>
+</body>
+</html>

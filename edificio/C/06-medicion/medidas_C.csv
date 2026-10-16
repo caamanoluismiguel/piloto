@@ -1,0 +1,15 @@
+# Medidas con flexómetro del Edificio 106, tercer piso, para escalar la nube (06-medicion).
+# Separador punto y coma. Escribe los metros con coma o con punto, como quieras (2,135 o 2.135). La cinta da centímetros: 213,5 cm son 2,135 m.
+# lectura_1_m y lectura_2_m: las dos lecturas de la cinta, en metros. valor_m: el promedio de las dos (lo usa escalar.py).
+# instrumento: flexómetro y su largo (por ejemplo, flexómetro de 5 m). quien: tu nombre. fecha: AAAA-MM-DD. foto: número de la foto de la cinta puesta.
+# No cambies las columnas id, planos, entre ni uso: dicen a qué puntos de la nube corresponde cada medida.
+# M5 y M6: en la nube son el promedio de varios peldaños; los extremos de la columna entre están en un peldaño representativo.
+# Coordenadas en el marco nuevo (versión con nube limpia, 16 oct 2026).
+# Corre: python -I escalar.py medidas_C.csv (el escalar.py del piloto, en 03-laminas)
+id;que_se_mide;planos;entre;uso;lectura_1_m;lectura_2_m;valor_m;instrumento;quien;fecha;foto
+M1;Alto libre de la puerta: la puerta de aluminio y vidrio que está al llegar arriba por la escalera, con la hoja abierta hacia la escalera;puntos cortados con el plano vertical del vano, apoyado en el piso de la malla;punto:6.3585 -6.9138 -0.1083|punto:6.3585 -6.9138 0.7285;escala;;;;;;;
+M2;Ancho libre de la puerta: la puerta de aluminio y vidrio que está al llegar arriba por la escalera, con la hoja abierta hacia la escalera;puntos cortados con el plano vertical del vano, distancia horizontal;punto:6.1996 -6.9138 0.4648|punto:6.5280 -6.9138 0.4500;escala;;;;;;;
+M3;Dos baldosas, de lado a lado: las baldosas color arena del rellano, entre la escalera y esa puerta;"juntas de la ortofoto del piso; distancia = 2 veces el paso medido de las juntas";punto:6.4944 -7.7180 -0.1057|punto:6.7241 -7.7180 -0.1086;control;;;;;;;
+M4;Dos baldosas, hacia la puerta: las baldosas color arena del rellano, entre la escalera y esa puerta;"juntas de la ortofoto del piso; distancia = 2 veces el paso medido de las juntas";punto:6.5450 -7.9292 -0.0983|punto:6.5450 -7.7011 -0.1070;control;;;;;;;
+M5;Alto de un peldaño: los últimos peldaños de la escalera que llega a este piso, justo antes de esa puerta;"narices de los peldaños en la nube; promedio de las diferencias de altura";punto:6.3078 -5.1921 -0.1728|punto:6.3078 -5.1921 -0.2321;control;;;;;;;
+M6;Huella, de nariz a nariz: los últimos peldaños de la escalera que llega a este piso, justo antes de esa puerta;"narices de los peldaños en la nube; promedio de las distancias horizontales";punto:6.3078 -5.1921 -0.1728|punto:6.3079 -5.0898 -0.1728;control;;;;;;;

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recorrido segundo piso · Edificio 106</title>
+<style>
+  :root { --fondo:#15130f; --panel:#221f1a; --linea:#3a352c; --linea-2:#4a4438; --texto:#efe8da; --tenue:#a99f8c; --sol:#f4b545; --cal:#efe9de; }
+  html, body { margin:0; height:100%; background:var(--fondo); color:var(--texto); font:14px/1.4 system-ui, sans-serif; overflow:hidden; }
+  canvas { display:block; touch-action:none; }
+  #info { position:fixed; left:16px; top:16px; right:16px; font-size:12px; color:var(--tenue); pointer-events:none; }
+  #info b { color:var(--texto); font-weight:600; }
+  #barra { position:fixed; left:16px; right:16px; bottom:16px; padding:8px; background:var(--panel); border:1px solid var(--linea-2); border-radius:18px; display:grid; grid-template-columns:auto auto auto 1fr auto; gap:8px; align-items:center; max-width:640px; margin:0 auto; }
+  button { min-width:44px; min-height:44px; border-radius:12px; border:1px solid var(--linea); background:var(--fondo); color:var(--texto); font-size:16px; cursor:pointer; padding:0 12px; }
+  button:disabled { opacity:.4; cursor:default; }
+  button:focus-visible, .nodo-mapa:focus-visible { outline:2px solid var(--sol); outline-offset:2px; }
+  #play { background:var(--sol); color:#15130f; border-color:var(--sol); }
+  #mapaBtn[aria-expanded=true] { border-color:var(--cal); }
+  #lugar { font-size:13px; line-height:1.25; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; min-width:0; }
+  @media (max-width:480px) { #lugar { font-size:12px; } }
+  #lugar span { color:var(--tenue); }
+  #mapa { position:fixed; left:16px; bottom:88px; width:min(380px, calc(100vw - 32px)); background:var(--panel); border:1px solid var(--linea-2); border-radius:18px; padding:12px; box-sizing:border-box; }
+  #mapa[hidden] { display:none; }
+  #mapa svg { width:100%; height:auto; display:block; }
+  #mapa p { margin:8px 0 0; font-size:12px; color:var(--tenue); }
+  .nodo-mapa { cursor:pointer; outline:none; }
+  .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+</style>
+</head>
+<body>
+<div id="info"><b>Segundo piso · Toma3 + Toma4 + clip corto · captura del 15 oct 2026</b> · <span id="estado">cargando…</span></div>
+<div id="mapa" hidden role="region" aria-label="Planta de la nube">
+  <svg id="planta" role="group" aria-label="Planta con la ruta y los puntos del recorrido"></svg>
+  <p>Planta de la nube de puntos · escala desconocida</p>
+</div>
+<div id="barra" role="group" aria-label="Recorrido">
+  <button id="atras" aria-label="Punto anterior">&#9664;</button>
+  <button id="play" aria-label="Recorrido guiado">&#9654;</button>
+  <button id="adelante" aria-label="Punto siguiente">&#9654;&#65038;&#9654;&#65038;</button>
+  <div id="lugar" aria-hidden="true"></div>
+  <button id="mapaBtn" aria-expanded="false" aria-controls="mapa">Mapa</button>
+</div>
+<div id="anuncio" class="sr" aria-live="polite"></div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+  "@sparkjsdev/spark": "https://cdn.jsdelivr.net/npm/@sparkjsdev/spark@2.2.0/dist/spark.module.js"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { SparkRenderer, SplatMesh } from '@sparkjsdev/spark';
+
+const q = new URLSearchParams(location.search);
+const movil = matchMedia('(pointer: coarse)').matches;
+const archivo = 'tramo_movil.sog';  // en la galería siempre la versión liviana
+const depurar = q.has('depurar');
+const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const estado = document.getElementById('estado');
+const t0 = performance.now();
+const D = await (await fetch('recorrido.json')).json();
+const { nodos, ruta, muros } = D;
+const RUTA = ruta.map(r => new THREE.Vector3(r[0], r[1], r[2]));
+// Campo de visión de la captura por clip (fov_por_clip, de las cámaras de COLMAP): en un mismo piso hay clips en
+// horizontal y en vertical, y alguno con el lente 1x. Cada nodo trae el fovY de su clip; entre nodos se interpola.
+const fovDe = img => D.fov_por_clip[img.split('_')[0] + '_'].fovY;
+let fovBase = nodos[+(q.get('nodo') || 0)].fovY;
+
+// Escena en el marco del edificio de E1: z = normal del piso, piso en z = 0. «Arriba» de la cámara = z, sin giro lateral.
+const renderer = new THREE.WebGLRenderer({ antialias:false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x15130f);
+const camera = new THREE.PerspectiveCamera(fovBase, innerWidth/innerHeight, 0.01, 200);
+camera.up.set(0, 0, 1);
+// En vertical (telefono) el campo de la captura deja poco ancho: se abre hasta 60 de ancho, con tope de 120 vertical.
+function ajustarCampo() {
+  const a = innerWidth/innerHeight;
+  camera.aspect = a;
+  const fovHalfRad = THREE.MathUtils.degToRad(fovBase / 2);
+  camera.fov = Math.min(120, Math.max(fovBase, 2 * THREE.MathUtils.radToDeg(Math.atan(Math.tan(fovHalfRad) / a))));
+  camera.updateProjectionMatrix();
+}
+ajustarCampo();
+scene.add(new SparkRenderer({ renderer }));
+
+// El splat esta en coordenadas de COLMAP: se le aplica T_edificio_desde_colmap (rotacion propia, det = 1, sin escala).
+const T = new THREE.Matrix4().set(...D.T_edificio_desde_colmap.flat());
+let bytes = 0;
+const splat = new SplatMesh({ url: archivo, onProgress: e => { bytes = e.loaded; estado.textContent = `cargando ${(e.loaded/1048576).toFixed(1)} MB…`; } });
+T.decompose(splat.position, splat.quaternion, splat.scale);
+scene.add(splat);
+
+// Muros invisibles: cajas finas donde los muros de planos.json tienen puntos. Solo para el raycast y para ocultar discos.
+const geos = muros.map(m => new THREE.BoxGeometry(...m.t).translate(...m.c));
+const muroMesh = new THREE.Mesh(mergeGeometries(geos), new THREE.MeshBasicMaterial({ visible: depurar, color:0xff5a3c, wireframe:true, depthTest:false, transparent:true, opacity:.35 }));
+muroMesh.renderOrder = 5;
+scene.add(muroMesh);
+
+// Discos sobre el piso real (z = 0).
+const R_DISCO = 0.22;
+const matAro = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, opacity:.9, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
+const matRelleno = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, opacity:.22, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
+const matHover = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, opacity:.5, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
+const matOculto = new THREE.MeshBasicMaterial({ color:0xff5a3c, transparent:true, opacity:.8, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
+const geoAro = new THREE.RingGeometry(R_DISCO*0.75, R_DISCO, 48), geoRelleno = new THREE.CircleGeometry(R_DISCO*0.75, 48);
+const geoToque = new THREE.CircleGeometry(R_DISCO*1.6, 24);  // area de toque mas grande que el dibujo
+const discos = nodos.map(n => {
+  const g = new THREE.Group(); g.position.set(n.p[0], n.p[1], 0.005);
+  const aro = new THREE.Mesh(geoAro, matAro), relleno = new THREE.Mesh(geoRelleno, matRelleno);
+  const toque = new THREE.Mesh(geoToque, new THREE.MeshBasicMaterial({ visible:false }));
+  aro.renderOrder = relleno.renderOrder = 10; toque.userData.nodo = n.id;
+  g.add(relleno, aro, toque); scene.add(g);
+  return { g, aro, relleno, toque, oculto:false, visible:true };
+});
+
+// Estado de la camara: posicion, yaw (giro en planta, desde +x) y pitch.
+let actual = +(q.get('nodo') || 0);
+const cam = { p: new THREE.Vector3(...nodos[actual].p), yaw: nodos[actual].yaw, pitch: nodos[actual].pitch };
+let anim = null, jugando = false, esperaGuiada = 0, hover = -1;
+
+function cuadroMasCercano(p) { let b = 0, d = Infinity; RUTA.forEach((r, i) => { const x = r.distanceToSquared(p); if (x < d) { d = x; b = i; } }); return b; }
+function ir(j, { anunciar = true } = {}) {
+  if (j < 0 || j >= nodos.length) return;
+  const destino = nodos[j];
+  // Se viaja por la ruta capturada (conexiones comprobadas), nunca en linea recta a traves de muros.
+  const k0 = cuadroMasCercano(cam.p), k1 = destino.cuadro, paso = k1 >= k0 ? 1 : -1;
+  const pts = [cam.p.clone()]; for (let k = k0; k !== k1 + paso; k += paso) pts.push(RUTA[k].clone());
+  pts.push(new THREE.Vector3(...destino.p));
+  const acum = [0]; for (let i = 1; i < pts.length; i++) acum.push(acum[i-1] + pts[i].distanceTo(pts[i-1]));
+  const largo = acum.at(-1);
+  let dy = destino.yaw - cam.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+  actual = j; actualizarUI(anunciar);
+  if (reducido || largo < 1e-4) { cam.p.copy(pts.at(-1)); cam.yaw += dy; cam.pitch = destino.pitch; fovBase = destino.fovY; ajustarCampo(); anim = null; return; }
+  anim = { pts, acum, largo, t:0, dur: THREE.MathUtils.clamp(0.4 + 0.12*largo, 0.5, 1.4), yaw0: cam.yaw, dy, pitch0: cam.pitch, pitch1: destino.pitch, fov0: fovBase, fov1: destino.fovY };
+}
+function posEnRuta(a, s) { let i = 1; while (i < a.acum.length - 1 && a.acum[i] < s) i++; const f = (s - a.acum[i-1]) / Math.max(1e-6, a.acum[i] - a.acum[i-1]); return new THREE.Vector3().lerpVectors(a.pts[i-1], a.pts[i], THREE.MathUtils.clamp(f, 0, 1)); }
+
+// Interfaz
+const lugar = document.getElementById('lugar'), anuncio = document.getElementById('anuncio');
+const atras = document.getElementById('atras'), adelante = document.getElementById('adelante'), play = document.getElementById('play');
+const mapa = document.getElementById('mapa'), mapaBtn = document.getElementById('mapaBtn');
+function actualizarUI(anunciar) {
+  const n = nodos[actual];
+  lugar.innerHTML = `<span>${actual+1} de ${nodos.length}</span> · ${n.nombre}`;
+  if (anunciar) anuncio.textContent = `Punto ${actual+1} de ${nodos.length}: ${n.nombre}`;
+  atras.disabled = actual === 0; adelante.disabled = actual === nodos.length - 1;
+  document.querySelectorAll('.nodo-mapa').forEach((el, i) => { el.setAttribute('aria-current', i === actual ? 'location' : 'false'); el.querySelector('.punto').setAttribute('fill', i === actual ? '#efe9de' : '#221f1a'); });
+}
+function pararGuiado() { jugando = false; play.textContent = '▶'; play.setAttribute('aria-label', 'Recorrido guiado'); }
+atras.onclick = () => { pararGuiado(); ir(actual - 1); };
+adelante.onclick = () => { pararGuiado(); ir(actual + 1); };
+play.onclick = () => {
+  if (jugando) return pararGuiado();
+  if (actual === nodos.length - 1) ir(0);
+  jugando = true; esperaGuiada = 0.6; play.textContent = '❚❚'; play.setAttribute('aria-label', 'Pausar recorrido guiado');
+};
+mapaBtn.onclick = () => { const abrir = mapa.hidden; mapa.hidden = !abrir; mapaBtn.setAttribute('aria-expanded', String(abrir)); };
+
+// Minimapa: planta de la nube (E1, franja de 5 a 90 % de piso a cielo raso), ruta y nodos. Sin barra de escala.
+const NS = 'http://www.w3.org/2000/svg', pl = D.planta;
+const svg = document.getElementById('planta'), Wu = pl.ancho_px*pl.celda_u, Hu = pl.alto_px*pl.celda_u;
+svg.setAttribute('viewBox', `${pl.x0} ${-pl.y1} ${Wu} ${Hu}`);
+const el = (tag, at, padre = svg) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); padre.appendChild(e); return e; };
+el('image', { href: pl.archivo, x: pl.x0, y: -pl.y1, width: Wu, height: Hu, preserveAspectRatio:'none' });
+el('polyline', { points: RUTA.map(p => `${p.x.toFixed(2)},${(-p.y).toFixed(2)}`).join(' '), fill:'none', stroke:'#f4b545', 'stroke-width':0.06, 'stroke-linejoin':'round', opacity:.8 });
+const pxPorU = () => svg.getBoundingClientRect().width / Wu;
+nodos.forEach(n => {
+  const g = el('g', { class:'nodo-mapa', tabindex:0, role:'button', 'aria-label': `Ir a ${n.nombre}` });
+  el('circle', { cx:n.p[0], cy:-n.p[1], r:1.05, fill:'transparent' }, g);
+  el('circle', { class:'punto', cx:n.p[0], cy:-n.p[1], r:0.17, fill:'#221f1a', stroke:'#efe9de', 'stroke-width':0.06 }, g);
+  g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pararGuiado(); ir(n.id); } });
+});
+// Clic en el mapa: el nodo mas cercano dentro de 24 px (las areas de toque pueden solaparse).
+svg.addEventListener('click', e => {
+  const r = svg.getBoundingClientRect(), k = pxPorU();
+  const ux = pl.x0 + (e.clientX - r.left)/k, uy = pl.y1 - (e.clientY - r.top)/k;
+  let b = -1, d = 24/k; nodos.forEach(n => { const x = Math.hypot(n.p[0]-ux, n.p[1]-uy); if (x < d) { d = x; b = n.id; } });
+  if (b >= 0) { pararGuiado(); ir(b); }
+});
+const yo = el('g', {}); el('path', { d:'M0,0 L0.9,-0.45 L0.9,0.45 Z', fill:'#efe9de', opacity:.35 }, yo); el('circle', { r:0.14, fill:'#f4b545' }, yo);
+actualizarUI(false);
+
+// Mirar alrededor: arrastre (raton o dedo) y flechas. Un toque corto sin arrastre elige un disco.
+const raycaster = new THREE.Raycaster(), ndc = new THREE.Vector2();
+let arrastre = null;
+const lienzo = renderer.domElement;
+lienzo.addEventListener('pointerdown', e => { arrastre = { x:e.clientX, y:e.clientY, yaw:cam.yaw, pitch:cam.pitch, t:performance.now(), movido:false }; lienzo.setPointerCapture(e.pointerId); });
+lienzo.addEventListener('pointermove', e => {
+  if (!arrastre) { if (e.pointerType === 'mouse') { hover = elegir(e.clientX, e.clientY); lienzo.style.cursor = hover >= 0 ? 'pointer' : 'grab'; } return; }
+  const dx = e.clientX - arrastre.x, dy = e.clientY - arrastre.y;
+  if (Math.hypot(dx, dy) > 8) arrastre.movido = true;
+  if (!arrastre.movido) return;
+  const k = 0.004; cam.yaw = arrastre.yaw + dx*k; cam.pitch = THREE.MathUtils.clamp(arrastre.pitch + dy*k, -1.2, 1.2);
+  if (anim) { anim.yaw0 = cam.yaw; anim.dy = 0; }
+});
+lienzo.addEventListener('pointerup', e => {
+  if (arrastre && !arrastre.movido) { const j = elegir(e.clientX, e.clientY); if (j >= 0 && j !== actual) { pararGuiado(); ir(j); } }
+  arrastre = null;
+});
+addEventListener('keydown', e => {
+  if (e.target.closest && e.target.closest('.nodo-mapa')) return;
+  if (e.key === 'ArrowLeft') cam.yaw += 0.1;
+  else if (e.key === 'ArrowRight') cam.yaw -= 0.1;
+  else if (e.key === 'ArrowUp') cam.pitch = Math.min(1.2, cam.pitch + 0.08);
+  else if (e.key === 'ArrowDown') cam.pitch = Math.max(-1.2, cam.pitch - 0.08);
+  else return;
+  e.preventDefault();
+});
+addEventListener('resize', () => { ajustarCampo(); renderer.setSize(innerWidth, innerHeight); });
+
+// Elegir disco: raycast contra discos y muros; el muro mas cercano tapa. Si no hay impacto directo,
+// el disco visible mas cercano en pantalla a menos de 26 px (para que el area tactil sea de 44 px o mas).
+function elegir(cx, cy) {
+  ndc.set(cx/innerWidth*2 - 1, -(cy/innerHeight)*2 + 1);
+  raycaster.setFromCamera(ndc, camera);
+  const objetivos = discos.filter((d, i) => d.visible && i !== actual).map(d => d.toque);
+  const hits = raycaster.intersectObjects([muroMesh, ...objetivos], false);
+  if (hits.length) { const h = hits[0]; if (h.object !== muroMesh) return h.object.userData.nodo; }
+  const muro = hits.find(h => h.object === muroMesh);
+  let b = -1, mejor = 26;
+  pantalla().forEach(s => {
+    if (!s.visible || s.id === actual) return;
+    const d = Math.hypot(s.x - cx, s.y - cy);
+    if (d < mejor && (!muro || muro.distance > s.dist)) { mejor = d; b = s.id; }
+  });
+  return b;
+}
+function pantalla() {
+  return discos.map((d, i) => {
+    const v = d.g.position.clone().project(camera);
+    return { id:i, x:(v.x+1)/2*innerWidth, y:(1-v.y)/2*innerHeight, delante: v.z < 1 && v.z > -1, enVista: Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1 && v.z < 1, visible:d.visible, oculto:d.oculto, dist: camera.position.distanceTo(d.g.position) };
+  });
+}
+// Oculta los discos que quedan detras de un muro (rayo de la camara al centro del disco) y el disco donde estas parado.
+const rayoMuro = new THREE.Raycaster(), dir = new THREE.Vector3();
+function ocultar() {
+  discos.forEach((d, i) => {
+    dir.subVectors(d.g.position, camera.position); const dist = dir.length(); dir.normalize();
+    rayoMuro.set(camera.position, dir); rayoMuro.far = dist;
+    d.oculto = rayoMuro.intersectObject(muroMesh, false).length > 0;
+    const aqui = i === actual && !anim;
+    d.visible = !d.oculto && !aqui;
+    d.g.visible = d.visible || (depurar && d.oculto);
+    d.aro.material = d.oculto ? matOculto : matAro;
+    d.relleno.material = i === hover ? matHover : matRelleno;
+  });
+}
+
+let listo = false, primerCuadro = null;
+splat.initialized.then(() => {
+  const s = ((performance.now()-t0)/1000).toFixed(1);
+  estado.textContent = `${String(splat.numSplats ?? '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')} splats · ${(bytes/1048576).toFixed(1).replace('.', ',')} MB · listo en ${s.replace('.', ',')} s`;
+  listo = true; window.__e9.listo = true; window.__e9.segundos = +s; window.__e9.mb = bytes/1048576;
+}).catch(e => { estado.textContent = 'no se pudo cargar: ' + e.message; window.__e9.error = String(e); });
+
+// ?cuadro=N (solo comprobacion): camara exacta de la captura con la misma T que el splat.
+let poseFija = null;
+if (q.has('cuadro')) {
+  const c = (await (await fetch('../01-marco/camaras.json')).json()).camaras[+q.get('cuadro')];
+  const r = c.rotacion_edificio_desde_camara;  // OpenCV (y abajo, z adelante) -> three (y arriba, -z adelante)
+  const m = new THREE.Matrix4().set(r[0][0],-r[0][1],-r[0][2],0, r[1][0],-r[1][1],-r[1][2],0, r[2][0],-r[2][1],-r[2][2],0, 0,0,0,1);
+  poseFija = { p: new THREE.Vector3(...c.posicion_u), q: new THREE.Quaternion().setFromRotationMatrix(m), fov: fovDe(c.imagen) };
+  document.getElementById('barra').hidden = true; document.getElementById('info').hidden = true;
+}
+let ultimo = performance.now();
+const mira = new THREE.Vector3();
+renderer.setAnimationLoop(now => {
+  const dt = Math.min(0.1, (now-ultimo)/1000); ultimo = now;
+  if (anim) {
+    anim.t += dt; const f = Math.min(1, anim.t/anim.dur), e = f < .5 ? 2*f*f : 1 - (-2*f + 2)**2/2;
+    cam.p.copy(posEnRuta(anim, e*anim.largo)); cam.yaw = anim.yaw0 + anim.dy*e; cam.pitch = THREE.MathUtils.lerp(anim.pitch0, anim.pitch1, e);
+    if (anim.fov0 !== anim.fov1) { fovBase = THREE.MathUtils.lerp(anim.fov0, anim.fov1, e); ajustarCampo(); }
+    if (f >= 1) { anim = null; esperaGuiada = 3.5; }
+  } else if (jugando) {
+    esperaGuiada -= dt;
+    if (esperaGuiada <= 0) { if (actual < nodos.length - 1) ir(actual + 1); else pararGuiado(); }
+  }
+  camera.position.copy(cam.p);
+  mira.set(Math.cos(cam.pitch)*Math.cos(cam.yaw), Math.cos(cam.pitch)*Math.sin(cam.yaw), Math.sin(cam.pitch)).add(cam.p);
+  camera.lookAt(mira);
+  if (poseFija) { if (camera.fov !== poseFija.fov) { camera.fov = poseFija.fov; camera.updateProjectionMatrix(); } camera.position.copy(poseFija.p); camera.quaternion.copy(poseFija.q); discos.forEach(d => d.g.visible = false); }
+  else ocultar();
+  yo.setAttribute('transform', `translate(${cam.p.x.toFixed(3)},${(-cam.p.y).toFixed(3)}) rotate(${(-cam.yaw*180/Math.PI).toFixed(1)})`);
+  renderer.render(scene, camera);
+  if (listo && primerCuadro === null) { primerCuadro = ((performance.now()-t0)/1000); window.__e9.primerCuadro = +primerCuadro.toFixed(2); }
+});
+
+// Ganchos para la prueba automatica.
+window.__e9 = {
+  listo:false, nodo: () => actual, moviendo: () => !!anim, ir: j => ir(j), pantalla,
+  camara: () => ({ p: cam.p.toArray(), yaw: cam.yaw, pitch: cam.pitch, fov: camera.fov, fovBase, arriba: new THREE.Vector3(0,1,0).applyQuaternion(camera.quaternion).toArray() }),
+  mirar: (yaw, pitch) => { cam.yaw = yaw; cam.pitch = pitch; },
+};
+</script>
+</body>
+</html>

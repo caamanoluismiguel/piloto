@@ -1,0 +1,15 @@
+# Medidas con flexómetro del Edificio 106, segundo piso, para escalar la nube (06-medicion).
+# Separador punto y coma. Escribe los metros con coma o con punto, como quieras (2,135 o 2.135). La cinta da centímetros: 213,5 cm son 2,135 m.
+# lectura_1_m y lectura_2_m: las dos lecturas de la cinta, en metros. valor_m: el promedio de las dos (lo usa escalar.py).
+# instrumento: flexómetro y su largo (por ejemplo, flexómetro de 5 m). quien: tu nombre. fecha: AAAA-MM-DD. foto: número de la foto de la cinta puesta.
+# No cambies las columnas id, planos, entre ni uso: dicen a qué puntos de la nube corresponde cada medida.
+# M5 y M6: en la nube son el promedio de varios peldaños; los extremos de la columna entre están en un peldaño representativo.
+# Coordenadas en el marco nuevo (versión con nube limpia, 16 oct 2026).
+# Corre: python -I escalar.py medidas_B.csv (el escalar.py del piloto, en 03-laminas)
+id;que_se_mide;planos;entre;uso;lectura_1_m;lectura_2_m;valor_m;instrumento;quien;fecha;foto
+M1;Alto libre de la puerta: la puerta de marco gris junto al mural grande de flores, con la hoja amarilla abierta contra el marco;puntos cortados con el plano vertical del vano, apoyado en el piso de la malla;punto:3.8895 -1.9158 -0.0195|punto:3.8895 -1.9158 0.8652;escala;;;;;;;
+M2;Ancho libre de la puerta: la puerta de marco gris junto al mural grande de flores, con la hoja amarilla abierta contra el marco;puntos cortados con el plano vertical del vano, distancia horizontal;punto:3.6931 -1.9054 0.4522|punto:4.0654 -1.9109 0.4511;escala;;;;;;;
+M3;Dos baldosas, de lado a lado: las baldosas color crema delante de esa puerta;"juntas de la ortofoto del piso; distancia = 2 veces el paso medido de las juntas";punto:3.7908 -2.2500 -0.0157|punto:4.0339 -2.2500 -0.0136;control;;;;;;;
+M4;Dos baldosas, hacia la puerta: las baldosas color crema delante de esa puerta;"juntas de la ortofoto del piso; distancia = 2 veces el paso medido de las juntas";punto:3.8500 -2.3166 -0.0138|punto:3.8500 -2.0684 -0.0190;control;;;;;;;
+M5;Alto de un peldaño: la escalera principal, en el tramo que llega a este piso desde la planta baja (es la misma escalera de la M5 de la planta baja);"narices de los peldaños en la nube; promedio de las diferencias de altura";punto:3.2028 0.1272 -0.2235|punto:3.2028 0.1272 -0.2940;control;;;;;;;
+M6;Huella, de nariz a nariz: la escalera principal, en el tramo que llega a este piso desde la planta baja (es la misma escalera de la M5 de la planta baja);"narices de los peldaños en la nube; promedio de las distancias horizontales";punto:3.2028 0.1272 -0.2235|punto:3.0802 0.0795 -0.2235;control;;;;;;;

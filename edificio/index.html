@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Edificio 106 completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Mismo diseño que la galería del piloto: una columna de lectura y rejillas que se apilan en teléfono. Tema oscuro único, como el visor del 106. */
+  :root {
+    --fondo: #15130f; --panel: #211e19; --linea: #3a352c; --texto: #efe8da; --tenue: #aaa08d; --sol: #e0a33a; --cal: #f3ead8; --alerta: #e2735a;
+    --letra: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 64px; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 15px/1.55 var(--letra); }
+  main { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: grid; gap: 12px; }
+  .eyebrow { font: 500 12px/1.4 var(--mono); color: var(--sol); letter-spacing: .08em; text-transform: uppercase; }
+  h1 { font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; font-weight: 600; }
+  h2 { font-size: 22px; margin: 28px 0 0; text-wrap: balance; font-weight: 600; display: flex; gap: 10px; align-items: baseline; }
+  h2 .n { font: 500 13px var(--mono); color: var(--sol); }
+  h3 { font-size: 16px; margin: 12px 0 0; font-weight: 600; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  h3 .piso { font: 500 12px var(--mono); color: var(--sol); text-transform: uppercase; letter-spacing: .06em; }
+  p { color: var(--tenue); max-width: 68ch; margin: 0; }
+  p b, li b { color: var(--texto); font-weight: 500; }
+  ol, ul { color: var(--tenue); max-width: 68ch; margin: 0; padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  .aviso { border: 1px solid var(--linea); border-radius: 12px; padding: 12px 16px; background: var(--panel); color: var(--tenue); font-size: 14px; max-width: 68ch; }
+  .aviso.fuerte { border-color: var(--alerta); color: var(--texto); }
+  .menu { position: sticky; top: 0; z-index: 5; background: var(--fondo); border-bottom: 1px solid var(--linea); margin-inline: -16px; padding: 8px 16px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .menu a { flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--linea); color: var(--texto); text-decoration: none; font-size: 13px; }
+  .menu a:focus-visible, .boton:focus-visible, figure button:focus-visible, .selector button:focus-visible { outline: 2px solid var(--sol); outline-offset: 2px; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 8px; }
+  .boton { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; background: var(--sol); color: var(--fondo); text-decoration: none; font-weight: 600; font-size: 15px; }
+  .boton.sec { background: transparent; color: var(--texto); border: 1px solid var(--linea); }
+  .rej { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .rej.tres { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+  figure { margin: 0; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; overflow: hidden; min-width: 0; }
+  figure button { all: unset; display: block; width: 100%; cursor: zoom-in; }
+  figure img { display: block; width: 100%; height: auto; max-width: 100%; }
+  figcaption { padding: 8px 12px; font-size: 13px; color: var(--tenue); }
+  .ancho { grid-column: 1 / -1; }
+  .selector { display: flex; gap: 8px; flex-wrap: wrap; }
+  .selector button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--linea); background: transparent; color: var(--texto); font: 500 14px var(--letra); cursor: pointer; }
+  .selector button[aria-pressed=true] { background: var(--sol); color: var(--fondo); border-color: var(--sol); }
+  #glb { width: 100%; height: min(70vw, 460px); border-radius: 12px; border: 1px solid var(--linea); background: var(--cal); display: block; touch-action: none; }
+  .cifras { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+  .cifra { border: 1px solid var(--linea); border-radius: 12px; padding: 12px 14px; background: var(--panel); }
+  .cifra b { display: block; font: 500 22px var(--mono); color: var(--texto); font-variant-numeric: tabular-nums; }
+  .cifra span { font-size: 13px; color: var(--tenue); }
+  .tabla { overflow-x: auto; border: 1px solid var(--linea); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; color: var(--tenue); }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--linea); text-align: left; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  th { color: var(--texto); font-weight: 500; background: var(--panel); }
+  tr:last-child td { border-bottom: 0; }
+  .e7 td:nth-child(2) { white-space: normal; min-width: 220px; }
+  .envuelve td, .envuelve th { white-space: normal; min-width: 110px; }
+  .baja { color: var(--alerta); font-weight: 500; }
+  .punto { display: grid; grid-template-columns: 32px 1fr; gap: 8px; max-width: 76ch; }
+  .punto .num { font: 500 15px var(--mono); color: var(--fondo); background: var(--sol); border-radius: 8px; height: 28px; display: grid; place-items: center; }
+  .punto p { color: var(--tenue); }
+  .pend .num { background: transparent; color: var(--sol); border: 1px dashed var(--sol); }
+  dialog { padding: 0; border: 0; background: transparent; max-width: 96vw; }
+  dialog img { max-width: 96vw; max-height: 90vh; display: block; }
+  dialog::backdrop { background: rgba(0, 0, 0, .85); }
+  @media (prefers-reduced-motion: no-preference) { .boton { transition: filter .15s; } .boton:hover { filter: brightness(1.08); } }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="eyebrow">Edificio 106 · Isthmus · edificio completo · grabado el 15 oct 2026 · versión del 16 oct</div>
+  <h1>Lo que salió de los videos de los tres pisos</h1>
+  <p>Los videos de celular que grabó Raúl en la planta baja, el segundo y el tercer piso, cada piso por separado: splats, nube de puntos, malla, planta y cortes, modelo paramétrico, recorridos navegables y la planta para medir con flexómetro. Todo está en <b>unidades de reconstrucción (u)</b> y cada piso tiene las suyas: no hay medidas en sitio todavía, así que nada está en metros y no se puede comparar una cifra de un piso con la de otro. Toca una imagen para verla grande.</p>
+  <p>Esta versión usa la <b>nube limpia</b> de cada piso (sin las copias fantasma ni los pedazos mal ubicados que tenía la primera) y los <b>splats nuevos</b>, entrenados otra vez con las caras difuminadas. La versión anterior de esta página se guardó aparte.</p>
+  <div class="aviso fuerte">Uso interno. En algunos cuadros quedaron personas: no publicar ni reenviar. En las imágenes de esta página y en los splats de los recorridos las caras están difuminadas.</div>
+  <div class="aviso">El tercer piso salió partido: COLMAP armó 10 modelos, solo ubicó el 66 % de los cuadros y una franja de la planta quedó girada respecto del resto. En esta versión de ese piso se usa <b>solo la parte fiable</b> (el 29 % de la nube) y la franja se quitó. Sirve para ver y para ensayar, todavía no para medir. La orientación al norte no se conoce en ningún piso.</div>
+
+  <nav class="menu" aria-label="Secciones">
+    <a href="#recorrido">1 Recorridos</a><a href="#nube">2 Nube y malla</a><a href="#planta">3 Planta</a><a href="#lamina">4 Lámina y medidas</a><a href="#parametrico">5 Paramétrico</a><a href="#medicion">6 Flexómetro</a><a href="#aprendido">7 Lo aprendido</a><a href="#falta">8 Qué falta</a><a href="#ideas">9 Ideas</a><a href="guia-fotos.html">Guía de fotos</a>
+  </nav>
+
+  <div class="cifras">
+    <div class="cifra"><b>2.694 / 4.439</b><span>cuadros que entran en los splats finales (A 875, B 1.084, C 735); COLMAP había ubicado 3.595 y la limpieza quitó los mal puestos</span></div>
+    <div class="cifra"><b>11.016.647</b><span>puntos en las tres nubes limpias (A 4.483.073, B 4.027.400, C 2.506.174), de 19.359.531 en las densas</span></div>
+    <div class="cifra"><b>29,2 · 28,8 · 30,6 dB</b><span>PSNR mediana de los splats finales en A, B y C sobre cuadros apartados; la de C se mide sobre otro conjunto de cuadros y no se compara con la anterior</span></div>
+    <div class="cifra"><b>36 % · 53 %</b><span>de las superficies vistas del modelo paramétrico son supuestas (A y B; en C no se corrió)</span></div>
+  </div>
+
+  <h2 id="recorrido"><span class="n">1</span>Los recorridos navegables</h2>
+  <p>Cada piso es un splat nivelado con su piso real. Toca los discos del piso para moverte, arrastra para mirar y abre «Mapa» para ver la planta. Muros invisibles impiden tocar a través de las paredes. Cargan la versión liviana, de 10,9 a 11,1 MB cada uno (en MB de 1.048.576 bytes, como los cuenta el visor). Los 20 puntos de cada piso se llaman «Punto 1» a «Punto 20» hasta que alguien les ponga nombre.</p>
+  <p>Se corrigió el campo de visión del visor. Antes cada piso usaba uno solo, el de una de sus cámaras, y en un mismo piso hay clips grabados con el teléfono en horizontal y en vertical, y alguno con el lente normal en vez del gran angular. Ahora cada punto usa el de su propio clip y el cambio se hace suave al pasar de un punto a otro. En la planta baja se nota al empezar: la Toma1, en horizontal, ya no se ve estirada.</p>
+  <div class="acciones">
+    <a class="boton" href="A/05-recorrido/index.html">Planta baja</a>
+    <a class="boton" href="B/05-recorrido/index.html">Segundo piso</a>
+    <a class="boton" href="C/05-recorrido/index.html">Tercer piso</a>
+  </div>
+  <div class="rej tres">
+    <figure><button type="button"><img loading="lazy" src="A/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido de la planta baja en el pasillo del mural Colombia"></button><figcaption>Planta baja, punto 11: pasillo del mural «Colombia»</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido del segundo piso en la sala de descanso"></button><figcaption>Segundo piso, punto 11: sala de descanso del muro de colores</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido del tercer piso junto al tablero de corcho"></button><figcaption>Tercer piso, punto 11: tablero de corcho y la canoa colgada del techo</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa de la planta baja"></button><figcaption>Planta baja con el minimapa abierto, sin escala</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa del segundo piso"></button><figcaption>Segundo piso con el minimapa, ya sin las copias de la escalera y del salón</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa del tercer piso"></button><figcaption>Tercer piso, solo la parte fiable: las rectas largas del mapa unen dos cuadros entre los que se quitó un pedazo del video, no son caminos</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/05-recorrido/capturas/telefono_nodo10.jpg" alt="Recorrido de la planta baja en teléfono"></button><figcaption>En pantalla de teléfono (emulada; falta probar en uno real)</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/telefono_nodo10.jpg" alt="Recorrido del segundo piso en teléfono"></button><figcaption>Segundo piso en teléfono</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/telefono_nodo10.jpg" alt="Recorrido del tercer piso en teléfono"></button><figcaption>Tercer piso en teléfono</figcaption></figure>
+  </div>
+
+  <h2 id="nube"><span class="n">2</span>La nube y la malla contra las fotos</h2>
+  <p>Arriba tres cuadros reales de cada piso; abajo, la nube densa o la malla con textura dibujadas desde la misma pose. En cada piso, el tercer cuadro es uno donde falla. Donde la nube no tiene puntos se ve lo que está detrás, como pasa con las paredes blancas y los vidrios; la malla tapa esos huecos con superficies inventadas, por eso no sirve para medir. Estas hojas son de la nube densa original, antes de la limpieza: en las vistas desde una cámara bien ubicada la limpieza cambia poco, aunque también quitó flotantes, reflejos bajo el piso y un tramo de pasillo doble cerca del primer cuadro de la planta baja.</p>
+  <h3><span class="piso">A</span>Planta baja</h3>
+  <div class="rej">
+    <figure><button type="button"><img loading="lazy" src="A/hojas/nube_densa.jpg" alt="Planta baja: fotos y nube densa"></button><figcaption>Sala de espera, pasillo del mural «Montevideo» y la pared blanca del tablero de corcho, donde la nube cubre solo el 26 % del cuadro</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/hojas/malla.jpg" alt="Planta baja: fotos y malla"></button><figcaption>La malla en los mismos tres cuadros</figcaption></figure>
+  </div>
+  <h3><span class="piso">B</span>Segundo piso</h3>
+  <div class="rej">
+    <figure><button type="button"><img loading="lazy" src="B/hojas/nube_densa.jpg" alt="Segundo piso: fotos y nube densa"></button><figcaption>Puerta del mural de flores, salón de mesas verdes y el pasillo con vitrina y ventanas, donde la nube cubre el 23 %</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/hojas/malla.jpg" alt="Segundo piso: fotos y malla"></button><figcaption>La malla en los mismos tres cuadros</figcaption></figure>
+  </div>
+  <h3><span class="piso">C</span>Tercer piso</h3>
+  <div class="rej">
+    <figure><button type="button"><img loading="lazy" src="C/hojas/nube_densa.jpg" alt="Tercer piso: fotos y nube densa"></button><figcaption>Pasillo del mural de curvas, sala del ajedrez y los cubículos de tabique naranja, donde la nube cubre el 13 %</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/hojas/malla.jpg" alt="Tercer piso: fotos y malla"></button><figcaption>La malla en los mismos tres cuadros</figcaption></figure>
+  </div>
+
+  <h2 id="planta"><span class="n">3</span>La planta nivelada y la cobertura</h2>
+  <p>Vista desde arriba y orientada con el piso y los muros reales de cada piso, ahora con la nube limpia. En la planta, los colores son los muros detectados y el verde la ruta de la cámara. El mapa de cobertura cuenta puntos por celda de 0,05 u, desde el piso hasta el cielo raso: una celda vacía es un lugar donde no se reconstruyó nada, ni piso ni muro ni mueble. Puede ser fuera del edificio, un rincón que no se filmó, o una superficie que la reconstrucción no saca, como el vidrio, la pared lisa o lo oscuro.</p>
+  <div class="aviso"><b>Los anillos naranjas.</b> COLMAP arma el modelo uniendo cada cuadro del video con los que tiene cerca. Entre los cinco cuadros de antes y los cinco de después de un punto hay 25 parejas posibles; donde se pudieron unir tres o menos, el modelo queda pegado con muy poco y puede haberse doblado o corrido un poco sin que se note. A eso le llamamos corte débil, y pasa sobre todo en los giros rápidos. En las láminas, cada anillo naranja es una cámara que está a tres cuadros o menos de uno de esos cortes: lo que está cerca de un anillo merece menos confianza. Hay 24 cortes débiles en A, 40 en B y 100 en C.</div>
+  <h3><span class="piso">A</span>Planta baja</h3>
+  <div class="rej">
+    <figure><button type="button"><img loading="lazy" src="A/01-marco/planta_rapida.png" alt="Planta nivelada de la planta baja"></button><figcaption>37 planos detectados (antes 43); media planta baja estaba 0,27 u más abajo que la otra mitad y se subió a su lugar</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/03-laminas/E5_cobertura.png" alt="Cobertura de la planta baja"></button><figcaption>72,1 % de las celdas sin puntos (antes 79,2 %)</figcaption></figure>
+  </div>
+  <h3><span class="piso">B</span>Segundo piso</h3>
+  <div class="rej">
+    <figure><button type="button"><img loading="lazy" src="B/01-marco/planta_rapida.png" alt="Planta nivelada del segundo piso"></button><figcaption>36 planos detectados (antes 61); sin la escalera copiada un piso arriba ni el salón repetido</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/03-laminas/E5_cobertura.png" alt="Cobertura del segundo piso"></button><figcaption>67,0 % de las celdas sin puntos (antes 74,1 %)</figcaption></figure>
+  </div>
+  <h3><span class="piso">C</span>Tercer piso, solo la parte fiable</h3>
+  <div class="rej">
+    <figure><button type="button"><img loading="lazy" src="C/01-marco/planta_rapida.png" alt="Planta nivelada del tercer piso"></button><figcaption>37 planos detectados (antes 102); el marco se corrigió 8,41 grados de giro para que los muros queden en los ejes</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/03-laminas/E5_cobertura.png" alt="Cobertura del tercer piso"></button><figcaption>48,0 % de las celdas sin puntos, con el aviso de que es solo la parte fiable</figcaption></figure>
+  </div>
+
+  <h2 id="lamina"><span class="n">4</span>Láminas A3 y plantilla de medidas</h2>
+  <p>Como en el piloto: dato (puntos grises) y ajuste (líneas naranjas) separados, línea discontinua donde falta información y sin cotas, porque la escala es desconocida. Un corte por el recorrido y otro por la escalera. Una escalera se da por fiable si le falta como mucho una huella en todo el tramo (un hueco del doble de la contrahuella es una huella que falta; uno de cuatro veces son tres), si sus alturas casan bien con una contrahuella fija y si casi todas sus huellas tienen puntos suficientes. Si no, se dibuja en morado discontinuo, se rotula como dudosa y no pasa al modelo paramétrico.</p>
+  <h3><span class="piso">A</span>Planta baja <a class="boton sec" href="A/03-laminas/E6_lamina_A3.pdf">PDF vectorial</a></h3>
+  <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="A/03-laminas/E6_lamina_A3_vista.png" alt="Lámina A3 de la planta baja"></button><figcaption>Corte B por la escalera principal: 9 huellas, dudosa: entre ellas hay cuatro huecos donde faltan 6 huellas en total (en uno faltan 3), y tres huellas tienen muy pocos puntos</figcaption></figure></div>
+  <h3><span class="piso">B</span>Segundo piso <a class="boton sec" href="B/03-laminas/E6_lamina_A3.pdf">PDF vectorial</a></h3>
+  <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="B/03-laminas/E6_lamina_A3_vista.png" alt="Lámina A3 del segundo piso"></button><figcaption>Corte B por la escalera: 19 huellas con puntos bajando hacia la planta baja y un hueco de una sola huella, unas 20 en total: fiable; el tramo que sube, 9 huellas, dudoso. Con su propia contrahuella, que también es dudosa, le faltarían unas 10 huellas en 2 huecos, pero esa cifra depende de esa contrahuella y no es firme. En gris claro, la escalera de otro nivel</figcaption></figure></div>
+  <h3><span class="piso">C</span>Tercer piso <a class="boton sec" href="C/03-laminas/E6_lamina_A3.pdf">PDF vectorial</a></h3>
+  <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="C/03-laminas/E6_lamina_A3_vista.png" alt="Lámina A3 del tercer piso"></button><figcaption>Solo la parte fiable, con la zona quitada rayada para ubicarla; la escalera que baja tiene 17 huellas con puntos y un hueco donde faltan 3, unas 20 en total. Con la regla de arriba es <b>dudosa</b>: la lámina la dibuja en morado discontinuo y no pasa al modelo paramétrico</figcaption></figure></div>
+
+  <h3>Plantilla de medidas E7</h3>
+  <p>Son las distancias entre planos de la nube limpia que alguien podría medir en sitio con distanciómetro o cinta: pares de muros paralelos que se enfrentan, y del piso al cielo raso. Cada una lleva su valor en u y una incertidumbre, que sale de qué tan planos son en la nube los dos planos que la definen. La marca de <span class="baja">menor confianza</span> quiere decir que más de un 30 % de los puntos de uno de sus planos está cerca de un corte débil. Las de escala sirven para fijar la escala del piso; las de control, para comprobarla. La regla no comprueba que entre los dos planos no haya otro muro: M09 del tercer piso cruza muros, y en otras quedan planos de la misma familia entre los dos muros: están marcadas por revisar, que no quiere decir que no se puedan medir.</p>
+  <h3><span class="piso">A</span>Planta baja <a class="boton sec" href="A/03-laminas/E7_plantilla.csv">CSV</a></h3>
+  <div class="tabla e7"><table><thead><tr><th>Medida</th><th>Qué se mide</th><th>Uso</th><th>Valor (u)</th><th>Incertidumbre</th><th>Confianza</th></tr></thead><tbody><tr><td>M01</td><td>ancho entre muros largos (cara pintada a cara pintada)</td><td>escala</td><td>0,5741 ± 0,0098</td><td>1,7 %</td><td><span class="baja">menor confianza</span><br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M02</td><td>piso a cielo raso</td><td>escala</td><td>0,8081 ± 0,0105</td><td>1,3 %</td><td><span class="baja">menor confianza</span></td></tr><tr><td>M03</td><td>entre muros paralelos familia B (planos 8 y 11)</td><td>control</td><td>0,5839 ± 0,0098</td><td>1,7 %</td><td><span class="baja">menor confianza</span></td></tr><tr><td>M04</td><td>entre muros paralelos familia B (planos 2 y 21)</td><td>control</td><td>0,4318 ± 0,0106</td><td>2,5 %</td><td><span class="baja">menor confianza</span></td></tr><tr><td>M05</td><td>entre muros paralelos familia A (planos 1 y 4)</td><td>control</td><td>0,4583 ± 0,0063</td><td>1,4 %</td><td>normal</td></tr><tr><td>M06</td><td>entre muros paralelos familia B (planos 10 y 11)</td><td>control</td><td>7,4082 ± 0,0094</td><td>0,1 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M07</td><td>entre muros paralelos familia B (planos 28 y 22)</td><td>control</td><td>2,4734 ± 0,0096</td><td>0,4 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr></tbody></table></div>
+  <p>De la plantilla anterior, la altura de piso a cielo raso cambia de 0,5209 a 0,8081 u: el cielo raso de antes era falso, salía del ala que estaba bajada.</p>
+  <h3><span class="piso">B</span>Segundo piso <a class="boton sec" href="B/03-laminas/E7_plantilla.csv">CSV</a></h3>
+  <div class="tabla e7"><table><thead><tr><th>Medida</th><th>Qué se mide</th><th>Uso</th><th>Valor (u)</th><th>Incertidumbre</th><th>Confianza</th></tr></thead><tbody><tr><td>M01</td><td>ancho entre muros largos (cara pintada a cara pintada)</td><td>escala</td><td>2,9946 ± 0,0089</td><td>0,3 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M02</td><td>piso a cielo raso</td><td>escala</td><td>1,0677 ± 0,0109</td><td>1,0 %</td><td>normal</td></tr><tr><td>M03</td><td>piso a cielo raso (otra altura, z 1,371 u)</td><td>control</td><td>1,3753 ± 0,0112</td><td>0,8 %</td><td>normal</td></tr><tr><td>M04</td><td>entre muros paralelos familia A (planos 21 y 26)</td><td>control</td><td>3,7982 ± 0,0152</td><td>0,4 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M05</td><td>entre muros paralelos familia B (planos 5 y 3)</td><td>control</td><td>4,9465 ± 0,0116</td><td>0,2 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M06</td><td>entre muros paralelos familia B (planos 5 y 4)</td><td>control</td><td>2,5381 ± 0,0113</td><td>0,4 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M07</td><td>entre muros paralelos familia B (planos 17 y 3)</td><td>control</td><td>2,5484 ± 0,0118</td><td>0,5 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M08</td><td>entre muros paralelos familia B (planos 5 y 20)</td><td>control</td><td>5,0631 ± 0,0127</td><td>0,2 %</td><td><span class="baja">menor confianza</span><br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr></tbody></table></div>
+  <p>El segundo piso tiene dos alturas de cielo raso reales, por eso M02 y M03.</p>
+  <h3><span class="piso">C</span>Tercer piso <a class="boton sec" href="C/03-laminas/E7_plantilla.csv">CSV</a></h3>
+  <div class="tabla e7"><table><thead><tr><th>Medida</th><th>Qué se mide</th><th>Uso</th><th>Valor (u)</th><th>Incertidumbre</th><th>Confianza</th></tr></thead><tbody><tr><td>M01</td><td>ancho entre muros largos (cara pintada a cara pintada)</td><td>escala</td><td>1,5656 ± 0,0096</td><td>0,6 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M02</td><td>piso a cielo raso</td><td>escala</td><td>1,2685 ± 0,0101</td><td>0,8 %</td><td>normal</td></tr><tr><td>M03</td><td>piso a cielo raso (otra altura, z 1,126 u)</td><td>control</td><td>1,1260 ± 0,0108</td><td>1,0 %</td><td>normal</td></tr><tr><td>M04</td><td>piso a cielo raso (otra altura, z 1,000 u)</td><td>control</td><td>1,0004 ± 0,0104</td><td>1,0 %</td><td>normal</td></tr><tr><td>M05</td><td>piso a cielo raso (otra altura, z 0,689 u)</td><td>control</td><td>0,6893 ± 0,0086</td><td>1,2 %</td><td><span class="baja">menor confianza</span><br><span class="baja">el plano 12 está inclinado 2,86 grados respecto del piso</span></td></tr><tr><td>M06</td><td>entre muros paralelos familia B (planos 19 y 14)</td><td>control</td><td>0,9182 ± 0,0148</td><td>1,6 %</td><td>normal</td></tr><tr><td>M07</td><td>entre muros paralelos familia B (planos 17 y 24)</td><td>control</td><td>2,0442 ± 0,0115</td><td>0,6 %</td><td><span class="baja">menor confianza</span><br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M08</td><td>entre muros paralelos familia B (planos 5 y 24)</td><td>control</td><td>3,1648 ± 0,0131</td><td>0,4 %</td><td>normal<br><span class="baja">por revisar (hay planos de la misma familia entre los dos muros)</span></td></tr><tr><td>M09</td><td>entre muros paralelos familia B (planos 19 y 22)</td><td>control</td><td>5,5057 ± 0,0112</td><td>0,2 %</td><td>normal<br><span class="baja">cruza muros: entre los dos planos están los planos 14, 17, 24, 29 y 32; no se mide de punta a punta</span></td></tr><tr><td>M10</td><td>entre muros paralelos familia A (planos 2 y 18)</td><td>control</td><td>0,6030 ± 0,0104</td><td>1,7 %</td><td><span class="baja">menor confianza</span></td></tr></tbody></table></div>
+  <p>Ninguna de las siete medidas de la plantilla anterior de C sigue valiendo: usaban planos de la franja quitada, planos que no eran paralelos o planos por debajo del piso. El techo de la parte fiable tiene cuatro alturas distintas, de ahí M02 a M05.</p>
+
+  <h2 id="parametrico"><span class="n">5</span>El volumen paramétrico</h2>
+  <p>Generado en Blender a partir de parámetros sacados de la nube limpia de cada piso. Color liso es medido; rayado es supuesto. Arrastra para girar y usa la rueda o dos dedos para acercar. Ahora admite varias alturas de cielo raso: cada muro sube hasta el cielo raso de su zona. La escalera solo entra si es fiable, por eso en la planta baja no está.</p>
+  <div class="aviso">Segunda pasada. En la revisión de las fotos se vio que las <b>puertas de vidrio del vestíbulo de la planta baja</b> y la <b>ventana con lámina de colores del segundo piso</b> salían como muro medido. Ahora el modelo las pone en supuestos por esa revisión visual; falta confirmarlo en sitio.</div>
+  <div class="selector" role="group" aria-label="Piso del modelo">
+    <button type="button" data-glb="A/04-parametrico/modelo.glb" aria-pressed="true">Planta baja</button>
+    <button type="button" data-glb="B/04-parametrico/modelo.glb" aria-pressed="false">Segundo piso</button>
+  </div>
+  <canvas id="glb" aria-label="Modelo paramétrico en 3D, arrastra para girar"></canvas>
+  <p id="glbEstado">Cargando el modelo: planta baja…</p>
+  <div class="tabla"><table>
+    <thead><tr><th></th><th>Planta baja</th><th>Segundo piso</th></tr></thead>
+    <tbody>
+      <tr><td>Zonas de cielo raso</td><td>0,788 y 0,819 u</td><td>1,065 y 1,370 u</td></tr>
+      <tr><td>Tramos de muro</td><td>30 (antes 31)</td><td>37 (antes 44)</td></tr>
+      <tr><td>Posibles vidrios</td><td>5 (antes 2)</td><td>6 (antes 9)</td></tr>
+      <tr><td>Huellas de escalera</td><td>0 (la escalera es dudosa)</td><td>19 (antes 27)</td></tr>
+      <tr><td>Vidrio enviado a supuestos por revisión visual</td><td>puertas del vestíbulo</td><td>ventana con lámina de colores</td></tr>
+      <tr><td>Superficie vista supuesta</td><td>36,4 % (antes 34,2 %)</td><td>53,2 % (antes 59,3 %)</td></tr>
+      <tr><td>Puntos de muro a menos del umbral</td><td>82,6 % (antes 65,0 %)</td><td>87,6 % (antes 72,6 %)</td></tr>
+    </tbody>
+  </table></div>
+  <h3><span class="piso">A</span>Planta baja: el modelo sobre las fotos</h3>
+  <div class="rej tres">
+    <figure><button type="button"><img loading="lazy" src="A/04-parametrico/superpuestos/a_0103.jpg" alt="Superposición en el pasillo del mural tras vidrio"></button><figcaption>El mural detrás del vidrio ya sale supuesto; el muro de los cuadros, medido, coincide. 32 % medido, 55 % supuesto</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/04-parametrico/superpuestos/b_0101.jpg" alt="Superposición frente a las puertas de vidrio del vestíbulo"></button><figcaption>Puertas de vidrio del vestíbulo: ahora son superficie supuesta (rayada), enviada a supuestos por revisión visual y a confirmar en sitio. Todo el cuadro es supuesto</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/04-parametrico/superpuestos/b_0216.jpg" alt="Superposición en el pasillo de la escalera"></button><figcaption>Muros y piso del pasillo coinciden; la escalera ya no está porque es dudosa. 34 % medido</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/04-parametrico/superpuestos/b_0310.jpg" alt="Superposición en el cuarto de bicicletas"></button><figcaption>Cuarto de las bicicletas: el cielo raso ya no atraviesa el muro y el muro del fondo sale medido en su sitio</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="A/04-parametrico/superpuestos/b_0444.jpg" alt="Superposición con el machón"></button><figcaption>El machón que faltaba ya está, medido. 85 % del cuadro medido</figcaption></figure>
+  </div>
+  <h3><span class="piso">B</span>Segundo piso: el modelo sobre las fotos</h3>
+  <div class="rej tres">
+    <figure><button type="button"><img loading="lazy" src="B/04-parametrico/superpuestos/a_0234.jpg" alt="Superposición en un cuarto con puerta"></button><figcaption>Cuarto, puerta y piso coinciden. 67 % medido</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/04-parametrico/superpuestos/a_0411.jpg" alt="Superposición en la caja de escalera"></button><figcaption>Caja de escalera: el muro gris coincide, pero hay una pieza medida sobre la ventana de la escalera que habría que revisar como vidrio</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/04-parametrico/superpuestos/b_0150.jpg" alt="Superposición en el escaparate de vidrio"></button><figcaption>El escaparate de vidrio queda como supuesto; solo el 8 % del cuadro es medido</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/04-parametrico/superpuestos/b_0359.jpg" alt="Superposición frente a la ventana con lámina de color"></button><figcaption>La ventana con lámina de colores ya es supuesta (rayada) por revisión visual, a confirmar en sitio. 51 % medido</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/04-parametrico/superpuestos/b_0566.jpg" alt="Superposición frente a la ventana y la bicicleta"></button><figcaption>La misma ventana, ahora supuesta; el cuadro pasa de 61 a 22 % medido. Sobre la bicicleta hay un parche supuesto porque la bicicleta tapa la pared</figcaption></figure>
+  </div>
+  <h3><span class="piso">C</span>Tercer piso: no se corrió</h3>
+  <div class="aviso">En la parte fiable del tercer piso salen 22 tramos de muro, pero el techo tiene cuatro alturas (0,69; 1,00; 1,13 y 1,27 u) y ninguna junta más del 22 % de los puntos. Además 18 de los 22 muros no llegan a su techo. El modelo saldría casi todo supuesto y a una altura equivocada, así que no se corrió. Se vuelve a intentar cuando lleguen las tomas nuevas.</div>
+
+  <h2 id="medicion"><span class="n">6</span>Planta de medición con flexómetro</h2>
+  <p>Las medidas con láser probablemente no se van a conseguir, así que esta versión es para <b>cinta métrica de mano</b>. Por piso, <b>6 medidas cortas</b> en dos lugares: el alto y el ancho libres de una puerta (escala), dos baldosas seguidas en cada sentido delante de esa puerta, y el alto de un peldaño y el fondo de una huella en la escalera (control). Mide cada una dos veces y anota las dos. Cada medida tiene su ficha con una foto real del video que muestra dónde poner la cinta. Imprime la planta y las fichas, o ábrelas en el celular en sitio. Las tres plantas se rehicieron en el marco nuevo, sobre la nube limpia.</p>
+  <h3><span class="piso">A</span>Planta baja: puerta «SALIDA» del fondo del pasillo y escalera principal</h3>
+  <p>Las medidas de la planta baja son las mismas de antes. Solo cambió dónde quedan en el plano, porque esa parte del piso se corrigió en la limpieza. La escalera del modelo salió dudosa, así que M5 y M6 mídelas igual, pero no se van a comparar con la escalera del modelo hasta una segunda pasada.</p>
+  <div class="acciones">
+    <a class="boton" href="A/06-medicion/planta_medicion.pdf">Planta (PDF)</a>
+    <a class="boton sec" href="A/06-medicion/fichas_medicion.pdf">Fichas con foto (PDF)</a>
+    <a class="boton sec" href="A/06-medicion/medidas_A.csv">Tabla para anotar (CSV)</a>
+  </div>
+  <h3><span class="piso">B</span>Segundo piso: puerta del mural de flores y escalera principal</h3>
+  <p>En el segundo piso no cambia ninguna medida. La planta de fondo ahora usa la nube limpia, sin las copias repetidas de la escalera y del salón.</p>
+  <div class="acciones">
+    <a class="boton" href="B/06-medicion/planta_medicion.pdf">Planta (PDF)</a>
+    <a class="boton sec" href="B/06-medicion/fichas_medicion.pdf">Fichas con foto (PDF)</a>
+    <a class="boton sec" href="B/06-medicion/medidas_B.csv">Tabla para anotar (CSV)</a>
+  </div>
+  <h3><span class="piso">C</span>Tercer piso: puerta de aluminio al llegar por la escalera</h3>
+  <p>En el tercer piso el plano de la puerta se rehizo con la orientación nueva, girada 8,41 grados respecto de la anterior. Con eso el ancho queda en 0,3284 u y el alto en 0,8368 u. La orientación real de la puerta se puede acotar con lo grabado: el dintel en el cuadro b_0956 y la nube sobre él la ponen entre 0 y +5 grados del eje nuevo. En ese rango el alto queda entre 0,837 y 0,847 u y el ancho no cambia. Las baldosas ahora salen casi cuadradas, unos 0,114 u por lado (antes 0,102 por 0,124), pero el cálculo es débil, así que úsalas solo como control.</p>
+  <div class="acciones">
+    <a class="boton" href="C/06-medicion/planta_medicion.pdf">Planta (PDF)</a>
+    <a class="boton sec" href="C/06-medicion/fichas_medicion.pdf">Fichas con foto (PDF)</a>
+    <a class="boton sec" href="C/06-medicion/medidas_C.csv">Tabla para anotar (CSV)</a>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>Medida (u)</th><th>A antes</th><th>A ahora</th><th>B</th><th>C antes</th><th>C ahora</th></tr></thead>
+    <tbody>
+      <tr><td>M1 alto de la puerta</td><td>0,7382</td><td>0,7382</td><td>0,8847</td><td>0,8525</td><td>0,8368</td></tr>
+      <tr><td>M2 ancho de la puerta</td><td>0,5544</td><td>0,5544</td><td>0,3724</td><td>0,3280</td><td>0,3284</td></tr>
+      <tr><td>M3 dos baldosas</td><td>0,2895</td><td>0,2900</td><td>0,2431</td><td>0,2032</td><td>0,2298</td></tr>
+      <tr><td>M4 dos baldosas, otro sentido</td><td>0,2089</td><td>0,2076</td><td>0,2483</td><td>0,2473</td><td>0,2283</td></tr>
+      <tr><td>M5 contrahuella</td><td>0,0605</td><td>0,0601 (escalera dudosa)</td><td>0,0704</td><td>0,0596</td><td>0,0594 (escalera dudosa)</td></tr>
+      <tr><td>M6 huella</td><td>0,1203</td><td>0,1204 (escalera dudosa)</td><td>0,1316</td><td>0,1022</td><td>0,1023 (escalera dudosa)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="rej tres">
+    <figure><button type="button"><img loading="lazy" src="A/06-medicion/planta_medicion.png" alt="Planta de medición de la planta baja"></button><figcaption>Planta baja: P es la puerta, E la escalera</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/06-medicion/planta_medicion.png" alt="Planta de medición del segundo piso"></button><figcaption>Segundo piso</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/06-medicion/planta_medicion.png" alt="Planta de medición del tercer piso"></button><figcaption>Tercer piso, solo la parte fiable</figcaption></figure>
+  </div>
+  <p>La escalera de las medidas M5 y M6 de la planta baja y del segundo piso es la misma, la principal. Medida una vez, sirve para los dos pisos y además da una medida común para unirlos.</p>
+  <h3>Si no llega ninguna medida: escala provisional</h3>
+  <p>Se puede usar como escala <b>provisional</b> una pieza estándar que se vea en el lugar, por ejemplo la retícula del cielo raso suspendido, si sus placas son de 61 cm, o la baldosa, si se conoce su formato. Cualquier cifra en metros que salga así se marca siempre como <b>«escala supuesta, sin verificar»</b>, porque una placa puede ser de 60 o de 61 cm y una baldosa puede venir en muchos formatos. Esta galería no aplica ninguna escala: todo sigue en u.</p>
+
+  <h2 id="aprendido"><span class="n">7</span>Lo que se aprendió esta noche</h2>
+  <p>Para entender por qué los pisos salieron partidos, se probó volver a armar el modelo de COLMAP quitando los pares de cuadros lejanos, que son los que a veces unen por error dos lugares que se parecen. Se probó en los tres pisos, y en el tercero también con una poda dirigida solo a los pares que tocaban la franja girada y los saltos. Ningún piso salió mejor, así que todo lo de esta página sigue usando el modelo de antes, ya limpio.</p>
+  <div class="tabla envuelve"><table>
+    <thead><tr><th>Piso</th><th>Modelo que se usa</th><th>Con pares podados</th></tr></thead>
+    <tbody>
+      <tr><td>Planta baja</td><td>3 pedazos, el mayor con 884 cámaras</td><td>17 pedazos, el mayor con 156</td></tr>
+      <tr><td>Segundo piso</td><td>4 pedazos, el mayor con 1.255</td><td>20 pedazos, el mayor con 111</td></tr>
+      <tr><td>Tercer piso</td><td>10 pedazos, el mayor con 1.456</td><td>35 pedazos, el mayor con 149</td></tr>
+      <tr><td>Tercer piso, poda dirigida</td><td>10 pedazos, el mayor con 1.456</td><td>16 pedazos, el mayor con 688, y el pasillo de arriba duplicado</td></tr>
+    </tbody>
+  </table></div>
+  <p>Al podar, los saltos sí desaparecen y el pasillo de la franja sale recto, pero la cadena de cuadros se corta en cada giro rápido y el piso queda en muchos pedazos. La razón es que en esos giros Raúl daba la vuelta sobre sí mismo sin caminar. Si la cámara no cambia de lugar, dos cuadros seguidos ven las cosas desde el mismo punto y no hay paralaje, que es el pequeño corrimiento entre lo cercano y lo lejano que el programa usa para saber a qué distancia está cada cosa. Agregar más cuadros en esos giros, hasta 15 por segundo, tampoco unió la cadena. Por eso se le pidió a Raúl regrabar: girar despacio y caminar unos pasos entre una vuelta y otra.</p>
+  <div class="rej tres">
+    <figure><button type="button"><img loading="lazy" src="aprendido/C_modelo_actual.png" alt="Planta de cámaras del tercer piso con el modelo actual"></button><figcaption>Tercer piso, modelo que se usa: las rectas rojas son saltos, cuadros seguidos que el modelo pone lejos uno del otro</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="aprendido/C_pares_podados.png" alt="Planta de cámaras del tercer piso con pares podados"></button><figcaption>Con pares podados: casi sin saltos, pero partido en muchos pedazos de colores</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="aprendido/C_poda_dirigida.png" alt="Planta de cámaras del tercer piso con poda dirigida"></button><figcaption>Poda dirigida: la franja ya no sale girada, pero el pasillo de arriba aparece dos veces</figcaption></figure>
+  </div>
+
+
+  <h2 id="falta"><span class="n">8</span>Qué falta: los puntos que Raúl debe regrabar</h2>
+  <p>La lista que se le envió a Raúl el 15 de octubre, con sus fotos numeradas. Las caras están difuminadas. Además del video, en estos puntos sirven fotos fijas: mira la <a href="guia-fotos.html" style="color: var(--sol)">guía de fotos</a>.</p>
+  <div class="acciones"><a class="boton" href="guia-fotos.html">Guía para tomar fotos</a></div>
+  <h3>Cómo grabar (para todos los puntos)</h3>
+  <ol>
+    <li>Teléfono en <b>horizontal</b>, no en vertical. Así cada cuadro abarca más de lo que hay a los lados y al girar se solapa más con el anterior, que es justo lo que falló. La Toma1, que grabaste en horizontal, fue la única toma larga que entró completa.</li>
+    <li>Lente gran angular (0,6x), y que no cambie solo de lente durante el clip. Según los datos, casi todo se grabó con el gran angular, pero el clip del tercer piso de las 11:28 y el clip corto del segundo salieron con el lente normal (1x), que ve mucho menos. Video en 1080p a 60 cuadros por segundo, igual que el 15 de octubre.</li>
+    <li>Velocidad al girar: una vuelta completa de 360 grados en 30 segundos. Una buena guía es contar despacio hasta 30 mientras das la vuelta. Si sientes que vas rápido, vas rápido.</li>
+    <li>Velocidad al caminar: la mitad de tu paso normal, más o menos un paso por segundo. Nunca camines y gires a la vez: primero caminas, te detienes, y después giras.</li>
+    <li>En las escaleras: un escalón por segundo, y en cada descanso te detienes 3 segundos y das una vuelta completa despacio.</li>
+    <li>Camina por el centro de pasillos y cuartos, nunca pegado al muro.</li>
+    <li>En cada vuelta, inclina un poco la cámara hacia el techo en una vuelta y hacia el piso en la siguiente, para que se vean el encuentro del muro con el techo y con el piso.</li>
+    <li>Sin gente en el cuadro. Si alguien pasa, detente y espera.</li>
+    <li>A una hora parecida a la de la primera visita, en la mañana, para que la luz se parezca.</li>
+    <li>Cada punto puede ser un clip aparte de 30 a 90 segundos. Al empezar cada clip, apunta unos segundos a algo que ya se vea en los videos del 15 de octubre (una puerta, un mural) para que podamos unirlo.</li>
+  </ol>
+  <h3><span class="piso">A</span>Planta baja</h3>
+  <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="falta/planta-baja.jpg" alt="Fotos numeradas 1 a 5 de la planta baja"></button><figcaption>Puntos 1 a 5</figcaption></figure></div>
+  <div class="punto"><span class="num">1</span><p><b>Vestíbulo de entrada y sala de espera</b> (sillas negras, tablero naranja). Entra despacio, párate en el centro de la sala y da dos vueltas completas. Luego ve a cada rincón y vuelve al centro. Graba también las puertas de vidrio desde adentro, de frente y en diagonal.</p></div>
+  <div class="punto"><span class="num">2</span><p><b>Biblioteca y salita de la silla verde.</b> En la puerta de la biblioteca entra dos o tres pasos, da una vuelta despacio y sal. Lo mismo en la salita y en cada puerta abierta de salón de ese pasillo: entrar dos pasos y volver, no pasar de largo.</p></div>
+  <div class="punto"><span class="num">3</span><p><b>Pasillo hacia la escalera</b> (mural de Colombia al fondo). Una pasada de ida por el centro, otra de regreso, y en la mitad del pasillo una vuelta completa.</p></div>
+  <div class="punto"><span class="num">4</span><p><b>Cuarto bajo la escalera</b> (piso naranja, bicicletas, sillas de oficina). Lo grabaste dos veces, en la Toma2 y en la Toma3, y las dos veces quedó vacío porque el giro fue muy rápido. Párate en el centro y da una vuelta completa en 30 segundos. Después otra mirando hacia el techo y la parte de abajo de la escalera.</p></div>
+  <div class="punto"><span class="num">5</span><p><b>Final del pasillo de alfombra, junto al pie de la escalera.</b> Una vuelta completa despacio.</p></div>
+  <h3><span class="piso">B</span>Segundo piso</h3>
+  <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="falta/segundo-piso.jpg" alt="Fotos numeradas 6 a 9 del segundo piso"></button><figcaption>Puntos 6 a 9</figcaption></figure></div>
+  <div class="punto"><span class="num">6</span><p><b>Pasillo de la puerta amarilla y los casilleros.</b> Ida y regreso por el centro, deteniéndote frente a la puerta amarilla y frente a la puerta roja del fondo para dar una vuelta.</p></div>
+  <div class="punto"><span class="num">7</span><p><b>Escaleras y descansos naranjas entre pisos.</b> Es el punto que peor quedó. Sube y baja una vez cada tramo, un escalón por segundo, y en cada descanso detente y da una vuelta completa.</p></div>
+  <div class="punto"><span class="num">8</span><p><b>Salón 207</b> (mesas blancas y persianas). Entra hasta el centro del salón, da una vuelta completa, ve a una esquina, otra vuelta, y sal.</p></div>
+  <div class="punto"><span class="num">9</span><p><b>Sala de descanso del muro de colores</b> (sofás azules y naranjas). Párate en el centro, una vuelta completa, y luego camina despacio a lo largo del muro de colores.</p></div>
+  <h3><span class="piso">C</span>Tercer piso</h3>
+  <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="falta/tercer-piso.jpg" alt="Fotos numeradas 10 a 13 del tercer piso"></button><figcaption>Puntos 10 a 13; en la 11 la persona del salón está difuminada</figcaption></figure></div>
+  <div class="punto"><span class="num">10</span><p><b>Zona de los cubículos blancos</b> (tabiques bajos, bancos de madera). Aquí el modelo se partió: los tabiques blancos son todos iguales y el programa no sabe cuál es cuál. Recorre los pasillos entre cubículos muy despacio, deteniéndote en cada cruce para una vuelta completa. Que en cada cuadro se vea algo distinto además del tabique (una ventana, una columna, el techo).</p></div>
+  <div class="punto"><span class="num">11</span><p><b>Salón 302.</b> La primera vez había gente adentro. Graba cuando esté vacío: entra al centro, una vuelta completa y sal.</p></div>
+  <div class="punto"><span class="num">12</span><p><b>Escalera naranja angosta.</b> Es oscura y estrecha, y se partió. Sube y baja un escalón por segundo. Si puedes, enciende la luz del pasillo antes.</p></div>
+  <div class="punto"><span class="num">13</span><p><b>Sala del ping-pong y del ajedrez gigante.</b> Quedó regular. Párate en el centro, una vuelta completa, y otra junto al tablero de ajedrez.</p></div>
+  <div class="punto pend"><span class="num">14</span><p><b>Punto 14, por confirmar.</b> Pasillo del mural de curvas verde y negro del tercer piso (clip de las 11:32, entre 0:40 y 1:30). De frente se ve bien, a los lados es mancha. Ida y regreso por el centro y una vuelta completa en la mitad.</p></div>
+  <div class="rej tres"><figure><button type="button"><img loading="lazy" src="falta/punto14.jpg" alt="Pasillo del mural de curvas del tercer piso"></button><figcaption>Punto 14: cuadro b_0215 del clip de las 11:32</figcaption></figure></div>
+  <p>Cuando tenga los clips, que los suba a la misma carpeta de Drive con el número del punto en el nombre del archivo (por ejemplo punto04.mp4). Antes de grabar, si se puede, las 6 medidas por piso de la sección 6.</p>
+
+  <h2 id="ideas"><span class="n">9</span>Qué se puede hacer con esto</h2>
+  <p>Un panel simulado de cuatro doctores en arquitectura (patrimonio, tecnología y ambiente, pedagogía, teoría e historia) y un crítico propuso usos para este material: ejercicios de taller, pasos técnicos como la escala y la unión de pisos, lo que se puede llevar al visor del 106, lecturas de historia y teoría, y el archivo. Están todas, con su estado, lo que piden y quién las propuso, y también las descartadas con su motivo. Desde esta noche están además las propuestas del investigador que revisó el estado del arte, con las que ya se probaron marcadas como tales.</p>
+  <div class="acciones"><a class="boton" href="ideas.html">Ver todas las ideas</a></div>
+</main>
+<dialog id="zoom" aria-label="Imagen ampliada"><img alt=""></dialog>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const zoom = document.getElementById('zoom');
+document.querySelectorAll('figure button').forEach(b => b.addEventListener('click', () => {
+  const i = b.querySelector('img'); zoom.querySelector('img').src = i.src; zoom.querySelector('img').alt = i.alt; zoom.showModal();
+}));
+zoom.addEventListener('click', () => zoom.close());
+const c = document.getElementById('glb'), estado = document.getElementById('glbEstado');
+const r = new THREE.WebGLRenderer({ canvas: c, antialias: true }); r.setPixelRatio(Math.min(devicePixelRatio, 2));
+const s = new THREE.Scene(); s.background = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--cal').trim());
+s.add(new THREE.HemisphereLight(0xffffff, 0x8a8070, 2.2));
+const d = new THREE.DirectionalLight(0xffffff, 1.4); d.position.set(5, 10, 8); s.add(d);
+const cam = new THREE.PerspectiveCamera(45, 1, 0.05, 500);
+const ctl = new OrbitControls(cam, c); ctl.enableDamping = true;
+function tam() { const w = c.clientWidth, h = c.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
+addEventListener('resize', tam); tam();
+let actual = null; const cache = {};
+async function cargar(url, nombre) {
+  estado.textContent = `Cargando el modelo: ${nombre}…`;
+  try {
+    const g = cache[url] || (cache[url] = (await new GLTFLoader().loadAsync(url)).scene);
+    if (actual) s.remove(actual); actual = g; s.add(g);
+    const b = new THREE.Box3().setFromObject(g), m = b.getCenter(new THREE.Vector3()), t = b.getSize(new THREE.Vector3()).length();
+    ctl.target.copy(m); cam.position.copy(m).add(new THREE.Vector3(0.45, 0.55, 0.7).multiplyScalar(t)); cam.near = t / 500; cam.far = t * 10; cam.updateProjectionMatrix();
+    estado.textContent = `Modelo: ${nombre}. Color liso medido, rayado supuesto.`;
+  } catch (e) { estado.textContent = 'No se pudo cargar el modelo 3D: ' + e.message; }
+}
+document.querySelectorAll('.selector button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.selector button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  cargar(b.dataset.glb, b.textContent.toLowerCase());
+}));
+cargar('A/04-parametrico/modelo.glb', 'planta baja');
+r.setAnimationLoop(() => { ctl.update(); r.render(s, cam); });
+</script>
+
+</body>
+</html>

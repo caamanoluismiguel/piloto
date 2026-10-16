@@ -1,0 +1,16 @@
+# Medidas con flexómetro del Edificio 106, planta baja, para escalar la nube (06-medicion).
+# Separador punto y coma. Escribe los metros con coma o con punto, como quieras (2,135 o 2.135). La cinta da centímetros: 213,5 cm son 2,135 m.
+# lectura_1_m y lectura_2_m: las dos lecturas de la cinta, en metros. valor_m: el promedio de las dos (lo usa escalar.py).
+# instrumento: flexómetro y su largo (por ejemplo, flexómetro de 5 m). quien: tu nombre. fecha: AAAA-MM-DD. foto: número de la foto de la cinta puesta.
+# No cambies las columnas id, planos, entre ni uso: dicen a qué puntos de la nube corresponde cada medida.
+# M5 y M6: en la nube son el promedio de varios peldaños; los extremos de la columna entre están en un peldaño representativo.
+# Coordenadas en el marco nuevo (versión con nube limpia, 16 oct 2026).
+# M5 y M6 de este piso: la escalera del modelo salió DUDOSA. Mídelas igual; no se comparan con el modelo hasta una segunda pasada.
+# Corre: python -I escalar.py medidas_A.csv (el escalar.py del piloto, en 03-laminas)
+id;que_se_mide;planos;entre;uso;lectura_1_m;lectura_2_m;valor_m;instrumento;quien;fecha;foto
+M1;"Alto libre de la puerta: la puerta doble de marco gris con el letrero verde «SALIDA» encima, al fondo del pasillo; da a un descanso de piso naranja con la escalera de emergencia";puntos cortados con el plano vertical del vano, apoyado en el piso de la malla;punto:3.3933 -9.7381 0.0909|punto:3.3933 -9.7381 0.8290;escala;;;;;;;
+M2;"Ancho libre de la puerta: la puerta doble de marco gris con el letrero verde «SALIDA» encima, al fondo del pasillo; da a un descanso de piso naranja con la escalera de emergencia";puntos cortados con el plano vertical del vano, distancia horizontal;punto:3.6498 -9.7157 0.5321|punto:3.0954 -9.7155 0.5217;escala;;;;;;;
+M3;Dos baldosas, de lado a lado: las baldosas blancas del pasillo, justo delante de esa puerta;"juntas de la ortofoto del piso; distancia = 2 veces el paso medido de las juntas";punto:3.2521 -9.5880 0.0861|punto:3.5421 -9.5880 0.0801;control;;;;;;;
+M4;Dos baldosas, hacia la puerta: las baldosas blancas del pasillo, justo delante de esa puerta;"juntas de la ortofoto del piso; distancia = 2 veces el paso medido de las juntas";punto:3.3600 -9.6991 0.0896|punto:3.3600 -9.4918 0.0789;control;;;;;;;
+M5;Alto de un peldaño: la escalera principal que sube al segundo piso (pasamanos blancos a los dos lados, mural al fondo arriba);"narices de los peldaños en la nube; promedio de las diferencias de altura";punto:4.2208 -4.6922 0.3365|punto:4.2208 -4.6922 0.2763;control;;;;;;;
+M6;Huella, de nariz a nariz: la escalera principal que sube al segundo piso (pasamanos blancos a los dos lados, mural al fondo arriba);"narices de los peldaños en la nube; promedio de las distancias horizontales";punto:4.2208 -4.6922 0.3365|punto:4.1008 -4.6825 0.3365;control;;;;;;;
