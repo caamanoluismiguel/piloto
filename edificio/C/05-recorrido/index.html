@@ -28,10 +28,10 @@
 </style>
 </head>
 <body>
-<div id="info"><b>Tercer piso · solo la parte fiable · captura del 15 oct 2026</b> · <span id="estado">cargando…</span></div>
-<div id="mapa" hidden role="region" aria-label="Planta de la nube">
+<div id="info"><b>Tercer piso · clip de las 11:28 + clips 10 y 13 · grabado el 15 y el 16 oct 2026</b> · <span id="estado">cargando…</span></div>
+<div id="mapa" hidden role="region" aria-label="Planta del splat">
   <svg id="planta" role="group" aria-label="Planta con la ruta y los puntos del recorrido"></svg>
-  <p>Planta de la nube de puntos · escala desconocida</p>
+  <p>Planta del splat · escala desconocida · las rectas largas unen dos clips, no son caminos</p>
 </div>
 <div id="barra" role="group" aria-label="Recorrido">
   <button id="atras" aria-label="Punto anterior">&#9664;</button>
@@ -97,7 +97,8 @@ scene.add(splat);
 
 // Muros invisibles: cajas finas donde los muros de planos.json tienen puntos. Solo para el raycast y para ocultar discos.
 const geos = muros.map(m => new THREE.BoxGeometry(...m.t).translate(...m.c));
-const muroMesh = new THREE.Mesh(mergeGeometries(geos), new THREE.MeshBasicMaterial({ visible: depurar, color:0xff5a3c, wireframe:true, depthTest:false, transparent:true, opacity:.35 }));
+const muroGeo = geos.length ? mergeGeometries(geos) : new THREE.BufferGeometry();   // sin muros: mergeGeometries([]) de three r186 falla en geometries[0]
+const muroMesh = new THREE.Mesh(muroGeo, new THREE.MeshBasicMaterial({ visible: depurar, color:0xff5a3c, wireframe:true, depthTest:false, transparent:true, opacity:.35 }));
 muroMesh.renderOrder = 5;
 scene.add(muroMesh);
 
@@ -161,7 +162,7 @@ play.onclick = () => {
 };
 mapaBtn.onclick = () => { const abrir = mapa.hidden; mapa.hidden = !abrir; mapaBtn.setAttribute('aria-expanded', String(abrir)); };
 
-// Minimapa: planta de la nube (E1, franja de 5 a 90 % de piso a cielo raso), ruta y nodos. Sin barra de escala.
+// Minimapa: planta de los centros del splat (preparar_v2.py, franja de 5 a 90 % de piso a cielo raso), ruta y nodos. Sin barra de escala.
 const NS = 'http://www.w3.org/2000/svg', pl = D.planta;
 const svg = document.getElementById('planta'), Wu = pl.ancho_px*pl.celda_u, Hu = pl.alto_px*pl.celda_u;
 svg.setAttribute('viewBox', `${pl.x0} ${-pl.y1} ${Wu} ${Hu}`);

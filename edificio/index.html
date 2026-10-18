@@ -73,7 +73,7 @@
 <body>
 
 <main>
-  <div class="eyebrow">Edificio 106 · Isthmus · edificio completo · grabado el 15 oct 2026 · versión del 16 oct</div>
+  <div class="eyebrow">Edificio 106 · Isthmus · edificio completo · grabado el 15 y el 16 oct 2026 · versión del 17 oct</div>
   <h1>Lo que salió de los videos de los tres pisos</h1>
   <p><b>Para recorrer el edificio, toca un piso.</b> Las imágenes de más abajo son capturas. El recorrido se abre con estos botones.</p>
   <div class="acciones" style="margin-bottom: 16px">
@@ -83,22 +83,23 @@
   </div>
   <p>Los videos de celular que grabó Raúl en la planta baja, el segundo y el tercer piso, cada piso por separado: splats, nube de puntos, malla, planta y cortes, modelo paramétrico, recorridos navegables y la planta para medir con flexómetro. Todo está en <b>unidades de reconstrucción (u)</b> y cada piso tiene las suyas: no hay medidas en sitio todavía, así que nada está en metros y no se puede comparar una cifra de un piso con la de otro. Toca una imagen para verla grande.</p>
   <p>Esta versión usa la <b>nube limpia</b> de cada piso (sin las copias fantasma ni los pedazos mal ubicados que tenía la primera) y los <b>splats nuevos</b>, entrenados otra vez con las caras difuminadas. La versión anterior de esta página se guardó aparte.</p>
+  <p><b>Segunda visita.</b> El 16 de octubre Raúl volvió a grabar los lugares donde los modelos salían mal: 13 clips, 6 en la planta baja, 4 en el segundo piso y 3 en el tercero. Con ellos se rehicieron los splats del <b>segundo y del tercer piso</b>. Cada uno junta los cuadros buenos de la primera visita con los nuevos en un solo modelo. La <b>planta baja sigue con el splat de la primera visita</b>: con los clips nuevos, lo que ya estaba se veía más borroso que en la versión publicada, así que se va a rehacer dándole al splat más capacidad. Lo demás de esta página (nube y malla, planta y cobertura, láminas, paramétrico y planta de medición) es de la primera visita y no se rehízo, porque esta vez no se corrió la nube densa.</p>
   <div class="aviso fuerte">Uso interno. En algunos cuadros quedaron personas: no publicar ni reenviar. En las imágenes de esta página y en los splats de los recorridos las caras están difuminadas.</div>
-  <div class="aviso">El tercer piso salió partido: COLMAP armó 10 modelos, solo ubicó el 66 % de los cuadros y una franja de la planta quedó girada respecto del resto. En esta versión de ese piso se usa <b>solo la parte fiable</b> (el 29 % de la nube) y la franja se quitó. Sirve para ver y para ensayar, todavía no para medir. La orientación al norte no se conoce en ningún piso.</div>
+  <div class="aviso">En el tercer piso, el splat del recorrido es nuevo. COLMAP armó 6 modelos con los cuadros de las dos visitas y el splat usa el mayor, con 1.729 de los 2.404 cuadros (72 %): la zona de los cubículos (clip 10) y la sala del ping-pong (clip 13), unidas con la parte fiable de la primera visita. Quedan fuera la escalera naranja angosta (clip 12), que quedó en modelos aparte, y la franja del pasillo del mural de curvas, la que salía girada. La versión anterior mostraba parte de ese pasillo y esta no. La nube, la planta y la lámina de ese piso siguen siendo las de la primera visita: <b>solo la parte fiable</b> (el 29 % de la nube), sin la franja. Sirve para ver y para ensayar, todavía no para medir. La orientación al norte no se conoce en ningún piso.</div>
 
   <nav class="menu" aria-label="Secciones">
     <a href="#recorrido">1 Recorridos</a><a href="#nube">2 Nube y malla</a><a href="#planta">3 Planta</a><a href="#lamina">4 Lámina y medidas</a><a href="#parametrico">5 Paramétrico</a><a href="#medicion">6 Flexómetro</a><a href="#aprendido">7 Lo aprendido</a><a href="#falta">8 Qué falta</a><a href="#ideas">9 Ideas</a><a href="guia-fotos.html">Guía de fotos</a>
   </nav>
 
   <div class="cifras">
-    <div class="cifra"><b>2.694 / 4.439</b><span>cuadros que entran en los splats finales (A 875, B 1.084, C 735); COLMAP había ubicado 3.595 y la limpieza quitó los mal puestos</span></div>
-    <div class="cifra"><b>11.016.647</b><span>puntos en las tres nubes limpias (A 4.483.073, B 4.027.400, C 2.506.174), de 19.359.531 en las densas</span></div>
-    <div class="cifra"><b>29,2 · 28,8 · 30,6 dB</b><span>PSNR mediana de los splats finales en A, B y C sobre cuadros apartados; la de C se mide sobre otro conjunto de cuadros y no se compara con la anterior</span></div>
-    <div class="cifra"><b>36 % · 53 %</b><span>de las superficies vistas del modelo paramétrico son supuestas (A y B; en C no se corrió)</span></div>
+    <div class="cifra"><b>3.170 · 1.729</b><span>cuadros en los splats nuevos del segundo y del tercer piso; de ellos 2.166 y 1.284 son de la segunda visita. La planta baja sigue con sus 875 de la primera</span></div>
+    <div class="cifra"><b>11.016.647</b><span>puntos en las tres nubes limpias (A 4.483.073, B 4.027.400, C 2.506.174), de 19.359.531 en las densas (primera visita)</span></div>
+    <div class="cifra"><b>29,2 · 29,5 · 32,1 dB</b><span>PSNR mediana sobre cuadros apartados: A de la primera visita, B y C nuevos. Cada uno se mide sobre su propio conjunto. En los cuadros que comparten con la versión anterior, el nuevo da 27,0 contra 29,5 en B y 33,0 contra 33,0 en C</span></div>
+    <div class="cifra"><b>36 % · 53 %</b><span>de las superficies vistas del modelo paramétrico son supuestas (A y B, primera visita; en C no se corrió)</span></div>
   </div>
 
   <h2 id="recorrido"><span class="n">1</span>Los recorridos navegables</h2>
-  <p>Cada piso es un splat nivelado con su piso real. Toca los discos del piso para moverte, arrastra para mirar y abre «Mapa» para ver la planta. Muros invisibles impiden tocar a través de las paredes. Cargan la versión liviana, de 10,9 a 11,1 MB cada uno (en MB de 1.048.576 bytes, como los cuenta el visor). Los 20 puntos de cada piso se llaman «Punto 1» a «Punto 20» hasta que alguien les ponga nombre.</p>
+  <p>Cada piso es un splat nivelado con su piso real. El segundo y el tercer piso usan el splat nuevo, con las dos visitas, en el mismo marco que la versión anterior; la planta baja sigue con el de la primera. Toca los discos del piso para moverte, arrastra para mirar y abre «Mapa» para ver la planta, que ahora sale del splat. Muros invisibles impiden tocar a través de las paredes, pero solo donde los había en la primera visita: en las zonas grabadas ahora no hay, así que ahí un disco se puede ver a través de una pared. En el tercer piso también se quitaron cerca de los cubículos y del salón 302, donde el modelo nuevo y el viejo no coinciden. Cargan la versión liviana, de 11,0 a 11,2 MB cada uno (en MB de 1.048.576 bytes, como los cuenta el visor). Los puntos de cada piso (20 en la planta baja, 24 en el segundo y 22 en el tercero) se llaman «Punto 1», «Punto 2» y así, hasta que alguien les ponga nombre.</p>
   <p>Se corrigió el campo de visión del visor. Antes cada piso usaba uno solo, el de una de sus cámaras, y en un mismo piso hay clips grabados con el teléfono en horizontal y en vertical, y alguno con el lente normal en vez del gran angular. Ahora cada punto usa el de su propio clip y el cambio se hace suave al pasar de un punto a otro. En la planta baja se nota al empezar: la Toma1, en horizontal, ya no se ve estirada.</p>
   <div class="acciones">
     <a class="boton" href="A/05-recorrido/index.html">Planta baja</a>
@@ -107,17 +108,18 @@
   </div>
   <div class="rej tres">
     <figure><button type="button"><img loading="lazy" src="A/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido de la planta baja en el pasillo del mural Colombia"></button><figcaption>Planta baja, punto 11: pasillo del mural «Colombia»</figcaption></figure>
-    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido del segundo piso en la sala de descanso"></button><figcaption>Segundo piso, punto 11: sala de descanso del muro de colores</figcaption></figure>
-    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido del tercer piso junto al tablero de corcho"></button><figcaption>Tercer piso, punto 11: tablero de corcho y la canoa colgada del techo</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido del segundo piso en un descanso de la escalera"></button><figcaption>Segundo piso, punto 11: descanso de la escalera, grabado en la segunda visita</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/computador_nodo10.jpg" alt="Recorrido del tercer piso en un salón con tablero blanco"></button><figcaption>Tercer piso, punto 11: salón con tablero blanco, grabado en la segunda visita</figcaption></figure>
     <figure><button type="button"><img loading="lazy" src="A/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa de la planta baja"></button><figcaption>Planta baja con el minimapa abierto, sin escala</figcaption></figure>
-    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa del segundo piso"></button><figcaption>Segundo piso con el minimapa, ya sin las copias de la escalera y del salón</figcaption></figure>
-    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa del tercer piso"></button><figcaption>Tercer piso, solo la parte fiable: las rectas largas del mapa unen dos cuadros entre los que se quitó un pedazo del video, no son caminos</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa del segundo piso"></button><figcaption>Segundo piso con el minimapa, que ahora es la planta del splat</figcaption></figure>
+    <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/computador_mapa.jpg" alt="Minimapa del tercer piso"></button><figcaption>Tercer piso con el minimapa: las rectas largas unen dos clips, no son caminos</figcaption></figure>
     <figure><button type="button"><img loading="lazy" src="A/05-recorrido/capturas/telefono_nodo10.jpg" alt="Recorrido de la planta baja en teléfono"></button><figcaption>En pantalla de teléfono (emulada; falta probar en uno real)</figcaption></figure>
     <figure><button type="button"><img loading="lazy" src="B/05-recorrido/capturas/telefono_nodo10.jpg" alt="Recorrido del segundo piso en teléfono"></button><figcaption>Segundo piso en teléfono</figcaption></figure>
     <figure><button type="button"><img loading="lazy" src="C/05-recorrido/capturas/telefono_nodo10.jpg" alt="Recorrido del tercer piso en teléfono"></button><figcaption>Tercer piso en teléfono</figcaption></figure>
   </div>
 
   <h2 id="nube"><span class="n">2</span>La nube y la malla contra las fotos</h2>
+  <div class="aviso">De la primera visita (15 oct). No se rehízo con los clips nuevos.</div>
   <p>Arriba tres cuadros reales de cada piso; abajo, la nube densa o la malla con textura dibujadas desde la misma pose. En cada piso, el tercer cuadro es uno donde falla. Donde la nube no tiene puntos se ve lo que está detrás, como pasa con las paredes blancas y los vidrios; la malla tapa esos huecos con superficies inventadas, por eso no sirve para medir. Estas hojas son de la nube densa original, antes de la limpieza: en las vistas desde una cámara bien ubicada la limpieza cambia poco, aunque también quitó flotantes, reflejos bajo el piso y un tramo de pasillo doble cerca del primer cuadro de la planta baja.</p>
   <h3><span class="piso">A</span>Planta baja</h3>
   <div class="rej">
@@ -136,6 +138,7 @@
   </div>
 
   <h2 id="planta"><span class="n">3</span>La planta nivelada y la cobertura</h2>
+  <div class="aviso">De la primera visita (15 oct). No se rehízo con los clips nuevos.</div>
   <p>Vista desde arriba y orientada con el piso y los muros reales de cada piso, ahora con la nube limpia. En la planta, los colores son los muros detectados y el verde la ruta de la cámara. El mapa de cobertura cuenta puntos por celda de 0,05 u, desde el piso hasta el cielo raso: una celda vacía es un lugar donde no se reconstruyó nada, ni piso ni muro ni mueble. Puede ser fuera del edificio, un rincón que no se filmó, o una superficie que la reconstrucción no saca, como el vidrio, la pared lisa o lo oscuro.</p>
   <div class="aviso"><b>Los anillos naranjas.</b> COLMAP arma el modelo uniendo cada cuadro del video con los que tiene cerca. Entre los cinco cuadros de antes y los cinco de después de un punto hay 25 parejas posibles; donde se pudieron unir tres o menos, el modelo queda pegado con muy poco y puede haberse doblado o corrido un poco sin que se note. A eso le llamamos corte débil, y pasa sobre todo en los giros rápidos. En las láminas, cada anillo naranja es una cámara que está a tres cuadros o menos de uno de esos cortes: lo que está cerca de un anillo merece menos confianza. Hay 24 cortes débiles en A, 40 en B y 100 en C.</div>
   <h3><span class="piso">A</span>Planta baja</h3>
@@ -155,6 +158,7 @@
   </div>
 
   <h2 id="lamina"><span class="n">4</span>Láminas A3 y plantilla de medidas</h2>
+  <div class="aviso">De la primera visita (15 oct). No se rehízo con los clips nuevos.</div>
   <p>Como en el piloto: dato (puntos grises) y ajuste (líneas naranjas) separados, línea discontinua donde falta información y sin cotas, porque la escala es desconocida. Un corte por el recorrido y otro por la escalera. Una escalera se da por fiable si le falta como mucho una huella en todo el tramo (un hueco del doble de la contrahuella es una huella que falta; uno de cuatro veces son tres), si sus alturas casan bien con una contrahuella fija y si casi todas sus huellas tienen puntos suficientes. Si no, se dibuja en morado discontinuo, se rotula como dudosa y no pasa al modelo paramétrico.</p>
   <h3><span class="piso">A</span>Planta baja <a class="boton sec" href="A/03-laminas/E6_lamina_A3.pdf">PDF vectorial</a></h3>
   <div class="rej"><figure class="ancho"><button type="button"><img loading="lazy" src="A/03-laminas/E6_lamina_A3_vista.png" alt="Lámina A3 de la planta baja"></button><figcaption>Corte B por la escalera principal: 9 huellas, dudosa: entre ellas hay cuatro huecos donde faltan 6 huellas en total (en uno faltan 3), y tres huellas tienen muy pocos puntos</figcaption></figure></div>
@@ -176,6 +180,7 @@
   <p>Ninguna de las siete medidas de la plantilla anterior de C sigue valiendo: usaban planos de la franja quitada, planos que no eran paralelos o planos por debajo del piso. El techo de la parte fiable tiene cuatro alturas distintas, de ahí M02 a M05.</p>
 
   <h2 id="parametrico"><span class="n">5</span>El volumen paramétrico</h2>
+  <div class="aviso">De la primera visita (15 oct). No se rehízo con los clips nuevos.</div>
   <p>Generado en Blender a partir de parámetros sacados de la nube limpia de cada piso. Color liso es medido; rayado es supuesto. Arrastra para girar y usa la rueda o dos dedos para acercar. Ahora admite varias alturas de cielo raso: cada muro sube hasta el cielo raso de su zona. La escalera solo entra si es fiable, por eso en la planta baja no está.</p>
   <div class="aviso">Segunda pasada. En la revisión de las fotos se vio que las <b>puertas de vidrio del vestíbulo de la planta baja</b> y la <b>ventana con lámina de colores del segundo piso</b> salían como muro medido. Ahora el modelo las pone en supuestos por esa revisión visual; falta confirmarlo en sitio.</div>
   <div class="selector" role="group" aria-label="Piso del modelo">
@@ -216,6 +221,7 @@
   <div class="aviso">En la parte fiable del tercer piso salen 22 tramos de muro, pero el techo tiene cuatro alturas (0,69; 1,00; 1,13 y 1,27 u) y ninguna junta más del 22 % de los puntos. Además 18 de los 22 muros no llegan a su techo. El modelo saldría casi todo supuesto y a una altura equivocada, así que no se corrió. Se vuelve a intentar cuando lleguen las tomas nuevas.</div>
 
   <h2 id="medicion"><span class="n">6</span>Planta de medición con flexómetro</h2>
+  <div class="aviso">De la primera visita (15 oct). No se rehízo con los clips nuevos.</div>
   <p>Las medidas con láser probablemente no se van a conseguir, así que esta versión es para <b>cinta métrica de mano</b>. Por piso, <b>6 medidas cortas</b> en dos lugares: el alto y el ancho libres de una puerta (escala), dos baldosas seguidas en cada sentido delante de esa puerta, y el alto de un peldaño y el fondo de una huella en la escalera (control). Mide cada una dos veces y anota las dos. Cada medida tiene su ficha con una foto real del video que muestra dónde poner la cinta. Imprime la planta y las fichas, o ábrelas en el celular en sitio. Las tres plantas se rehicieron en el marco nuevo, sobre la nube limpia.</p>
   <h3><span class="piso">A</span>Planta baja: puerta «SALIDA» del fondo del pasillo y escalera principal</h3>
   <p>Las medidas de la planta baja son las mismas de antes. Solo cambió dónde quedan en el plano, porque esa parte del piso se corrigió en la limpieza. La escalera del modelo salió dudosa, así que M5 y M6 mídelas igual, pero no se van a comparar con la escalera del modelo hasta una segunda pasada.</p>
@@ -258,7 +264,7 @@
   <h3>Si no llega ninguna medida: escala provisional</h3>
   <p>Se puede usar como escala <b>provisional</b> una pieza estándar que se vea en el lugar, por ejemplo la retícula del cielo raso suspendido, si sus placas son de 61 cm, o la baldosa, si se conoce su formato. Cualquier cifra en metros que salga así se marca siempre como <b>«escala supuesta, sin verificar»</b>, porque una placa puede ser de 60 o de 61 cm y una baldosa puede venir en muchos formatos. Esta galería no aplica ninguna escala: todo sigue en u.</p>
 
-  <h2 id="aprendido"><span class="n">7</span>Lo que se aprendió esta noche</h2>
+  <h2 id="aprendido"><span class="n">7</span>Lo que se aprendió la primera noche</h2>
   <p>Para entender por qué los pisos salieron partidos, se probó volver a armar el modelo de COLMAP quitando los pares de cuadros lejanos, que son los que a veces unen por error dos lugares que se parecen. Se probó en los tres pisos, y en el tercero también con una poda dirigida solo a los pares que tocaban la franja girada y los saltos. Ningún piso salió mejor, así que todo lo de esta página sigue usando el modelo de antes, ya limpio.</p>
   <div class="tabla envuelve"><table>
     <thead><tr><th>Piso</th><th>Modelo que se usa</th><th>Con pares podados</th></tr></thead>
@@ -277,7 +283,32 @@
   </div>
 
 
-  <h2 id="falta"><span class="n">8</span>Qué falta: los puntos que Raúl debe regrabar</h2>
+  <h2 id="falta"><span class="n">8</span>Qué trajo la segunda visita y qué sigue abierto</h2>
+  <p>Un punto se da por cerrado solo cuando alguien lo ve en el recorrido. Por ahora solo se sabe qué clips entraron al modelo de cada piso; si cada hueco se cerró todavía no se revisó a ojo.</p>
+  <h3><span class="piso">B</span>Segundo piso, splat nuevo</h3>
+  <ul>
+    <li><b>6, puerta amarilla y casilleros.</b> El clip 6 entró completo al modelo (540 cuadros). Falta revisar a ojo si se cerró.</li>
+    <li><b>7, escaleras y descansos.</b> El clip 7 entró completo (635 cuadros). En la captura del punto 11 de arriba se ve un descanso, todavía borroso. Falta revisar que ya no aparezcan las copias de la escalera.</li>
+    <li><b>8, salón 207.</b> El clip 8 entró completo (534 cuadros). Falta revisar a ojo.</li>
+    <li><b>9, muro de colores.</b> El clip 9 entró completo (457 cuadros). Se grabó de tarde, así que la luz cambia respecto de la primera visita. Falta revisar a ojo.</li>
+  </ul>
+  <h3><span class="piso">C</span>Tercer piso, splat nuevo</h3>
+  <ul>
+    <li><b>10, cubículos blancos.</b> El clip 10 entró completo (997 cuadros). Falta revisar a ojo si el piso ya no se parte ahí.</li>
+    <li><b>13, ping-pong y ajedrez.</b> El clip 13 entró casi completo (287 de 298 cuadros). Falta revisar si el ajedrez quedó en su lugar.</li>
+    <li><b>12, escalera naranja angosta.</b> Raúl la grabó, pero el programa no logró unir ese clip con el resto del piso, así que no entra en el splat.</li>
+    <li><b>Pasillo del mural de curvas.</b> Esa franja tampoco entra en el splat nuevo. La versión anterior mostraba una parte.</li>
+  </ul>
+  <h3>Sigue abierto</h3>
+  <ul>
+    <li><b>Planta baja, puntos 1 a 5</b> (vestíbulo, biblioteca, pasillo hacia la escalera, cuarto bajo la escalera, pasillo de alfombra). Raúl los grabó en 6 clips, pero el splat de la planta baja no se reemplazó, así que todavía no se ven. Esperan a que se rehaga ese piso.</li>
+    <li><b>11, salón 302.</b> No llegó video. La primera vez había gente adentro.</li>
+    <li><b>14, mural de curvas verde y negro del tercer piso.</b> Este punto nunca se le envió a Raúl, así que no hay clip nuevo.</li>
+    <li><b>Escalera de la planta baja al segundo piso.</b> No hay un clip que la recorra completa.</li>
+    <li>La unión de los tres pisos en un solo modelo sigue pendiente.</li>
+    <li>Las medidas con flexómetro siguen sin tomarse: nada está en metros.</li>
+  </ul>
+  <h3>La lista que se le envió a Raúl</h3>
   <p>La lista que se le envió a Raúl el 15 de octubre, con sus fotos numeradas. Las caras están difuminadas. Además del video, en estos puntos sirven fotos fijas: mira la <a href="guia-fotos.html" style="color: var(--sol)">guía de fotos</a>.</p>
   <div class="acciones"><a class="boton" href="guia-fotos.html">Guía para tomar fotos</a></div>
   <h3>Cómo grabar (para todos los puntos)</h3>
