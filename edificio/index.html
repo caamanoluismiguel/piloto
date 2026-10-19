@@ -31,6 +31,7 @@
   li { margin-bottom: 4px; }
   .aviso { border: 1px solid var(--linea); border-radius: 12px; padding: 12px 16px; background: var(--panel); color: var(--tenue); font-size: 14px; max-width: 68ch; }
   .aviso.fuerte { border-color: var(--alerta); color: var(--texto); }
+  .aviso p + p { margin-top: 8px; }
   .menu { position: sticky; top: 0; z-index: 5; background: var(--fondo); border-bottom: 1px solid var(--linea); margin-inline: -16px; padding: 8px 16px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
   .menu a { flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--linea); color: var(--texto); text-decoration: none; font-size: 13px; }
   .menu a:focus-visible, .boton:focus-visible, figure button:focus-visible, .selector button:focus-visible { outline: 2px solid var(--sol); outline-offset: 2px; }
@@ -81,7 +82,7 @@
     <a class="boton" href="B/05-recorrido/index.html">Recorrer el segundo piso</a>
     <a class="boton" href="C/05-recorrido/index.html">Recorrer el tercer piso</a>
   </div>
-  <p>Los videos de celular que grabó Raúl en la planta baja, el segundo y el tercer piso, cada piso por separado: splats, nube de puntos, malla, planta y cortes, modelo paramétrico, recorridos navegables y la planta para medir con flexómetro. Todo está en <b>unidades de reconstrucción (u)</b> y cada piso tiene las suyas: no hay medidas en sitio todavía, así que nada está en metros y no se puede comparar una cifra de un piso con la de otro. Toca una imagen para verla grande.</p>
+  <p>Los videos de celular que grabó Raúl en la planta baja, el segundo y el tercer piso, cada piso por separado: splats, nube de puntos, malla, planta y cortes, modelo paramétrico, recorridos navegables y la planta para medir con flexómetro. Todo está en <b>unidades de reconstrucción (u)</b> y cada piso tiene las suyas: no hay medidas en sitio todavía, así que nada está en metros y no se puede comparar una cifra de un piso con la de otro (los tres pisos juntos de la sección 5 usan la escala supuesta de la maqueta, que tampoco es una medida). Toca una imagen para verla grande.</p>
   <p>Esta versión usa la <b>nube limpia</b> de cada piso (sin las copias fantasma ni los pedazos mal ubicados que tenía la primera) y los <b>splats nuevos</b>, entrenados otra vez con las caras difuminadas. La versión anterior de esta página se guardó aparte.</p>
   <p><b>Segunda visita.</b> El 16 de octubre Raúl volvió a grabar los lugares donde los modelos salían mal: 13 clips, 6 en la planta baja, 4 en el segundo piso y 3 en el tercero. Con ellos se rehicieron los splats del <b>segundo y del tercer piso</b>. Cada uno junta los cuadros buenos de la primera visita con los nuevos en un solo modelo. La <b>planta baja sigue con el splat de la primera visita</b>: con los clips nuevos, lo que ya estaba se veía más borroso que en la versión publicada, así que se va a rehacer dándole al splat más capacidad. Del tercer piso también se rehízo el modelo paramétrico, con una nube densa nueva de las dos visitas. Lo demás de esta página (nube y malla, planta y cobertura, láminas, el paramétrico de la planta baja y del segundo piso, y la planta de medición) es de la primera visita y no se rehízo.</p>
   <div class="aviso fuerte">Uso interno. En algunos cuadros quedaron personas: no publicar ni reenviar. En las imágenes de esta página y en los splats de los recorridos las caras están difuminadas.</div>
@@ -181,15 +182,22 @@
 
   <h2 id="parametrico"><span class="n">5</span>El volumen paramétrico</h2>
   <div class="aviso">La planta baja y el segundo piso son de la primera visita (15 oct). El tercer piso es nuevo: sale de la segunda visita, con su propia nube densa.</div>
-  <p>Generado en Blender a partir de parámetros sacados de la nube limpia de cada piso. Color liso es medido, o sea que sale de la nube de puntos (no es una medida en metros); rayado es supuesto. Arrastra para girar y usa la rueda o dos dedos para acercar. Ahora admite varias alturas de cielo raso: cada muro sube hasta el cielo raso de su zona. La escalera solo entra si es fiable, por eso en la planta baja no está.</p>
+  <p>Generado en Blender a partir de parámetros sacados de la nube limpia de cada piso. Color liso es medido, o sea que sale de la nube de puntos (no es una medida en metros); blanco translúcido es supuesto. En las láminas y en las superposiciones lo supuesto va rayado. Arrastra para girar y usa la rueda o dos dedos para acercar. Ahora admite varias alturas de cielo raso: cada muro sube hasta el cielo raso de su zona. La escalera solo entra si es fiable, por eso en la planta baja no está.</p>
   <div class="aviso">Segunda pasada. En la revisión de las fotos se vio que las <b>puertas de vidrio del vestíbulo de la planta baja</b> y la <b>ventana con lámina de colores del segundo piso</b> salían como muro medido. Ahora el modelo las pone en supuestos por esa revisión visual; falta confirmarlo en sitio.</div>
   <div class="selector" role="group" aria-label="Piso del modelo">
     <button type="button" data-glb="A/04-parametrico/modelo.glb" aria-pressed="true">Planta baja</button>
     <button type="button" data-glb="B/04-parametrico/modelo.glb" aria-pressed="false">Segundo piso</button>
     <button type="button" data-glb="C/04-parametrico/modelo.glb" aria-pressed="false">Tercer piso</button>
+    <button type="button" data-glb="volumen/volumen.glb" data-pie="pieVolumen" aria-pressed="false">Los tres pisos juntos</button>
   </div>
   <canvas id="glb" aria-label="Modelo paramétrico en 3D, arrastra para girar"></canvas>
   <p id="glbEstado">Cargando el modelo: planta baja…</p>
+  <div class="aviso fuerte" id="pieVolumen" hidden>
+    <p><b>Los tres pisos juntos, en borrador.</b> Son los mismos modelos paramétricos de cada piso, puestos uno sobre otro dentro de la maqueta exterior del 106. Liso es medido en la nube y blanco translúcido es supuesto, igual que arriba. La maqueta va en gris transparente. Lo que sale por los lados de la maqueta, más allá de sus fachadas, va en rojo y se deja a la vista; lo que sale por arriba o por abajo no se marcó. Los pisos no se unieron con la nube: cada uno se ubicó dentro de la maqueta, y el segundo y el tercero, además, apoyados en la escalera del piso de abajo.</p>
+    <p>La escala es supuesta. Sale de la maqueta, que se armó con fotos y tiene un margen de ±12 % en su escala, y no de medidas tomadas en el edificio. Aun así, los pisos no cuadran en altura con la maqueta: la escalera sube de un piso a otro entre un 14 y un 22 % más de lo que la maqueta tiene entre piso y piso. Ese desajuste no lo explica el ±12 %, porque ese margen agranda o achica la planta y las alturas de la maqueta por igual. Mientras no haya una medida con cinta no se sabe si el error está en la maqueta o en los pisos.</p>
+    <p>A lo largo del edificio, el segundo y el tercer piso se ubicaron suponiendo que la escalera principal está en el mismo sitio en los tres pisos. Hacia qué lado mira el tercer piso sale de datos del sitio que dio el equipo, sin medirlos: con ese giro, el lado donde el equipo ubica la escalera que sube al ático y el baño de hombres queda del lado de la fachada de atrás. Esa escalera y ese baño no están en el modelo.</p>
+    <p><b>Nada de esto sirve para medir.</b></p>
+  </div>
   <div class="tabla"><table>
     <thead><tr><th></th><th>Planta baja</th><th>Segundo piso</th><th>Tercer piso (segunda visita)</th></tr></thead>
     <tbody>
@@ -270,7 +278,7 @@
   </div>
   <p>La escalera de las medidas M5 y M6 de la planta baja y del segundo piso es la misma, la principal. Medida una vez, sirve para los dos pisos y además da una medida común para unirlos.</p>
   <h3>Si no llega ninguna medida: escala provisional</h3>
-  <p>Se puede usar como escala <b>provisional</b> una pieza estándar que se vea en el lugar, por ejemplo la retícula del cielo raso suspendido, si sus placas son de 61 cm, o la baldosa, si se conoce su formato. Cualquier cifra en metros que salga así se marca siempre como <b>«escala supuesta, sin verificar»</b>, porque una placa puede ser de 60 o de 61 cm y una baldosa puede venir en muchos formatos. Esta galería no aplica ninguna escala: todo sigue en u.</p>
+  <p>Se puede usar como escala <b>provisional</b> una pieza estándar que se vea en el lugar, por ejemplo la retícula del cielo raso suspendido, si sus placas son de 61 cm, o la baldosa, si se conoce su formato. Cualquier cifra en metros que salga así se marca siempre como <b>«escala supuesta, sin verificar»</b>, porque una placa puede ser de 60 o de 61 cm y una baldosa puede venir en muchos formatos. Esta galería no aplica ninguna escala medida: todo sigue en u, salvo los tres pisos juntos de la sección 5, que toman la escala supuesta de la maqueta y no sirven para medir.</p>
 
   <h2 id="aprendido"><span class="n">7</span>Lo que se aprendió la primera noche</h2>
   <p>Para entender por qué los pisos salieron partidos, se probó volver a armar el modelo de COLMAP quitando los pares de cuadros lejanos, que son los que a veces unen por error dos lugares que se parecen. Se probó en los tres pisos, y en el tercero también con una poda dirigida solo a los pares que tocaban la franja girada y los saltos. Ningún piso salió mejor, así que todo lo de esta página sigue usando el modelo de antes, ya limpio.</p>
@@ -313,7 +321,7 @@
     <li><b>11, salón 302.</b> No llegó video. La primera vez había gente adentro.</li>
     <li><b>14, mural de curvas verde y negro del tercer piso.</b> Este punto nunca se le envió a Raúl, así que no hay clip nuevo.</li>
     <li><b>Escalera de la planta baja al segundo piso.</b> No hay un clip que la recorra completa.</li>
-    <li>La unión de los tres pisos en un solo modelo sigue pendiente.</li>
+    <li>Los tres pisos ya se ven juntos en la sección 5, pero ubicados dentro de la maqueta y con supuestos. Unirlos con la nube o con medidas sigue pendiente.</li>
     <li>Las medidas con flexómetro siguen sin tomarse: nada está en metros.</li>
   </ul>
   <h3>La lista que se le envió a Raúl</h3>
@@ -371,6 +379,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 const zoom = document.getElementById('zoom');
 document.querySelectorAll('figure button').forEach(b => b.addEventListener('click', () => {
   const i = b.querySelector('img'); zoom.querySelector('img').src = i.src; zoom.querySelector('img').alt = i.alt; zoom.showModal();
@@ -389,15 +398,16 @@ let actual = null; const cache = {};
 async function cargar(url, nombre) {
   estado.textContent = `Cargando el modelo: ${nombre}…`;
   try {
-    const g = cache[url] || (cache[url] = (await new GLTFLoader().loadAsync(url)).scene);
+    const g = cache[url] || (cache[url] = (await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(url)).scene);
     if (actual) s.remove(actual); actual = g; s.add(g);
     const b = new THREE.Box3().setFromObject(g), m = b.getCenter(new THREE.Vector3()), t = b.getSize(new THREE.Vector3()).length();
     ctl.target.copy(m); cam.position.copy(m).add(new THREE.Vector3(0.45, 0.55, 0.7).multiplyScalar(t)); cam.near = t / 500; cam.far = t * 10; cam.updateProjectionMatrix();
-    estado.textContent = `Modelo: ${nombre}. Color liso medido, rayado supuesto.`;
+    estado.textContent = url.startsWith('volumen/') ? 'Modelo: los tres pisos juntos, en borrador. Liso medido, blanco translúcido supuesto, maqueta en gris, en rojo lo que sale por los lados de ella. Lee la nota de abajo.' : `Modelo: ${nombre}. Color liso medido, blanco translúcido supuesto.`;
   } catch (e) { estado.textContent = 'No se pudo cargar el modelo 3D: ' + e.message; }
 }
 document.querySelectorAll('.selector button').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.selector button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  document.getElementById('pieVolumen').hidden = !b.dataset.pie;
   cargar(b.dataset.glb, b.textContent.toLowerCase());
 }));
 cargar('A/04-parametrico/modelo.glb', 'planta baja');
