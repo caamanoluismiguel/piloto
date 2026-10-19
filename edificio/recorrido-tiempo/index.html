@@ -78,7 +78,7 @@
     <button type="button" data-piso="C" aria-pressed="false">Tercer piso<kbd>3</kbd></button>
     <button type="button" data-piso="todos" aria-pressed="false">Los tres juntos<kbd>4</kbd></button>
   </div>
-  <div id="escala" hidden><b>Escala supuesta ±12 %</b>Los pisos van apilados con la maqueta del volumen único, no con una medida. La línea punteada entre pisos no es un camino.</div>
+  <div id="escala" hidden><b>Escala supuesta, no medida</b>Los pisos van apilados con la maqueta del volumen único, no con una medida. La línea punteada entre pisos no es un camino.</div>
 </div>
 <div id="barra" role="group" aria-label="Reloj del recorrido">
   <button id="play" type="button" aria-label="Reproducir">&#9654;</button>
@@ -106,7 +106,7 @@ import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
 import { SparkRenderer, SplatMesh, SplatEdit, SplatEditSdf } from '@sparkjsdev/spark';
 
-// Todo vive en el marco común de la maqueta (z arriba, metros DE MAQUETA, escala supuesta ±12 %). Ninguna cifra en metros
+// Todo vive en el marco común de la maqueta (z arriba, metros DE MAQUETA, escala supuesta: la maqueta es más ancha que el plano). Ninguna cifra en metros
 // se muestra: con un solo piso la escala no importa, y con los tres juntos se avisa que es supuesta.
 const q = new URLSearchParams(location.search);
 const movil = matchMedia('(pointer: coarse)').matches || q.has('movil');
