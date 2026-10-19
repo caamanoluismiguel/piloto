@@ -44,7 +44,7 @@ Todas las cifras de las reconstrucciones están en **unidades de reconstrucción
 | Ideas | [`edificio/ideas.html`](edificio/ideas.html) | Usos propuestos por un panel simulado y por el investigador, con su estado | Propuestas |
 | Guía de fotos | [`edificio/guia-fotos.html`](edificio/guia-fotos.html) | Guía de fotos fijas preparada para la segunda visita; no consta que se tomaran fotos | Documento de campo |
 
-Una página de preguntas para LM está en preparación en otra rama; se enlazará aquí cuando se publique.
+Lo que falta confirmar de memoria está en la página de [preguntas para LM](edificio/preguntas/index.html): dos preguntas abiertas de la planta baja y tres confirmaciones rápidas del tercer piso, con las que ya se contestaron.
 
 ### Qué quiere decir cada estado
 
