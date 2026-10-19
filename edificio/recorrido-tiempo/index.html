@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>La grabación en el tiempo · Edificio 106</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Diseño de la galería y del visor del 106: tema oscuro único, colores planos, Plex Sans y Plex Mono. Decisiones en PANEL-DISENO.md. */
+  :root {
+    --fondo: #15130f; --panel: #211e19; --linea: #3a352c; --texto: #efe8da; --tenue: #aaa08d; --sol: #e0a33a; --cal: #f3ead8; --alerta: #e2735a;
+    --letra: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--fondo); color: var(--texto); font: 15px/1.45 var(--letra); overflow: hidden; }
+  canvas { display: block; touch-action: none; }
+  #arriba { position: fixed; left: 16px; right: 16px; top: 12px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; pointer-events: none; }
+  #arriba > * { pointer-events: auto; }
+  #titulo { flex: 1 1 260px; min-width: 0; pointer-events: none; }
+  .eyebrow { font: 500 12px/1.4 var(--mono); color: var(--sol); letter-spacing: .08em; text-transform: uppercase; }
+  h1 { font-size: 18px; line-height: 1.25; margin: 2px 0 0; font-weight: 600; text-wrap: balance; }
+  #estado { font: 400 12px/1.4 var(--mono); color: var(--tenue); margin-top: 2px; }
+  .volver .corto { display: none; }
+  .volver { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--linea); background: var(--fondo); color: var(--texto); text-decoration: none; font-size: 14px; }
+  #pisos { display: flex; gap: 6px; flex-wrap: wrap; flex: 1 1 100%; }
+  #pisos button { min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--linea); background: var(--fondo); color: var(--texto); font: 500 14px var(--letra); cursor: pointer; }
+  #pisos button[aria-pressed=true] { background: var(--sol); color: var(--fondo); border-color: var(--sol); }
+  #pisos kbd { font: 400 11px var(--mono); color: inherit; opacity: .7; margin-left: 6px; }
+  #escala { flex: 1 1 100%; max-width: 560px; border: 1px solid var(--alerta); border-radius: 12px; background: var(--panel); padding: 8px 12px; font-size: 13px; color: var(--texto); }
+  #escala b { font: 500 12px var(--mono); color: var(--alerta); margin-right: 6px; }
+  #barra { position: fixed; left: 16px; right: 16px; bottom: 34px; max-width: 760px; margin: 0 auto; padding: 8px 10px; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px;
+           display: grid; grid-template-columns: auto 1fr auto auto; grid-template-areas: "play reloj hora cam" "lugar lugar lugar lugar"; gap: 4px 10px; align-items: center; }
+  button { font-family: var(--letra); }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--sol); outline-offset: 2px; }
+  #play { grid-area: play; width: 44px; height: 44px; border-radius: 999px; border: 0; background: var(--sol); color: var(--fondo); font-size: 16px; cursor: pointer; }
+  #reloj { grid-area: reloj; width: 100%; min-width: 0; height: 44px; margin: 0; accent-color: var(--sol); cursor: pointer; }
+  #hora { grid-area: hora; font: 500 14px var(--mono); font-variant-numeric: tabular-nums; color: var(--texto); white-space: nowrap; }
+  #camara { grid-area: cam; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--linea); background: var(--fondo); color: var(--texto); font: 500 12px var(--mono); cursor: pointer; white-space: nowrap; }
+  #camara[aria-pressed=false] { color: var(--sol); border-color: var(--sol); }
+  #lugar { grid-area: lugar; font: 400 12px/1.4 var(--mono); color: var(--tenue); padding: 0 4px 2px; min-height: 17px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #lugar b { color: var(--texto); font-weight: 500; }
+  #pie { position: fixed; left: 16px; right: 16px; bottom: 8px; text-align: center; font-size: 13px; color: var(--tenue); pointer-events: none; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 560px) {
+    #barra { grid-template-columns: auto 1fr auto; grid-template-areas: "play reloj hora" "cam cam cam" "lugar lugar lugar"; }
+    #camara { justify-self: start; }
+    h1 { font-size: 16px; }
+    #pisos button { padding: 0 11px; font-size: 13px; }
+    #pisos kbd { display: none; }
+    #titulo { flex-basis: 0; flex-grow: 1; }
+    .volver { padding: 0 14px; font-size: 13px; }
+    .volver .largo { display: none; } .volver .corto { display: inline; }
+    #pisos { gap: 4px; }
+    .eyebrow { font-size: 11px; letter-spacing: .04em; }
+    #escala { font-size: 12px; padding: 6px 10px; }
+    #lugar { white-space: normal; }
+    #pisos button { min-height: 40px; padding: 0 10px; }
+  }
+  body.captura #barra, body.captura #pisos, body.captura .volver { display: none; }
+</style>
+</head>
+<body>
+<div id="arriba">
+  <div id="titulo">
+    <div class="eyebrow">Edificio 106 · recorrido de grabación</div>
+    <h1 id="nombre">La grabación en el tiempo</h1>
+    <div id="estado">cargando…</div>
+  </div>
+  <a class="volver" href="../index.html#tiempo" aria-label="Volver a la galería"><span class="largo">Volver a la galería</span><span class="corto" aria-hidden="true">Galería</span></a>
+  <div id="pisos" role="group" aria-label="Piso">
+    <button type="button" data-piso="A" aria-pressed="false">Planta baja<kbd>1</kbd></button>
+    <button type="button" data-piso="B" aria-pressed="false">Segundo piso<kbd>2</kbd></button>
+    <button type="button" data-piso="C" aria-pressed="false">Tercer piso<kbd>3</kbd></button>
+    <button type="button" data-piso="todos" aria-pressed="false">Los tres juntos<kbd>4</kbd></button>
+  </div>
+  <div id="escala" hidden><b>Escala supuesta ±12 %</b>Los pisos van apilados con la maqueta del volumen único, no con una medida. La línea punteada entre pisos no es un camino.</div>
+</div>
+<div id="barra" role="group" aria-label="Reloj del recorrido">
+  <button id="play" type="button" aria-label="Reproducir">&#9654;</button>
+  <input id="reloj" type="range" min="0" max="1" step="0.01" value="0" aria-label="Momento del recorrido">
+  <span id="hora" aria-hidden="true" title="Tiempo de reproducción, no de grabación">0:00</span>
+  <button id="camara" type="button" aria-pressed="true" title="La tecla C vuelve a la cámara automática. Al tocar la escena tomas el control; a los 8 s vuelve sola">Cámara automática</button>
+  <div id="lugar" aria-hidden="true"></div>
+</div>
+<div id="pie">Visualización del recorrido de grabación. No sirve para medir.</div>
+<div id="anuncio" class="sr" aria-live="polite"></div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+  "@sparkjsdev/spark": "https://cdn.jsdelivr.net/npm/@sparkjsdev/spark@2.2.0/dist/spark.module.js"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { Line2 } from 'three/addons/lines/Line2.js';
+import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { SparkRenderer, SplatMesh, SplatEdit, SplatEditSdf } from '@sparkjsdev/spark';
+
+// Todo vive en el marco común de la maqueta (z arriba, metros DE MAQUETA, escala supuesta ±12 %). Ninguna cifra en metros
+// se muestra: con un solo piso la escala no importa, y con los tres juntos se avisa que es supuesta.
+const q = new URLSearchParams(location.search);
+const movil = matchMedia('(pointer: coarse)').matches || q.has('movil');
+const captura = q.has('captura');
+const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches && !captura;
+if (captura) document.body.classList.add('captura');
+const $ = id => document.getElementById(id);
+const estado = $('estado');
+const NOMBRES = { A: 'Planta baja', B: 'Segundo piso', C: 'Tercer piso', todos: 'Los tres pisos juntos' };
+const COL = { cal: new THREE.Color('#f3ead8'), tenue: new THREE.Color('#aaa08d'), sol: new THREE.Color('#e0a33a'), linea: new THREE.Color('#3a352c') };
+
+// ------------------------------------------------------------------ escena
+const renderer = new THREE.WebGLRenderer({ antialias: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, movil ? 1.5 : 2));
+renderer.setSize(innerWidth, innerHeight);
+document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#15130f');
+const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.5, 600);   // plano cercano a 0,5: la cámara no corta splats de cerca
+camera.up.set(0, 0, 1);
+scene.add(new SparkRenderer({ renderer }));
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
+controls.minDistance = 4; controls.maxDistance = 140;
+controls.minPolarAngle = THREE.MathUtils.degToRad(12); controls.maxPolarAngle = THREE.MathUtils.degToRad(78);
+
+const m4 = a => new THREE.Matrix4().set(...a.flat());
+const PISOS = {};
+async function datos(X) {
+  if (PISOS[X]) return PISOS[X];
+  const D = await (await fetch(`${X}/datos.json`)).json();
+  const W = m4(D.W_maqueta_desde_edificio), T = m4(D.T_edificio_desde_colmap);
+  const caja = new THREE.Box3(new THREE.Vector3(...D.caja.min), new THREE.Vector3(...D.caja.max));
+  PISOS[X] = { X, D, W, T, caja, ancho: Math.max(caja.max.x - caja.min.x, caja.max.y - caja.min.y), splat: null, cargando: null, placa: null, atlas: {} };
+  return PISOS[X];
+}
+
+// Placa de piso: la planta del recorrido publicado (PNG clara con transparencia), 2 cm bajo el piso, plana y sin brillo.
+function placa(P) {
+  if (P.placa) return P.placa;
+  const pl = P.D.planta_info, s = P.D.escala_maqueta_por_u;
+  const w = pl.ancho_px * pl.celda_u, h = pl.alto_px * pl.celda_u;
+  const g = new THREE.PlaneGeometry(w, h); g.translate(pl.x0 + w / 2, pl.y1 - h / 2, -0.02 / s);
+  const tx = new THREE.TextureLoader().load(P.D.planta, t => { t.colorSpace = THREE.SRGBColorSpace; });
+  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ map: tx, transparent: true, opacity: 0.45, depthWrite: false }));
+  const borde = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([[0, 0], [w, 0], [w, -h], [0, -h]].map(([x, y]) => new THREE.Vector3(pl.x0 + x, pl.y1 + y, -0.02 / s))),
+    new THREE.LineBasicMaterial({ color: COL.linea }));
+  const grupo = new THREE.Group(); grupo.add(m, borde); grupo.matrixAutoUpdate = false; grupo.matrix.copy(P.W); grupo.renderOrder = 1;
+  P.placa = grupo; return grupo;
+}
+
+// Splat publicado del piso (mismo .sog que la galería). Corte de casa de muñecas por piso y limpieza de flotantes.
+const FLOT_ESCALA_M = 0.6, FLOT_OPACIDAD = 0.05;      // panel de diseño, decisión 1, ajustada a ojo: con 0,30 y 0,08 se iban los muros de A
+function cargarSplat(P) {
+  if (P.cargando) return P.cargando;
+  const D = P.D, s = D.escala_maqueta_por_u;
+  const splat = new SplatMesh({ url: D.sog, onProgress: e => { P.bytes = e.loaded; mostrarCarga(); } });
+  const M = P.W.clone().multiply(P.T);
+  M.decompose(splat.position, splat.quaternion, splat.scale);
+  splat.recolor = new THREE.Color(0.8, 0.8, 0.8);
+  // Caja del corte en el marco del edificio: planta de las cámaras más 3 m de margen, de 25 cm bajo el piso hasta 2,2 m sobre él
+  // (o 25 cm bajo el cielo raso si queda más abajo). Los muros quedan cortados a media altura, como en una casa de muñecas.
+  const mg = 3 / s, cmin = D.caja_edificio_u.min, cmax = D.caja_edificio_u.max;
+  const z0 = -0.25 / s, z1 = Math.min(D.cielo_raso_z_u - 0.25 / s, 2.2 / s);
+  const cajaE = new THREE.Matrix4().compose(
+    new THREE.Vector3((cmin[0] + cmax[0]) / 2, (cmin[1] + cmax[1]) / 2, (z0 + z1) / 2), new THREE.Quaternion(),
+    new THREE.Vector3((cmax[0] - cmin[0]) / 2 + mg, (cmax[1] - cmin[1]) / 2 + mg, (z1 - z0) / 2));
+  const sdf = new SplatEditSdf({ type: 'box', opacity: 0 });
+  sdf.matrixAutoUpdate = false; sdf.matrix.copy(P.T.clone().invert().multiply(cajaE));   // hijo del splat: en coordenadas COLMAP
+  const corte = new SplatEdit({ rgbaBlendMode: 'multiply', invert: true, sdfs: [sdf] });
+  corte.add(sdf); splat.add(corte);                     // hijo del splat: el corte solo afecta a este piso
+  P.cargando = splat.initialized.then(() => {
+    const k = splat.scale.x, ps = splat.packedSplats; let n = 0;
+    if (ps) {
+      splat.forEachSplat((i, c, sc, qq, op, col) => {
+        if (op < FLOT_OPACIDAD || Math.max(sc.x, sc.y, sc.z) * k > FLOT_ESCALA_M) { ps.setSplat(i, c, sc, qq, 0, col); n++; }
+      });
+      ps.needsUpdate = true; splat.updateVersion();
+    }
+    P.flotantes = n; P.total = splat.numSplats; P.splat = splat;
+    return splat;
+  });
+  P.objeto = splat;
+  return P.cargando;
+}
+function soltarSplat(P) {
+  if (!P.objeto) return;
+  scene.remove(P.objeto); P.objeto.dispose?.(); P.objeto = null; P.splat = null; P.cargando = null;
+}
+
+// ------------------------------------------------------------------ modo actual
+let modo = null;          // { pisos:[P], claves:[...], K, rutas, saltos, atlas }
+let v = 0, jugando = false, VEL = 10, pausaSalto = 0;
+const raiz = new THREE.Group(); scene.add(raiz);
+
+function mostrarCarga() {
+  if (!modo || modo.listo) return;
+  const mb = modo.pisos.reduce((a, P) => a + (P.bytes || 0), 0) / 1048576;
+  estado.textContent = `cargando ${mb.toFixed(1).replace('.', ',')} MB…`;
+}
+
+const uni = { uAhora: { value: 0 }, uTodo: { value: 0 }, uD: { value: 1 }, uAtlas0: { value: null }, uAtlas1: { value: null }, uAtlas2: { value: null } };
+const VERT = /* glsl */`
+  attribute vec3 iPos; attribute vec4 iRot; attribute vec2 iTan; attribute vec4 iUV; attribute float iIdx; attribute float iAt;
+  uniform float uAhora, uTodo, uD;
+  varying float vA; varying float vAt;
+  vec3 rotar(vec4 q, vec3 v) { return v + 2.0*cross(q.xyz, cross(q.xyz, v) + q.w*v); }
+  vec3 colocar(vec3 p, float aPasado, float aTodo) {
+    float pasado = step(iIdx, uAhora + 0.001) * (1.0 - step(abs(iIdx - uAhora), 0.001));
+    vA = mix(pasado * aPasado, aTodo, uTodo); vAt = iAt;
+    return rotar(iRot, vec3(p.xy * iTan, p.z) * uD) + iPos;
+  }`;
+function instancias(geo, claves) {
+  const K = claves.length, g = new THREE.InstancedBufferGeometry();
+  g.index = geo.index; g.attributes.position = geo.attributes.position; if (geo.attributes.uv) g.attributes.uv = geo.attributes.uv;
+  const pos = new Float32Array(K * 3), rot = new Float32Array(K * 4), tan = new Float32Array(K * 2), uv = new Float32Array(K * 4), idx = new Float32Array(K), at = new Float32Array(K);
+  claves.forEach((c, i) => { pos.set(c.p, i * 3); rot.set(c.q, i * 4); tan.set(c.tan, i * 2); uv.set(c.uvA, i * 4); idx[i] = i; at[i] = c.at; });
+  for (const [n, a, s] of [['iPos', pos, 3], ['iRot', rot, 4], ['iTan', tan, 2], ['iUV', uv, 4], ['iIdx', idx, 1], ['iAt', at, 1]]) g.setAttribute(n, new THREE.InstancedBufferAttribute(a, s));
+  g.instanceCount = K; g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e5);
+  return g;
+}
+const vLin = [0, 0, 0, -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -0.35, 1.12, -1, 0, 1.4, -1, 0.35, 1.12, -1];
+const iLin = [0, 1, 0, 2, 0, 3, 0, 4, 1, 2, 2, 3, 3, 4, 4, 1, 5, 6, 6, 7];
+const geoLin = new THREE.BufferGeometry(); geoLin.setAttribute('position', new THREE.Float32BufferAttribute(vLin, 3)); geoLin.setIndex(iLin);
+const geoPla = new THREE.BufferGeometry();
+geoPla.setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1], 3));
+geoPla.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 1], 2)); geoPla.setIndex([0, 1, 2, 0, 2, 3]);
+const matLin = new THREE.ShaderMaterial({ uniforms: uni, transparent: true, depthWrite: false,
+  vertexShader: VERT + `void main(){ vec3 w = colocar(position, 0.55, 0.45); gl_Position = projectionMatrix*viewMatrix*vec4(w,1.0); if (vA < 0.01) gl_Position = vec4(2.0,2.0,2.0,1.0); }`,
+  fragmentShader: `varying float vA; void main(){ gl_FragColor = vec4(0.953, 0.918, 0.847, vA); }` });
+const matPla = new THREE.ShaderMaterial({ uniforms: uni, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+  vertexShader: VERT + `varying vec2 vUv; void main(){ vec3 w = colocar(position, 0.85, 0.75); vUv = mix(iUV.xy, iUV.zw, uv); gl_Position = projectionMatrix*viewMatrix*vec4(w,1.0); if (vA < 0.01) gl_Position = vec4(2.0,2.0,2.0,1.0); }`,
+  fragmentShader: `uniform sampler2D uAtlas0, uAtlas1, uAtlas2; varying vec2 vUv; varying float vA; varying float vAt;
+    void main(){ vec3 c = vAt < 0.5 ? texture2D(uAtlas0, vUv).rgb : (vAt < 1.5 ? texture2D(uAtlas1, vUv).rgb : texture2D(uAtlas2, vUv).rgb); gl_FragColor = vec4(c, vA); }` });
+
+// La pirámide del «ahora»: más grande, aristas --sol de 2 px y miniatura a opacidad 1.
+const ahora = new THREE.Group(); ahora.renderOrder = 20;
+const segAhora = []; for (let i = 0; i < iLin.length; i++) segAhora.push(...vLin.slice(iLin[i] * 3, iLin[i] * 3 + 3));
+const geoAhoraL = new LineSegmentsGeometry().setPositions(segAhora);
+const matAhoraL = new LineMaterial({ color: COL.sol, linewidth: 2, depthTest: false, transparent: true });
+const lineasAhora = new LineSegments2(geoAhoraL, matAhoraL); lineasAhora.renderOrder = 21;
+const uniAhora = { uMap: { value: null }, uUV: { value: new THREE.Vector4(0, 0, 1, 1) } };
+const planoAhora = new THREE.Mesh(geoPla, new THREE.ShaderMaterial({ uniforms: uniAhora, side: THREE.DoubleSide, depthTest: false, transparent: true,
+  vertexShader: `uniform vec4 uUV; varying vec2 vUv; void main(){ vUv = mix(uUV.xy, uUV.zw, uv); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+  fragmentShader: `uniform sampler2D uMap; varying vec2 vUv; void main(){ gl_FragColor = vec4(texture2D(uMap, vUv).rgb, 1.0); }` }));
+planoAhora.renderOrder = 20;
+const escalaAhora = new THREE.Group(); escalaAhora.add(planoAhora, lineasAhora); ahora.add(escalaAhora);
+const punto = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3)),
+  new THREE.PointsMaterial({ color: COL.sol, size: 10, sizeAttenuation: false, depthTest: false }));
+punto.renderOrder = 22; ahora.add(punto);
+scene.add(ahora); ahora.visible = false;
+
+const texCache = {};
+function textura(url) {
+  return texCache[url] || (texCache[url] = new THREE.TextureLoader().loadAsync(url).then(t => {
+    t.colorSpace = THREE.SRGBColorSpace; t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; return t;
+  }));
+}
+
+async function armar(sel) {
+  const ids = sel === 'todos' ? ['A', 'B', 'C'] : [sel];
+  const lista = await Promise.all(ids.map(datos));
+  const subconjunto = sel === 'todos' || movil;          // teléfono y «los tres juntos»: el nivel de unos 150 por piso
+  const claves = [], rutas = [], saltos = [];
+  let base = 0;
+  lista.forEach((P, n) => {
+    const cl = P.D.claves.map((c, i) => ({ ...c, i2: i, X: P.X, at: n })).filter(c => !subconjunto || c.m);
+    const idx2 = cl.map(c => c.i2);
+    // t de la ruta (índice de cuadros clave de computador) -> índice del subconjunto, interpolado
+    const aSub = t => { let j = 0; while (j < idx2.length - 1 && idx2[j + 1] <= t) j++; if (j >= idx2.length - 1) return base + idx2.length - 1;
+      return base + j + (t - idx2[j]) / (idx2[j + 1] - idx2[j]); };
+    cl.forEach(c => { c.uvA = subconjunto ? c.uvm : c.uv; claves.push(c); });
+    for (const r of P.D.ruta) rutas.push({ X: P.X, p: r.p, t: r.t.map(t => aSub(Math.max(idx2[0], t))) });
+    if (n > 0) saltos.push({ t: base - 0.5, de: claves[base - 1].p, a: cl[0].p });
+    base += cl.length;
+  });
+  const K = claves.length;
+  // Pirámides: profundidad ~2,2 % del ancho del piso (entre 0,6 y 1,1); la del «ahora» 1,8 veces más grande.
+  const ancho = Math.max(...lista.map(P => P.ancho));
+  const uD = THREE.MathUtils.clamp(0.022 * Math.max(...lista.map(P => P.ancho)), 0.6, 1.1);
+  // centro de la vista general: mediana de los cuadros clave (la caja la estira el tramo de afuera de la planta baja)
+  const med = a => { const b = [...a].sort((x, y) => x - y); return b[b.length >> 1]; };
+  const centro = new THREE.Vector3(med(claves.map(c => c.p[0])), med(claves.map(c => c.p[1])), med(claves.map(c => c.p[2])));
+  return { sel, pisos: lista, claves, K, rutas, saltos, uD, ancho, subconjunto, centro,
+    caja: lista.reduce((b, P) => b.union(P.caja), new THREE.Box3()) };
+}
+
+async function elegir(sel, inicial) {
+  if (modo && modo.sel === sel) return;
+  ponerPlay(false);
+  document.querySelectorAll('#pisos button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.piso === sel)));
+  $('escala').hidden = sel !== 'todos';
+  $('nombre').textContent = NOMBRES[sel];
+  document.title = `${NOMBRES[sel]} · la grabación en el tiempo · Edificio 106`;
+  estado.textContent = 'cargando…';
+  const nuevo = await armar(sel);
+  // limpiar lo anterior (en el teléfono también los splats que ya no se ven)
+  raiz.clear();
+  for (const P of Object.values(PISOS)) if (P.objeto && (movil || !nuevo.pisos.includes(P))) { if (movil) soltarSplat(P); else scene.remove(P.objeto); }
+  modo = nuevo; v = 0; uni.uD.value = modo.uD; VEL = captura && q.has('guion') ? modo.K / 24 : THREE.MathUtils.clamp(modo.K / (sel === 'todos' ? 34 : 30), 5, 14);
+  history.replaceState(null, '', `?piso=${sel}${captura ? '&captura' + (q.has('guion') ? '&guion' : '') : ''}${q.has('movil') ? '&movil' : ''}`);
+  // placas y atlas
+  modo.pisos.forEach(P => { const pl = placa(P); pl.visible = true; if (P.objeto) P.objeto.visible = true; raiz.add(pl); });
+  const atl = await Promise.all(modo.pisos.map(P => textura(`${P.X}/${modo.subconjunto ? P.D.atlas.telefono : P.D.atlas.computador}`)));
+  modo.atlas = atl; uni.uAtlas0.value = atl[0]; uni.uAtlas1.value = atl[1] || atl[0]; uni.uAtlas2.value = atl[2] || atl[0];
+  const lin = new THREE.LineSegments(instancias(geoLin, modo.claves), matLin); lin.frustumCulled = false; lin.renderOrder = 11;
+  const pla = new THREE.Mesh(instancias(geoPla, modo.claves), matPla); pla.frustumCulled = false; pla.renderOrder = 10;
+  raiz.add(pla, lin);
+  // línea del recorrido: Line2 con grosor real y color por tiempo (de --tenue al inicio a --cal al final)
+  const matRuta = new LineMaterial({ vertexColors: true, linewidth: movil ? 3 : 4, transparent: true, opacity: 0.95, depthWrite: false });
+  const c = new THREE.Color();
+  modo.lineas = modo.rutas.map(r => {
+    const g = new LineGeometry(); g.setPositions(r.p);
+    const cols = []; for (const t of r.t) { c.copy(COL.tenue).lerp(COL.cal, Math.min(1, t / Math.max(1, modo.K - 1))); cols.push(c.r, c.g, c.b); }
+    g.setColors(cols);
+    const l = new Line2(g, matRuta); l.renderOrder = 12; l.frustumCulled = false; raiz.add(l);
+    return { l, g, t: r.t, total: r.t.length - 1 };
+  });
+  const matSalto = new LineMaterial({ color: COL.tenue, linewidth: 2, dashed: true, dashSize: 0.8, gapSize: 0.6, transparent: true, opacity: 0.9 });
+  modo.lineasSalto = modo.saltos.map(sa => { const g = new LineGeometry(); g.setPositions([...sa.de, ...sa.a]);
+    const l = new Line2(g, matSalto); l.computeLineDistances(); l.renderOrder = 12; l.visible = false; raiz.add(l); return { l, t: sa.t }; });
+  modo.P = modo.claves.map(k => new THREE.Vector3(...k.p));
+  $('reloj').max = String(modo.K);
+  // cámara inicial: vista general alta
+  objetivo.copy(inicial && !captura ? modo.centro : modo.P[0]);
+  controls.target.copy(objetivo);
+  esf.r = distTodo(); esf.phi = THREE.MathUtils.degToRad(50); esf.theta = THREE.MathUtils.degToRad(-125);
+  ponerCamara();
+  // splats: el piso del «ahora» primero; en el teléfono con los tres juntos, solo ese
+  modo.listo = false;
+  const primero = modo.pisos[0];
+  await cargarYMostrar(primero);
+  if (modo.sel !== sel) return;
+  modo.listo = true; window.__rt.listo = true;
+  textoEstado();
+  if (!movil) for (const P of modo.pisos.slice(1)) cargarYMostrar(P).then(textoEstado);
+  anunciar(`${NOMBRES[sel]}. ${modo.K} cuadros clave.`);
+  if (!reducido && !captura) ponerPlay(true);
+}
+async function cargarYMostrar(P) {
+  const s = await cargarSplat(P);
+  if (modo && modo.pisos.includes(P) && !s.parent) scene.add(s);
+  return s;
+}
+function textoEstado() {
+  const cargados = modo.pisos.filter(P => P.splat);
+  const poses = modo.pisos.reduce((a, P) => a + P.D.compuerta.poses_usadas, 0);
+  estado.textContent = `${modo.K} cuadros clave · ${poses.toLocaleString('es-CO')} poses${movil && modo.sel === 'todos' ? ' · splat del piso del ahora' : ''}`;
+  if (cargados.length < modo.pisos.length && !movil) estado.textContent += ' · cargando los otros pisos…';
+}
+let pisoSplatMovil = null;
+function splatMovilSegun(X) {           // teléfono, los tres juntos: un solo splat, el del piso del «ahora»
+  if (pisoSplatMovil === X) return;
+  pisoSplatMovil = X;
+  for (const P of modo.pisos) if (P.X !== X) soltarSplat(P);
+  cargarYMostrar(PISOS[X]);
+}
+
+// ------------------------------------------------------------------ cámara
+const esf = { r: 20, phi: 0.9, theta: 0 };
+const objetivo = new THREE.Vector3(), velObj = new THREE.Vector3(), tmp = new THREE.Vector3();
+const asp = () => Math.min(1, Math.sqrt(camera.aspect));
+const distSeguir = () => THREE.MathUtils.clamp(0.55 * modo.ancho, 16, 28) / asp();
+const distTodo = () => 1.1 * modo.ancho / asp();
+function ponerCamara() {
+  const sp = Math.sin(esf.phi);
+  camera.position.set(controls.target.x + esf.r * sp * Math.cos(esf.theta), controls.target.y + esf.r * sp * Math.sin(esf.theta), controls.target.z + esf.r * Math.cos(esf.phi));
+  camera.lookAt(controls.target);
+}
+function leerEsfera() {
+  tmp.subVectors(camera.position, controls.target); esf.r = tmp.length();
+  esf.phi = Math.acos(THREE.MathUtils.clamp(tmp.z / esf.r, -1, 1)); esf.theta = Math.atan2(tmp.y, tmp.x);
+}
+const suave = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;   // easeInOutCubic
+let usuario = false, ultimoToque = -1e9, retorno = 1, ahoraMs = 0;
+const camBtn = $('camara');
+function tomarControl() {
+  usuario = true; ultimoToque = ahoraMs; retorno = 0;
+  camBtn.setAttribute('aria-pressed', 'false'); camBtn.textContent = 'Cámara tuya';
+}
+function soltarControl() {
+  usuario = false; leerEsfera();
+  camBtn.setAttribute('aria-pressed', 'true'); camBtn.textContent = 'Cámara automática';
+}
+controls.addEventListener('start', tomarControl);
+controls.addEventListener('end', () => { ultimoToque = ahoraMs; });
+camBtn.onclick = () => (usuario ? soltarControl() : tomarControl());
+
+function puntoEn(t, out) {
+  const P = modo.P, K = modo.K, i = Math.min(K - 1, Math.max(0, Math.floor(t))), f = t - i;
+  return i >= K - 1 ? out.copy(P[K - 1]) : out.copy(P[i]).lerp(P[i + 1], modo.claves[i].X === modo.claves[i + 1].X ? f : (f < 0.5 ? 0 : 1));
+}
+
+// ------------------------------------------------------------------ reloj e interfaz
+const reloj = $('reloj'), play = $('play'), lugar = $('lugar'), hora = $('hora');
+function ponerPlay(j) {
+  jugando = j; play.innerHTML = j ? '&#10074;&#10074;' : '&#9654;';
+  play.setAttribute('aria-label', j ? 'Pausar' : 'Reproducir');
+}
+play.onclick = () => { if (!modo) return; if (!jugando && v >= modo.K) v = 0; ponerPlay(!jugando); };
+reloj.addEventListener('input', () => { v = +reloj.value; ponerPlay(false); });
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+function anunciar(t) { $('anuncio').textContent = t; }
+addEventListener('keydown', e => {
+  if (!modo || e.target.tagName === 'INPUT' && !['Home', 'End', ' '].includes(e.key) && !/^[1-4c]$/i.test(e.key)) return;
+  const k = e.key;
+  if (k === ' ' && e.target.tagName !== 'BUTTON') { e.preventDefault(); play.click(); }
+  else if (k === 'ArrowRight' || k === 'ArrowLeft') {
+    if (e.target === reloj) return;
+    e.preventDefault(); const paso = e.shiftKey ? 1 : 5 * VEL; v = THREE.MathUtils.clamp(v + (k === 'ArrowRight' ? paso : -paso), 0, modo.K); ponerPlay(false);
+  }
+  else if (k === 'Home') { e.preventDefault(); v = 0; ponerPlay(false); }
+  else if (k === 'End') { e.preventDefault(); v = modo.K; ponerPlay(false); }
+  else if (/^[1-4]$/.test(k)) elegir(['A', 'B', 'C', 'todos'][+k - 1]);
+  else if (k === 'c' || k === 'C') soltarControl();
+});
+document.querySelectorAll('#pisos button').forEach(b => b.addEventListener('click', () => elegir(b.dataset.piso)));
+let ultimoTexto = '', ultimoPisoAhora = null;
+function textoLugar(t, todo) {
+  if (todo >= 1) return `<b>Todo el recorrido a la vez</b> · ${modo.K} cuadros clave`;
+  const c = modo.claves[Math.round(Math.min(t, modo.K - 1))], P = PISOS[c.X], cl = P.D.clips[c.clip];
+  return `${modo.sel === 'todos' ? `<b>${NOMBRES[c.X]}</b> · ` : ''}<b>cuadro ${Math.round(t) + 1} de ${modo.K}</b> · ${cl.nombre} · ${cl.dia}`;
+}
+
+// ------------------------------------------------------------------ bucle
+let ultimo = null, ultimoDibujo = -1e9;
+const PASO_GUION = { intro: 4, final: 5 };          // video guionado: 4 s de vista general quieta y 5 s de alejarse al final
+let tGuion = 0;
+renderer.setAnimationLoop(nowRaf => {
+  const now = captura ? performance.now() : nowRaf;   // captura: el reloj falso de Playwright manda, no el de pantalla
+  if (movil && now - ultimoDibujo < 1000 / 30 - 2) return;
+  ultimoDibujo = now;
+  const dt = ultimo === null ? 0 : Math.min(0.1, (now - ultimo) / 1000); ultimo = now; ahoraMs = now;
+  if (!modo || !modo.P) { renderer.render(scene, camera); return; }
+  const K = modo.K;
+  if (captura && q.has('guion') && modo.listo) tGuion += dt;
+  const enIntro = captura && q.has('guion') && tGuion < PASO_GUION.intro;
+  if (jugando && modo.listo && !enIntro) {
+    if (pausaSalto > 0) pausaSalto -= dt;
+    else {
+      const antes = v;
+      v += dt * (v < K - 1 ? VEL : 1 / (captura ? 3 : 1.2));
+      for (const sa of modo.saltos) if (antes < sa.t && v >= sa.t) { pausaSalto = 1; }   // al saltar de piso, el reloj se detiene 1 s
+      if (v >= K) { v = K; ponerPlay(false); }
+    }
+  }
+  const t = Math.min(v, K - 1), todo = THREE.MathUtils.clamp(v - (K - 1), 0, 1);
+  reloj.value = String(v);
+  reloj.setAttribute('aria-valuetext', todo >= 1 ? 'todo el recorrido' : `${mmss(t / VEL)} de ${mmss((K - 1) / VEL)} de reproducción`);
+  hora.textContent = mmss(Math.min(t, K - 1) / VEL);
+  uni.uAhora.value = Math.round(t); uni.uTodo.value = todo;
+  for (const r of modo.lineas) {
+    let n = 0; if (todo > 0) n = r.total; else { while (n < r.total && r.t[n + 1] <= t) n++; }
+    r.g.instanceCount = n; r.l.visible = n > 0;
+  }
+  for (const s of modo.lineasSalto) s.l.visible = v >= s.t;
+  const tx = textoLugar(t, todo);
+  if (tx !== ultimoTexto) { lugar.innerHTML = tx; ultimoTexto = tx; }
+  // pirámide del «ahora»
+  const ci = Math.round(t), ca = modo.claves[ci];
+  ahora.visible = todo < 1;
+  if (ahora.visible) {
+    puntoEn(t, ahora.position);
+    escalaAhora.position.set(0, 0, 0).add(tmp.fromArray(ca.p).sub(ahora.position));
+    escalaAhora.quaternion.fromArray(ca.q);
+    escalaAhora.scale.set(ca.tan[0] * modo.uD * 1.8, ca.tan[1] * modo.uD * 1.8, modo.uD * 1.8);
+    uniAhora.uMap.value = modo.atlas[ca.at]; uniAhora.uUV.value.fromArray(ca.uvA);
+    matAhoraL.resolution.set(innerWidth, innerHeight);
+  }
+  if (modo.sel === 'todos' && ca.X !== ultimoPisoAhora) {
+    ultimoPisoAhora = ca.X; if (jugando) anunciar(NOMBRES[ca.X]);
+    if (movil) splatMovilSegun(ca.X);
+  }
+  // los tres juntos: mientras se sigue un piso, los de arriba se esconden (si no, tapan la toma); al final se ven todos
+  if (modo.sel === 'todos') {
+    const nAhora = ca.at;
+    modo.pisos.forEach((P, n) => { const ver = enIntro || todo > 0 || n <= nAhora; if (P.objeto) P.objeto.visible = ver; if (P.placa) P.placa.visible = ver; });
+  }
+  // cámara: automática (grúa que mira 1,5 s adelante, resorte de 0,8 s, deriva de 3° por segundo) o del usuario
+  if (usuario && now - ultimoToque > 8000) soltarControl();
+  const tAdelante = Math.min(K - 1, t + 1.5 * VEL);
+  const meta = puntoEn(tAdelante, new THREE.Vector3()).lerp(modo.centro, enIntro ? 1 : todo);
+  const w = Math.PI / 0.8;                             // resorte críticamente amortiguado, ω = π/0,8 (se asienta en algo más de 1 s)
+  velObj.addScaledVector(tmp.subVectors(meta, objetivo).multiplyScalar(w * w).addScaledVector(velObj, -2 * w), dt);
+  objetivo.addScaledVector(velObj, dt);
+  if (!usuario) {
+    retorno = Math.min(1, retorno + dt / 1.5);
+    const e = suave(retorno);
+    controls.target.lerp(objetivo, e);
+    const rMeta = enIntro ? distTodo() : THREE.MathUtils.lerp(distSeguir(), distTodo(), suave(todo));
+    const phiMeta = THREE.MathUtils.degToRad(enIntro ? 50 : THREE.MathUtils.lerp(52, 45, todo));   // unos 38° de elevación al seguir
+    const k = 1 - Math.exp(-dt * 1.4);
+    esf.r += (rMeta - esf.r) * k * e; esf.phi += (phiMeta - esf.phi) * k * e;
+    if (!reducido && !enIntro) esf.theta += THREE.MathUtils.degToRad(todo > 0 ? 9 : 3) * dt * e;
+    ponerCamara();
+  } else {
+    controls.target.lerp(objetivo, 1 - Math.exp(-dt * 2));
+    controls.update(dt);
+  }
+  renderer.render(scene, camera);
+});
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight);
+  for (const l of modo?.lineas || []) l.l.material.resolution.set(innerWidth, innerHeight);
+});
+
+window.__rt = {
+  listo: false,
+  estado: () => modo && ({ sel: modo.sel, K: modo.K, v, jugando, usuario, autoRotate: !usuario, retorno, azimut: esf.theta, dist: camera.position.distanceTo(controls.target),
+    pisos: modo.pisos.map(P => ({ X: P.X, splat: !!P.splat, total: P.total || 0, flotantes: P.flotantes || 0 })) }),
+  jugar: () => { v = 0; tGuion = 0; ponerPlay(true); },
+  ir: x => { v = x; ponerPlay(false); },
+  elegir: s => elegir(s),
+};
+const inicial = ['A', 'B', 'C', 'todos'].includes(q.get('piso')) ? q.get('piso') : 'A';
+elegir(inicial, true).catch(e => { estado.textContent = 'no se pudo cargar: ' + e.message; window.__rt.error = String(e); });
+</script>
+</body>
+</html>
