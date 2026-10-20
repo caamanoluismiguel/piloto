@@ -18,7 +18,12 @@
   #play { background:var(--sol); color:#15130f; border-color:var(--sol); }
   #mapaBtn[aria-expanded=true] { border-color:var(--cal); }
   #lugar { font-size:13px; line-height:1.25; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; min-width:0; }
-  @media (max-width:480px) { #lugar { font-size:12px; } }
+  /* Teléfono: el nombre del lugar va en su propia fila, a todo el ancho de la barra, sin cortarse. */
+  @media (max-width:480px) {
+    #barra { grid-template-areas:"lugar lugar lugar lugar lugar" "atras play adelante . mapa"; }
+    #lugar { grid-area:lugar; display:block; -webkit-line-clamp:none; overflow:visible; padding:2px 4px 0; }
+    #atras { grid-area:atras; } #play { grid-area:play; } #adelante { grid-area:adelante; } #mapaBtn { grid-area:mapa; }
+  }
   #lugar span { color:var(--tenue); }
   #mapa { position:fixed; left:16px; bottom:88px; width:min(380px, calc(100vw - 32px)); background:var(--panel); border:1px solid var(--linea-2); border-radius:18px; padding:12px; box-sizing:border-box; }
   #mapa[hidden] { display:none; }
@@ -60,6 +65,8 @@ const archivo = '../visor/piloto_movil.sog';
 const depurar = q.has('depurar');
 const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const estado = document.getElementById('estado');
+// Cifras en español: punto de miles y coma decimal (1.002.362 splats · 15,4 MB).
+const num = (x, dec = 0) => { const [e, d] = Math.abs(x).toFixed(dec).split('.'); return (x < 0 ? '−' : '') + e.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (d ? ',' + d : ''); };
 const t0 = performance.now();
 const D = await (await fetch('recorrido.json')).json();
 const { nodos, ruta, muros } = D;
@@ -82,15 +89,23 @@ scene.add(new SparkRenderer({ renderer }));
 // El splat está en coordenadas de COLMAP: se le aplica T_edificio_desde_colmap (rotación propia, det = 1, sin escala).
 const T = new THREE.Matrix4().set(...D.T_edificio_desde_colmap.flat());
 let bytes = 0;
-const splat = new SplatMesh({ url: archivo, onProgress: e => { bytes = e.loaded; estado.textContent = `cargando ${(e.loaded/1048576).toFixed(1)} MB…`; } });
+const splat = new SplatMesh({ url: archivo, onProgress: e => { bytes = e.loaded; estado.textContent = `cargando ${num(e.loaded/1048576, 1)} MB…`; } });
 T.decompose(splat.position, splat.quaternion, splat.scale);
 scene.add(splat);
 
 // Muros invisibles: cajas finas donde los muros de planos.json tienen puntos. Solo para el raycast y para ocultar discos.
-const geos = muros.map(m => new THREE.BoxGeometry(...m.t).translate(...m.c));
-const muroMesh = new THREE.Mesh(mergeGeometries(geos), new THREE.MeshBasicMaterial({ visible: depurar, color:0xff5a3c, wireframe:true, depthTest:false, transparent:true, opacity:.35 }));
-muroMesh.renderOrder = 5;
-scene.add(muroMesh);
+// Atributo vidrio de cada caja (vidrio_muros.py; sin bitácora de sitio): la que la revisión visual vio como vidrio
+// transparente no tapa discos y el disco visto a través de ella va más tenue; «posible» (indicio de la nube) tapa igual.
+// Con ?depurar=1: muros en rojo, vidrio en azul, posible vidrio en ámbar.
+const VIDRIO_TRANSPARENTE = new Set(['vidrio_revision', 'vidrio_bitacora']);
+const unir = gs => gs.length ? mergeGeometries(gs) : new THREE.BufferGeometry();   // mergeGeometries([]) de three r186 falla en geometries[0]
+const caja = m => new THREE.BoxGeometry(...m.t).translate(...m.c);
+const matDepurar = color => new THREE.MeshBasicMaterial({ visible: depurar, color, wireframe:true, depthTest:false, transparent:true, opacity:.35 });
+const muroMesh = new THREE.Mesh(unir(muros.filter(m => !VIDRIO_TRANSPARENTE.has(m.vidrio)).map(caja)), matDepurar(0xff5a3c));
+const vidrioMesh = new THREE.Mesh(unir(muros.filter(m => VIDRIO_TRANSPARENTE.has(m.vidrio)).map(caja)), matDepurar(0x5aa9ff));
+const posibleMesh = new THREE.Mesh(unir(muros.filter(m => m.vidrio === 'posible').map(caja)), matDepurar(0xf4b545));  // solo para ver
+muroMesh.renderOrder = vidrioMesh.renderOrder = posibleMesh.renderOrder = 5;
+scene.add(muroMesh, vidrioMesh, posibleMesh);
 
 // Discos sobre el piso real (z = 0).
 const R_DISCO = 0.22;
@@ -98,6 +113,7 @@ const matAro = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, o
 const matRelleno = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, opacity:.22, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
 const matHover = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, opacity:.5, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
 const matOculto = new THREE.MeshBasicMaterial({ color:0xff5a3c, transparent:true, opacity:.8, depthTest:false, depthWrite:false, side:THREE.DoubleSide });
+const matAroVidrio = new THREE.MeshBasicMaterial({ color:0xefe9de, transparent:true, opacity:.45, depthTest:false, depthWrite:false, side:THREE.DoubleSide });  // disco visto a través de vidrio
 const geoAro = new THREE.RingGeometry(R_DISCO*0.75, R_DISCO, 48), geoRelleno = new THREE.CircleGeometry(R_DISCO*0.75, 48);
 const geoToque = new THREE.CircleGeometry(R_DISCO*1.6, 24);  // área de toque más grande que el dibujo
 const discos = nodos.map(n => {
@@ -138,6 +154,7 @@ const mapa = document.getElementById('mapa'), mapaBtn = document.getElementById(
 function actualizarUI(anunciar) {
   const n = nodos[actual];
   lugar.innerHTML = `<span>${actual+1} de ${nodos.length}</span> · ${n.nombre}`;
+  colocarMapa();
   if (anunciar) anuncio.textContent = `Punto ${actual+1} de ${nodos.length}: ${n.nombre}`;
   atras.disabled = actual === 0; adelante.disabled = actual === nodos.length - 1;
   document.querySelectorAll('.nodo-mapa').forEach((el, i) => { el.setAttribute('aria-current', i === actual ? 'location' : 'false'); el.querySelector('.punto').setAttribute('fill', i === actual ? '#efe9de' : '#221f1a'); });
@@ -150,6 +167,8 @@ play.onclick = () => {
   if (actual === nodos.length - 1) ir(0);
   jugando = true; esperaGuiada = 0.6; play.textContent = '❚❚'; play.setAttribute('aria-label', 'Pausar recorrido guiado');
 };
+// El mapa se abre justo encima de la barra, que en el teléfono tiene dos filas.
+function colocarMapa() { mapa.style.bottom = Math.round(innerHeight - document.getElementById('barra').getBoundingClientRect().top + 8) + 'px'; }
 mapaBtn.onclick = () => { const abrir = mapa.hidden; mapa.hidden = !abrir; mapaBtn.setAttribute('aria-expanded', String(abrir)); };
 
 // Minimapa: planta de la nube (E1, franja de 5 a 90 % de piso a cielo raso), ruta y nodos. Sin barra de escala.
@@ -202,7 +221,7 @@ addEventListener('keydown', e => {
   else return;
   e.preventDefault();
 });
-addEventListener('resize', () => { ajustarCampo(); renderer.setSize(innerWidth, innerHeight); });
+addEventListener('resize', () => { ajustarCampo(); renderer.setSize(innerWidth, innerHeight); colocarMapa(); });
 
 // Elegir disco: raycast contra discos y muros; el muro más cercano tapa. Si no hay impacto directo,
 // el disco visible más cercano en pantalla a menos de 26 px (para que el área táctil sea de 44 px o más).
@@ -224,7 +243,7 @@ function elegir(cx, cy) {
 function pantalla() {
   return discos.map((d, i) => {
     const v = d.g.position.clone().project(camera);
-    return { id:i, x:(v.x+1)/2*innerWidth, y:(1-v.y)/2*innerHeight, delante: v.z < 1 && v.z > -1, enVista: Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1 && v.z < 1, visible:d.visible, oculto:d.oculto, dist: camera.position.distanceTo(d.g.position) };
+    return { id:i, x:(v.x+1)/2*innerWidth, y:(1-v.y)/2*innerHeight, delante: v.z < 1 && v.z > -1, enVista: Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1 && v.z < 1, visible:d.visible, oculto:d.oculto, trasVidrio: !!d.trasVidrio, dist: camera.position.distanceTo(d.g.position) };
   });
 }
 // Oculta los discos que quedan detrás de un muro (rayo de la cámara al centro del disco) y el disco donde estás parado.
@@ -234,10 +253,11 @@ function ocultar() {
     dir.subVectors(d.g.position, camera.position); const dist = dir.length(); dir.normalize();
     rayoMuro.set(camera.position, dir); rayoMuro.far = dist;
     d.oculto = rayoMuro.intersectObject(muroMesh, false).length > 0;
+    d.trasVidrio = !d.oculto && rayoMuro.intersectObject(vidrioMesh, false).length > 0;
     const aqui = i === actual && !anim;
     d.visible = !d.oculto && !aqui;
     d.g.visible = d.visible || (depurar && d.oculto);
-    d.aro.material = d.oculto ? matOculto : matAro;
+    d.aro.material = d.oculto ? matOculto : d.trasVidrio ? matAroVidrio : matAro;
     d.relleno.material = i === hover ? matHover : matRelleno;
   });
 }
@@ -245,7 +265,7 @@ function ocultar() {
 let listo = false, primerCuadro = null;
 splat.initialized.then(() => {
   const s = ((performance.now()-t0)/1000).toFixed(1);
-  estado.textContent = `${String(splat.numSplats ?? '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')} splats · ${(bytes/1048576).toFixed(1).replace('.', ',')} MB · listo en ${s.replace('.', ',')} s`;
+  estado.textContent = `${splat.numSplats != null ? num(splat.numSplats) + ' splats · ' : ''}${num(bytes/1048576, 1)} MB · listo en ${num(+s, 1)} s`;
   listo = true; window.__e9.listo = true; window.__e9.segundos = +s; window.__e9.mb = bytes/1048576;
 }).catch(e => { estado.textContent = 'no se pudo cargar: ' + e.message; window.__e9.error = String(e); });
 
