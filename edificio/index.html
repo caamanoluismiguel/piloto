@@ -378,6 +378,7 @@
   <h2 id="ideas"><span class="n">9</span>Qué se puede hacer con esto</h2>
   <p>Un panel simulado de cuatro doctores en arquitectura (patrimonio, tecnología y ambiente, pedagogía, teoría e historia) y un crítico propuso usos para este material: ejercicios de taller, pasos técnicos como la escala y la unión de pisos, lo que se puede llevar al visor del 106, lecturas de historia y teoría, y el archivo. Están todas, con su estado, lo que piden y quién las propuso, y también las descartadas con su motivo. Desde esta noche están además las propuestas del investigador que revisó el estado del arte, con las que ya se probaron marcadas como tales.</p>
   <div class="acciones"><a class="boton" href="ideas.html">Ver todas las ideas</a></div>
+<p style="font-size:13px;opacity:.8;margin-top:24px">Se cuentan las visitas de forma anónima y sin cookies, con GoatCounter, para saber cuánto se usa el piloto y desde dónde llega la gente, con fines académicos; las cifras no se publican. Lo gestiona Luis Miguel Caamaño. Qué se cuenta, cómo excluir tu navegador y cómo consultar: <a href="https://github.com/caamanoluismiguel/piloto/blob/main/docs/ANALITICA.md">docs/ANALITICA.md</a>.</p>
 </main>
 <dialog id="zoom" aria-label="Imagen ampliada"><img alt=""></dialog>
 
@@ -426,5 +427,30 @@ cargar('A/04-parametrico/modelo.glb', 'planta baja');
 r.setAnimationLoop(() => { ctl.update(); r.render(s, cam); });
 </script>
 
+<script>
+/* Conteo anónimo de visitas, sin cookies, con GoatCounter. Qué se cuenta y por qué: docs/ANALITICA.md (aquí y en el repo edificio-106). */
+(function () {
+  var gc = window.goatcounter = window.goatcounter || {}, pre = 'piloto';
+  if (location.hash === '#toggle-goatcounter') {   // excluir este navegador (o volver a contarlo); se hace aquí para avisar en español
+    try {
+      var fuera = localStorage.getItem('skipgc') === 't';
+      if (fuera) localStorage.removeItem('skipgc'); else localStorage.setItem('skipgc', 't');
+      alert(fuera ? 'Este navegador vuelve a contarse en las visitas.' : 'Listo: las visitas de este navegador ya no se cuentan.');
+    } catch (e) { }
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  gc.path = function () { return location.pathname.replace(/index\.html$/, ''); };   // sin la consulta: ?ref y ?campaign viajan aparte
+  gc.referrer = function (r) { try { var u = new URL(r); return u.origin === location.origin ? r : u.origin + '/'; } catch (e) { return r; } };   // de otro sitio, solo el dominio
+  var ev = gc.evento = function (n) { if (gc.count) gc.count({ path: pre + '-' + n, title: n, event: true }); };
+  var t = 0, marcas = [[30, '30s'], [120, '2min'], [300, '5min']];   // permanencia por tramos, solo con la página visible
+  var reloj = setInterval(function () {
+    if (document.visibilityState === 'hidden') return;
+    t += 5;
+    while (marcas.length && t >= marcas[0][0]) ev('permanencia-' + marcas.shift()[1]);
+    if (!marcas.length) clearInterval(reloj);
+  }, 5000);
+})();
+</script>
+<script data-goatcounter="https://caamano.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

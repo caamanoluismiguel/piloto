@@ -85,4 +85,5 @@ Hay dos cosas que ninguna licencia de este repositorio puede cubrir: el edificio
 - [`docs/DATOS.md`](docs/DATOS.md): de dónde sale cada dato, qué se publica y qué no, unidades y escala, privacidad y licencia.
 - [`docs/LIMITES-Y-ERRORES.md`](docs/LIMITES-Y-ERRORES.md): lo que no se puede afirmar y los errores encontrados, también los nuestros.
 - [`docs/AGENDA.md`](docs/AGENDA.md): preguntas abiertas para pares y la línea de investigación.
+- [`docs/ANALITICA.md`](docs/ANALITICA.md): cómo se cuentan las visitas (anónimas, sin cookies) y cómo excluir tu navegador.
 - [`CONTRIBUIR.md`](CONTRIBUIR.md): cómo proponer cambios.
